@@ -27,5 +27,11 @@ type Database struct {
 }
 
 func (db *Database) Migrate() {
-	db.db.AutoMigrate(&models.Book{})
+	err := db.db.AutoMigrate(&models.Book{})
+	if err != nil {
+		db.l.Error("Unable to migrate books", "error", err)
+		return
+	}
+	db.l.Info("Books migrated successfully")
+
 }
