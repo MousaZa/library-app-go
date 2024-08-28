@@ -26,17 +26,6 @@ type Database struct {
 	l  hclog.Logger
 }
 
-func NewDatabase() Database {
-	dsn := "host=localhost user=dev password=strongone dbname=books port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic(err)
-	}
-	l := hclog.Default()
-	l.Info("Connected to database")
-	return Database{db: db, l: l}
-}
-
 func (db *Database) Migrate() {
 	db.db.AutoMigrate(&models.Book{})
 }

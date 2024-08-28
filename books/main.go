@@ -129,8 +129,6 @@ func main() {
 		DB: db,
 	}
 
-	storage.NewDatabase()
-
 	router := mux.NewRouter()
 
 	r.SetupRoutes(router)
