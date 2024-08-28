@@ -16,12 +16,12 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/MousaZa/library-app-go/books/models"
-	"github.com/go-openapi/runtime/middleware"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
+	"github.com/mvrilo/go-redoc"
+	ginredoc "github.com/mvrilo/go-redoc/gin"
 	"gorm.io/gorm"
 )
 
@@ -71,20 +71,19 @@ type Repository struct {
 //	201: noContent
 
 // AddBook adds a book to the database
-func (r *Repository) AddBook(w http.ResponseWriter, req *http.Request) {
+func (r *Repository) AddBook(ctx *gin.Context) {
 	book := models.Book{}
-	err := json.NewDecoder(req.Body).Decode(&book)
+	err := ctx.BindJSON(&book)
 	if err != nil {
-		http.Error(w, "Unable to unmarshal json", http.StatusBadRequest)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 	err = r.DB.Create(&book).Error
 	if err != nil {
-		http.Error(w, "Unable to insert book", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to add book"})
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Book added successfully\n"))
+	ctx.JSON(http.StatusCreated, gin.H{"message": "Book added successfully"})
 }
 
 // swagger:route GET /books books getBooks
@@ -92,19 +91,18 @@ func (r *Repository) AddBook(w http.ResponseWriter, req *http.Request) {
 // responses:
 //
 //	200: booksResponse
-func (r *Repository) GetBooks(w http.ResponseWriter, req *http.Request) {
+func (r *Repository) GetBooks(ctx *gin.Context) {
 	books := &[]models.Book{}
 	err := r.DB.Find(&books).Error
 	if err != nil {
-		http.Error(w, "Unable to get books", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
 		return
 	}
-	err = json.NewEncoder(w).Encode(books)
 	if err != nil {
-		http.Error(w, "Unable to marshal json", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to marshal json"})
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	ctx.JSON(http.StatusOK, books)
 }
 
 // swagger:route GET /books/{id} books getBook
@@ -112,26 +110,24 @@ func (r *Repository) GetBooks(w http.ResponseWriter, req *http.Request) {
 // responses:
 //
 //	200: bookResponse
-func (r *Repository) GetBook(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-	id := vars["id"]
+func (r *Repository) GetBook(ctx *gin.Context) {
+	id := ctx.Param("id")
 	if id == "" {
-		http.Error(w, "Invalid book id", http.StatusBadRequest)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
 		return
 	}
 
 	book := &models.Book{}
 	err := r.DB.Where("id = ?", id).First(&book).Error
 	if err != nil {
-		http.Error(w, "Book not found", http.StatusNotFound)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get book"})
 		return
 	}
-	err = json.NewEncoder(w).Encode(book)
 	if err != nil {
-		http.Error(w, "Unable to marshal json", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to marshal json"})
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	ctx.JSON(http.StatusOK, book)
 }
 
 // swagger:route DELETE /books/{id} books deleteBook
@@ -140,32 +136,35 @@ func (r *Repository) GetBook(w http.ResponseWriter, req *http.Request) {
 //	201: noContent
 
 // DeleteBook deletes a product form the database
-func (r *Repository) DeleteBook(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-	id := vars["id"]
+func (r *Repository) DeleteBook(ctx *gin.Context) {
+	id := ctx.Param("id")
 	if id == "" {
-		http.Error(w, "Invalid book id", http.StatusBadRequest)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
 		return
 	}
 
 	err := r.DB.Delete(&models.Book{}, id).Error
 	if err != nil {
-		http.Error(w, "Unable to delete book", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to delete book"})
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Book deleted successfully\n"))
+	ctx.JSON(http.StatusNoContent, gin.H{"message": "Book deleted successfully"})
 }
 
-func (r *Repository) SetupRoutes(app *mux.Router) {
-	app.HandleFunc("/books", r.GetBooks).Methods("GET")
-	app.HandleFunc("/books/{id}", r.GetBook).Methods("GET")
-	app.HandleFunc("/books", r.AddBook).Methods("POST")
-	app.HandleFunc("/books/{id}", r.DeleteBook).Methods("DELETE")
+func (r *Repository) SetupRoutes(app *gin.Engine) {
+	app.GET("/books", r.GetBooks)
+	app.GET("/books/{id}", r.GetBook)
+	app.POST("/books", r.AddBook)
+	app.DELETE("/books/{id}", r.DeleteBook)
 
-	ops := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
-	sh := middleware.Redoc(ops, nil)
+	doc := redoc.Redoc{
+		Title:       "Api Documentation",
+		Description: "Documentation for Book API",
+		SpecFile:    "./swagger.yaml", // "./openapi.yaml"
+		SpecPath:    "/swagger.yaml",  // "/openapi.yaml"
+		DocsPath:    "/docs",
+	}
 
-	app.Handle("/docs", sh)
-	app.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
+	app.Use(ginredoc.New(doc))
+
 }

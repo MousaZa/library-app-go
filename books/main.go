@@ -10,7 +10,7 @@ import (
 	"github.com/MousaZa/library-app-go/books/handlers"
 	"github.com/MousaZa/library-app-go/books/models"
 	"github.com/MousaZa/library-app-go/books/storage"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 )
@@ -48,7 +48,7 @@ func main() {
 		DB: db,
 	}
 
-	router := mux.NewRouter()
+	router := gin.Default()
 
 	r.SetupRoutes(router)
 
