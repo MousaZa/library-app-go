@@ -1,0 +1,120 @@
+basePath: /
+consumes:
+    - application/json
+definitions:
+    Book:
+        properties:
+            author:
+                type: string
+                x-go-name: Author
+            available:
+                type: boolean
+                x-go-name: Available
+            category:
+                type: string
+                x-go-name: Category
+            coverURL:
+                type: string
+                x-go-name: CoverURL
+            id:
+                format: int64
+                type: integer
+                x-go-name: Id
+            language:
+                type: string
+                x-go-name: Language
+            likes:
+                format: int64
+                type: integer
+                x-go-name: Likes
+            loans:
+                format: int64
+                type: integer
+                x-go-name: Loans
+            summary:
+                type: string
+                x-go-name: Summary
+            title:
+                type: string
+                x-go-name: Title
+        type: object
+        x-go-package: github.com/MousaZa/library-app-go/books/models
+info:
+    description: Documentation for Book API
+    title: of Book API
+    version: 1.0.0
+paths:
+    /books:
+        get:
+            description: Returns a list of books
+            operationId: getBooks
+            responses:
+                "200":
+                    $ref: '#/responses/booksResponse'
+            tags:
+                - books
+        post:
+            operationId: addBook
+            parameters:
+                - description: The Book data
+                  in: body
+                  name: book
+                  required: true
+                  schema:
+                    $ref: '#/definitions/Book'
+                  x-go-name: Product
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
+            tags:
+                - books
+    /books/{id}:
+        delete:
+            operationId: deleteBook
+            parameters:
+                - description: the id of the target book
+                  format: int64
+                  in: path
+                  name: id
+                  required: true
+                  type: integer
+                  x-go-name: ID
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
+            tags:
+                - books
+        get:
+            description: Returns a book
+            operationId: getBook
+            parameters:
+                - description: the id of the target book
+                  format: int64
+                  in: path
+                  name: id
+                  required: true
+                  type: integer
+                  x-go-name: ID
+            responses:
+                "200":
+                    $ref: '#/responses/bookResponse'
+            tags:
+                - books
+produces:
+    - application/json
+responses:
+    bookResponse:
+        description: A book returns in the response
+        schema:
+            items:
+                $ref: '#/definitions/Book'
+            type: array
+    booksResponse:
+        description: A list of books returns in the response
+        schema:
+            $ref: '#/definitions/Book'
+    noContent:
+        description: ""
+schemes:
+    - http
+swagger: "2.0"
