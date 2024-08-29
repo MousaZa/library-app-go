@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MousaZa/library-app-go/auth/models"
+	"github.com/MousaZa/library-app-go/auth/token"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -36,24 +37,24 @@ func (server *Server) login(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "User not found\n"})
 		return
 	}
-	if user.Password == req.Password {
-		// Create and send an access token
-		accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute)
-		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
-			return
-		}
-
-		// Respond with login details
-		rsp := loginResponse{
-			AccessToken: accessToken,
-			User:        user,
-		}
-		ctx.JSON(http.StatusOK, rsp)
+	err = token.CheckPassword(req.Password, user.Password)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, gin.H{"error": "Incorrect password\n"})
 		return
 	}
-	ctx.JSON(http.StatusForbidden, gin.H{"error": "Incorrect password\n"})
-	return
+	// Create and send an access token
+	accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
+		return
+	}
+
+	// Respond with login details
+	rsp := loginResponse{
+		AccessToken: accessToken,
+		User:        user,
+	}
+	ctx.JSON(http.StatusOK, rsp)
 
 }
 
@@ -68,6 +69,11 @@ func (server *Server) createUser(ctx *gin.Context) {
 	// Assign a unique ID and add the user to the list
 	id, err := uuid.NewRandom()
 	user.ID = strconv.Itoa(int(id.ID()))
+	hashedPass, err := token.HashPassword(user.Password)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to hash password\n"})
+	}
+	user.Password = hashedPass
 	err = server.db.Create(&user).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create user\n"})
