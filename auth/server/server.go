@@ -5,14 +5,16 @@ import (
 
 	"github.com/MousaZa/library-app-go/auth/token"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Server struct {
 	tokenMaker *token.PasetoMaker
 	router     *gin.Engine
+	db         *gorm.DB
 }
 
-func NewServer(address string) (*Server, error) {
+func NewServer(address string, db *gorm.DB) (*Server, error) {
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
 	if err != nil {
@@ -22,6 +24,7 @@ func NewServer(address string) (*Server, error) {
 	// Create a new server instance
 	server := &Server{
 		tokenMaker: tokenMaker,
+		db:         db,
 	}
 
 	// Set up routes and run the server

@@ -5,18 +5,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/MousaZa/library-app-go/auth/models"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/exp/rand"
+	"github.com/google/uuid"
 )
 
-type User struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-var users []User
+var users []models.User
 
 type loginRequest struct {
 	Username string `json:"username" binding:"required"`
@@ -24,8 +18,8 @@ type loginRequest struct {
 }
 
 type loginResponse struct {
-	AccessToken string `json:"access_token"`
-	User        User   `json:"user"`
+	AccessToken string      `json:"access_token"`
+	User        models.User `json:"user"`
 }
 
 func (server *Server) login(ctx *gin.Context) {
@@ -35,50 +29,49 @@ func (server *Server) login(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error() + "\n"})
 		return
 	}
-
-	// Validate credentials and generate an access token
-	for _, user := range users {
-		if user.Username == req.Username {
-			if user.Password == req.Password {
-				// Create and send an access token
-				accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute)
-				if err != nil {
-					ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
-					return
-				}
-
-				// Respond with login details
-				rsp := loginResponse{
-					AccessToken: accessToken,
-					User:        user,
-				}
-				ctx.JSON(http.StatusOK, rsp)
-				return
-			}
-			ctx.JSON(http.StatusForbidden, gin.H{"error": "Incorrect password\n"})
+	user := models.User{}
+	// err := server.db.Find(&users).Error
+	err := server.db.Where("username = ?", req.Username).First(&user).Error
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "User not found\n"})
+		return
+	}
+	if user.Password == req.Password {
+		// Create and send an access token
+		accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
 			return
 		}
-	}
-	ctx.JSON(http.StatusNotFound, users)
-}
 
-// type createUserRequest struct {
-// 	Username string `json:"username" binding:"required"`
-// 	Email    string `json:"email" binding:"required"`
-// 	Password string `json:"password" binding:"required"`
-// }
+		// Respond with login details
+		rsp := loginResponse{
+			AccessToken: accessToken,
+			User:        user,
+		}
+		ctx.JSON(http.StatusOK, rsp)
+		return
+	}
+	ctx.JSON(http.StatusForbidden, gin.H{"error": "Incorrect password\n"})
+	return
+
+}
 
 func (server *Server) createUser(ctx *gin.Context) {
 	// Request binding for new user details
-	var user User
+	var user models.User
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error() + "\n"})
 		return
 	}
 
 	// Assign a unique ID and add the user to the list
-	user.ID = strconv.Itoa(rand.Intn(1000))
-	users = append(users, user)
+	id, err := uuid.NewRandom()
+	user.ID = strconv.Itoa(int(id.ID()))
+	err = server.db.Create(&user).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create user\n"})
+	}
 
 	// Respond with the updated user list
 	ctx.JSON(http.StatusOK, users)
@@ -90,21 +83,15 @@ type deleteUserRequet struct {
 
 func (server *Server) deleteUser(ctx *gin.Context) {
 	// Request binding for user ID
-	var req deleteUserRequet
-	if err := ctx.ShouldBindUri(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error() + "\n"})
-		return
-	}
+	id := ctx.Param("id")
 
-	// Find and delete the user from the list
-	for idx, user := range users {
-		if user.ID == req.ID {
-			users = append(users[:idx], users[idx+1:]...)
-			ctx.JSON(http.StatusOK, users)
-			return
-		}
+	err := server.db.Delete(&models.User{}, id).Error
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, "User not found\n")
 	}
+	ctx.JSON(http.StatusOK, "User deleted successfully\n")
+	// Find and delete the user from the list
 
 	// Respond with user list if the user is not found
-	ctx.JSON(http.StatusNotFound, users)
+
 }
