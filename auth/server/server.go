@@ -2,8 +2,10 @@ package server
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/MousaZa/library-app-go/auth/token"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -29,6 +31,7 @@ func NewServer(address string, db *gorm.DB) (*Server, error) {
 
 	// Set up routes and run the server
 	server.setRoutes()
+
 	server.router.Run(address)
 
 	return server, nil
@@ -37,10 +40,14 @@ func (server *Server) setRoutes() {
 	router := gin.Default()
 
 	// Group routes with authentication middleware
-	auth := router.Group("/").Use(AuthMiddleware(*server.tokenMaker))
+	auth := router.Group("/").Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	})).Use(AuthMiddleware(*server.tokenMaker))
 	auth.DELETE("/delete/:id", server.deleteUser)
 	router.POST("/create", server.createUser)
 	router.POST("/login", server.login)
-
 	server.router = router
 }

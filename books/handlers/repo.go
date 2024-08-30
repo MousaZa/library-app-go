@@ -98,10 +98,6 @@ func (r *Repository) GetBooks(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
 		return
 	}
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to marshal json"})
-		return
-	}
 	ctx.JSON(http.StatusOK, books)
 }
 
@@ -123,10 +119,7 @@ func (r *Repository) GetBook(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get book"})
 		return
 	}
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to marshal json"})
-		return
-	}
+
 	ctx.JSON(http.StatusOK, book)
 }
 
@@ -160,8 +153,8 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",
 		Description: "Documentation for Book API",
-		SpecFile:    "./swagger.yaml", // "./openapi.yaml"
-		SpecPath:    "/swagger.yaml",  // "/openapi.yaml"
+		SpecFile:    "./swagger.yaml",
+		SpecPath:    "/swagger.yaml",
 		DocsPath:    "/docs",
 	}
 
