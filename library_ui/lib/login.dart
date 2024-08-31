@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/profile.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -34,7 +35,11 @@ class LoginPage extends StatelessWidget {
               MaterialButton(
                 onPressed: () async{
                   dynamic user = await login(_usernameController.text, _passwordController.text);
-                  print(user);
+                  String username = user["user"]['username'];
+                  String email = user["user"]['email'];
+                  String id = user["user"]['id'];
+                  String access_token = user['access_token'];
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(username: username, email: email, id: id, access_token: access_token)));
                 },
                 child: Text('Login'),
               ),
