@@ -7,6 +7,7 @@ import (
 	"github.com/MousaZa/library-app-go/auth/token"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/hashicorp/go-hclog"
 	"gorm.io/gorm"
 )
 
@@ -14,6 +15,7 @@ type Server struct {
 	tokenMaker *token.PasetoMaker
 	router     *gin.Engine
 	db         *gorm.DB
+	l          hclog.Logger
 }
 
 func NewServer(address string, db *gorm.DB) (*Server, error) {
