@@ -2,7 +2,6 @@ package server
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/MousaZa/library-app-go/auth/models"
@@ -74,7 +73,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 
 	// Assign a unique ID and add the user to the list
 	id, err := uuid.NewRandom()
-	user.ID = strconv.Itoa(int(id.ID()))
+	user.ID = int64(id.ID())
 	hashedPass, err := token.HashPassword(user.Password)
 	if err != nil {
 		// server.l.Error("Failed to hash password", err)

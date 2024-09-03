@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service Borrows {
+  rpc AddBorrow(AddBorrowRequest) returns (AddBorrowResponse);
+}
+
+message AddBorrowRequest {
+    int64 BookId = 1;
+    int64 UserId = 2;
+}
+
+message AddBorrowResponse {
+  string Message = 1;
+}
