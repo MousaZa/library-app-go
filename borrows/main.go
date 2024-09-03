@@ -9,12 +9,21 @@ import (
 	"github.com/MousaZa/library-app-go/borrows/server"
 	"github.com/MousaZa/library-app-go/borrows/storage"
 	"github.com/hashicorp/go-hclog"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 func main() {
 	log := hclog.Default()
+
+	log.Info("Starting borrows server" + os.Getenv("DB_HOST"))
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Error("Unable to get env", "error", err)
+	}
+
 	config := &storage.Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -27,10 +36,16 @@ func main() {
 	db, err := storage.NewConnection(config)
 
 	if err != nil {
-		log.Error("Unable to generate rates", "error", err)
+		log.Error("Unable to connect to database", "error", err)
 		os.Exit(1)
 	}
+
 	err = models.MigrateBorrows(db)
+
+	if err != nil {
+		log.Error("Unable to migrate borrows", "error", err)
+		os.Exit(1)
+	}
 
 	gs := grpc.NewServer()
 	cs := server.NewBorrowsServer(log, db)
