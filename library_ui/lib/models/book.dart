@@ -67,11 +67,26 @@ class Book {
   }
 
   Future add() async {
-  print("""""""dsadsadasdasdsadsadasdsa""""""");
   try{
     
     http.Response response = await http.post(
     Uri.parse(url),
+    body: jsonEncode(toJson()),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to add book');
+  }
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+} 
+
+  Future update() async {
+  try{
+    
+    http.Response response = await http.put(
+    Uri.parse("$url/$id"),
     body: jsonEncode(toJson()),
   );
   if (response.statusCode != 200) {

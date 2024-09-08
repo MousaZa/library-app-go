@@ -1,15 +1,17 @@
 import 'package:choice/inline.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:library_ui/models/book.dart';
 
-class AddBookPage extends StatefulWidget {
-  const AddBookPage({super.key});
+class EditBookPage extends StatefulWidget {
+  EditBookPage({super.key});
 
+  final Book book = Get.arguments;
   @override
-  State<AddBookPage> createState() => _AddBookPageState();
+  State<EditBookPage> createState() => _EditBookPageState();
 }
 
-class _AddBookPageState extends State<AddBookPage> {
+class _EditBookPageState extends State<EditBookPage> {
   final _titleController = TextEditingController();
   final _authorController = TextEditingController();
   final _imageUrlController = TextEditingController();
@@ -18,11 +20,28 @@ class _AddBookPageState extends State<AddBookPage> {
   String selectedLanguage = '';
   final List<String> categories = ["Science", "Art", "Literature", "History","Philosophy","Novel","Poetry","Religion","Biography","Fantasy","Mystery","Romance","Thriller","Horror"];
   String selectedCategory = '';
+  int borrows = 0;
+  int likes = 0;
+  int id = 0;
+
+  @override
+  void initState() {
+    _titleController.text = widget.book.title;
+    _authorController.text = widget.book.author;
+    _imageUrlController.text = widget.book.coverURL;
+    _summaryController.text = widget.book.summary;
+    selectedCategory = widget.book.category;
+    selectedLanguage = widget.book.language;
+    borrows = widget.book.borrows;
+    likes = widget.book.likes;
+    id = widget.book.id;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Book Page'),
+        title: Text('Edit Book Page'),
       ),
       body: Center(
         child: SizedBox(
@@ -108,22 +127,21 @@ class _AddBookPageState extends State<AddBookPage> {
               ElevatedButton(        
                 onPressed: () async {
                   await Book(
-                    borrows: 0,
-                    likes: 0,
-                    id: 0,
+                    borrows: borrows,
+                    likes: likes,
+                    id: id, 
                     author: _authorController.text,
                     title: _titleController.text,
                     coverURL: _imageUrlController.text,
                     category: selectedCategory,
                     language: selectedLanguage,
                     summary: _summaryController.text,
-                  ).add();
-                  // await Book.add(_titleController.text, _authorController.text, _imageUrlController.text, _categoryController.text, _LanguageController.text, _descriptionController.text);
+                  ).update();
                   Navigator.pop(context);
                 },
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Add Book',style: TextStyle(
+                  child: Text('Edit Book',style: TextStyle(
                     fontSize: 20,
                   ),),
                 ),

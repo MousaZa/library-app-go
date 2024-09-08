@@ -130,7 +130,7 @@ func (r *Repository) GetBook(ctx *gin.Context) {
 //
 //	201: noContent
 
-// DeleteBook deletes a product form the database
+// DeleteBook deletes a book form the database
 func (r *Repository) DeleteBook(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	hclog.Default().Info("id", "id", id)
@@ -147,11 +147,47 @@ func (r *Repository) DeleteBook(ctx *gin.Context) {
 	ctx.JSON(http.StatusNoContent, gin.H{"message": "Book deleted successfully"})
 }
 
+// swagger:route PUT /books/{id} books updateBook
+// responses:
+//
+//	201: noContent
+
+// UpdateBook updates a book on the database
+func (r *Repository) UpdateBook(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
+		return
+	}
+
+	book := &models.Book{}
+	err := r.DB.Where("id = ?", id).First(&book).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get book"})
+		return
+	}
+
+	err = ctx.BindJSON(&book)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+
+	err = r.DB.Save(&book).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to update book"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, book)
+}
+
 func (r *Repository) SetupRoutes(app *gin.Engine) {
 	app.GET("/books", r.GetBooks)
 	app.GET("/books/:id", r.GetBook)
 	app.POST("/books", r.AddBook)
 	app.DELETE("/books/:id", r.DeleteBook)
+	app.PUT("/books/:id", r.UpdateBook)
 
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",
