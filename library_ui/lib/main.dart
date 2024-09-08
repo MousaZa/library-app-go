@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:library_ui/login.dart';
-import 'package:library_ui/register.dart';
+import 'package:get/get.dart';
+import 'package:library_ui/views/add_book_page.dart';
+import 'package:library_ui/views/home.dart';
+import 'package:library_ui/views/login.dart';
+import 'package:library_ui/views/register.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,43 +13,23 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyHomePage(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+        '/add_book': (context) => AddBookPage(),
+      },
       debugShowCheckedModeBanner: false ,
       title: 'Library UI',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
     );
   }
 }
 
 
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Library UI'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.login),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.app_registration_rounded),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Welcome to Library UI'),
-      ),
-    );
-  }
-}
+

@@ -17,9 +17,11 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/MousaZa/library-app-go/books/models"
 	"github.com/gin-gonic/gin"
+	"github.com/hashicorp/go-hclog"
 	"github.com/mvrilo/go-redoc"
 	ginredoc "github.com/mvrilo/go-redoc/gin"
 	"gorm.io/gorm"
@@ -130,13 +132,14 @@ func (r *Repository) GetBook(ctx *gin.Context) {
 
 // DeleteBook deletes a product form the database
 func (r *Repository) DeleteBook(ctx *gin.Context) {
-	id := ctx.Param("id")
-	if id == "" {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	hclog.Default().Info("id", "id", id)
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
 		return
 	}
 
-	err := r.DB.Delete(&models.Book{}, id).Error
+	err = r.DB.Delete(&models.Book{}, id).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to delete book"})
 		return
@@ -146,9 +149,9 @@ func (r *Repository) DeleteBook(ctx *gin.Context) {
 
 func (r *Repository) SetupRoutes(app *gin.Engine) {
 	app.GET("/books", r.GetBooks)
-	app.GET("/books/{id}", r.GetBook)
+	app.GET("/books/:id", r.GetBook)
 	app.POST("/books", r.AddBook)
-	app.DELETE("/books/{id}", r.DeleteBook)
+	app.DELETE("/books/:id", r.DeleteBook)
 
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",

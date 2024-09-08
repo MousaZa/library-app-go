@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
-import 'package:library_ui/profile.dart';
+import 'package:library_ui/views/profile.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

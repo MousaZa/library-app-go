@@ -56,3 +56,39 @@ Future delete(String id,token) async {
     print(e);
   }
 }
+
+Future getBooks() async {
+  
+  try{
+    
+    http.Response response = await http.get(
+    Uri.parse('http://localhost:9090/books'),
+    // headers: '"Content-Type": "application/json"'
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to get books');
+  }
+  print (jsonDecode(response.body));
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+}
+
+Future AddBook(String title, String author, String imageUrl, String category, String language, String description) async {
+  
+  try{
+    
+    http.Response response = await http.post(
+    Uri.parse('http://localhost:9090/books'),
+    // headers: '"Content-Type": "application/json"'
+    body: '{ "title": "$title", "author": "$author", "coverURL": "$imageUrl", "category": "$category", "language": "$language", "description": "$description", "likes": 0, "borrows": 0 }',
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to add book');
+  }
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+}

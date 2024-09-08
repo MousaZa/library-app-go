@@ -10,7 +10,7 @@ type Book struct {
 	CoverURL  string `json:"coverURL"`
 	Language  string `json:"language"`
 	Likes     int    `json:"likes"`
-	Loans     int    `json:"loans"`
+	Borrows   int    `json:"borrows"`
 	Summary   string `json:"summary"`
 	Available bool   `json:"available"`
 }
