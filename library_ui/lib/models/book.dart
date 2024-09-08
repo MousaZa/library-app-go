@@ -9,7 +9,7 @@ class Book {
   int id;
   String title;
   String author;
-  String imageUrl;
+  String coverURL;
   String category;
   String language;
   String summary;
@@ -20,7 +20,7 @@ class Book {
       {required this.id,
       required this.title,
       required this.author,
-      required this.imageUrl,
+      required this.coverURL,
       required this.category,
       required this.language,
       required this.summary,
@@ -32,7 +32,7 @@ class Book {
       id: json['id'],
       title: json['title'],
       author: json['author'],
-      imageUrl: json['coverURL'],
+      coverURL: json['coverURL'],
       category: json['category'],
       language: json['language'],
       summary: json['summary'],
@@ -46,7 +46,7 @@ class Book {
     data['id'] = id;
     data['title'] = title;
     data['author'] = author;
-    data['coverUrl'] = imageUrl;
+    data['coverUrl'] = coverURL;
     data['category'] = category;
     data['language'] = language;
     data['summary'] = summary;
@@ -81,5 +81,5 @@ class Book {
   }catch(e){
     print(e);
   }
-}
+} 
 }

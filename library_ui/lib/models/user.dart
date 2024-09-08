@@ -14,6 +14,8 @@ class User {
       name: json['name'],
       email: json['email'],
       password: json['password'],
+      id: json['id'],
+      token: json['token'],
     );
   }
 

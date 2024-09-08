@@ -74,7 +74,7 @@ class _AddBookPageState extends State<AddBookPage> {
                     id: 0,
                     author: _authorController.text,
                     title: _titleController.text,
-                    imageUrl: _imageUrlController.text,
+                    coverURL: _imageUrlController.text,
                     category: _categoryController.text,
                     language: _LanguageController.text,
                     summary: _descriptionController.text,
@@ -87,7 +87,7 @@ class _AddBookPageState extends State<AddBookPage> {
             ],
           ),
         ),
-      ),
+      ), 
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:library_ui/models/book.dart';
 
 class BookCard extends StatelessWidget {
@@ -11,7 +12,16 @@ class BookCard extends StatelessWidget {
     return Container(
       width: 300,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        // border: Border.all(color: Colors.grey),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
         borderRadius: BorderRadius.circular(10),
       ),
       padding: EdgeInsets.all(20),
@@ -19,31 +29,56 @@ class BookCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.network(bookData.imageUrl, width: 200,),
+          Image.network(bookData.coverURL, width: 200,),
           const SizedBox(width: 20),
-          Expanded(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          SizedBox(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(bookData.title, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+                Text(bookData.author, style: TextStyle(fontSize: 24),),
+                Text('${bookData.language}, ${bookData.category}', style: TextStyle(fontSize: 20),),
+              ],
+            ),
+          ), 
+          Expanded(child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(bookData.summary,maxLines: 10, overflow: TextOverflow.ellipsis,),
+          )),
+          Column(
+            children: [
+              Row(
                 children: [
-                  Text('Id: ${bookData.id}'),
-                  Text('Title: ${bookData.title}'),
-                  Text('Author: ${bookData.author}'),
-                  Text('Category: ${bookData.category}'),
-                  Text('Language: ${bookData.language}'),
-                  Text('Summary: ${bookData.summary}', maxLines: 3, overflow: TextOverflow.ellipsis,),
-                  Text('Likes: ${bookData.likes}'),
-                  Text('Borrows: ${bookData.borrows}'),
+                  Icon(Icons.thumb_up_alt_outlined, size: 30,),
+                  SizedBox(width: 10,),
+                  Text(bookData.likes.toString(), style: TextStyle(fontSize: 30),),
                 ],
               ),
-            ),
+              SizedBox(
+                width: 40,
+                child: Divider(
+                  thickness: 2,
+                  height: 20,
+                ),
+              ),
+               Row(
+                children: [
+                  Icon(Icons.front_hand_outlined, size: 30,),
+                  SizedBox(width: 10,),
+                  Text(bookData.likes.toString(), style: TextStyle(fontSize: 30),),
+                ],
+              ),
+            ],
           ),
-          IconButton(
-            icon: Icon(Icons.delete),
+          IconButton( 
+            icon: Icon(
+              Icons.delete_outline,
+              color: Colors.red,
+              size: 40,
+            ),
             onPressed: () {
-              bookData.delete();
+              bookData.delete(); 
             },
           ),
         ],
