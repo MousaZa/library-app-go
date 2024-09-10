@@ -1,3 +1,4 @@
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/models/book.dart';
@@ -39,12 +40,13 @@ class MyHomePage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator()); 
           } else {
-            return ListView.builder( 
-              itemCount: snapshot.data.length ,
-              itemBuilder: (context, index) {
-                return BookCard(
-                  bookData: Book.fromJson(snapshot.data[index]),
-                );});
+            return DynamicHeightGridView(
+              builder: (context, index) {
+                return BookCard(bookData: Book.fromJson(snapshot.data[index]));
+              },
+               itemCount: snapshot.data.length,
+                crossAxisCount: 2,
+              );
          }}))
     );
   }

@@ -3,17 +3,28 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:library_ui/models/book.dart';
+import 'package:library_ui/views/book_page.dart';
 
-class BookCard extends StatelessWidget {
+class BookCard extends StatefulWidget {
   const BookCard({super.key,category, required this.bookData});
-
   final Book bookData  ;
+
+  @override
+  State<BookCard> createState() => _BookCardState();
+}
+
+class _BookCardState extends State<BookCard> {
+  bool _coverHover = false ;
+  bool _deleteHover = false ;
+  bool _editHover = false ;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
+
       height: 350,
+      width: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
         color: Colors.white,
@@ -34,24 +45,56 @@ class BookCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Image.network(bookData.coverURL, width: 200,),
+            child: Stack(
+              children: [
+                Image.network(widget.bookData.coverURL, width: 200, height: 300, fit: BoxFit.cover,),
+                MouseRegion(
+                  onEnter: (event) {
+                    setState(() {
+                      _coverHover = true;
+                    });
+                  },
+                  onExit: (event) {
+                    setState(() {
+                      _coverHover = false;
+                    });
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 300,
+                    child: MaterialButton(
+                      hoverColor: Colors.black.withOpacity(0.5),
+                      child: Center(
+                        child: _coverHover ? Icon(Icons.info_outline, color: Colors.white, size: 40,) :
+                          null,
+                      ),
+                      onPressed: (){
+                        Get.defaultDialog(
+                          backgroundColor: Colors.white,
+                          title: 'Book Info',
+                          content: BookPage(bookData: widget.bookData,),
+                        );
+                      },
+                      ),
+                  ),
+                ),
+              
+              ],
+            ),
           ), 
           const SizedBox(width: 20),
-          SizedBox(
+          Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(bookData.title, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
-                Text(bookData.author, style: TextStyle(fontSize: 24),),
-                Text('${bookData.language}, ${bookData.category}', style: TextStyle(fontSize: 20),),
+                Text(widget.bookData.title, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+                Text(widget.bookData.author, style: TextStyle(fontSize: 24),),
+                SizedBox(height: 100,),
+                Text('${widget.bookData.language}, ${widget.bookData.category}', style: TextStyle(fontSize: 20),),
               ],
             ),
           ), 
-          Expanded(child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(bookData.summary,maxLines: 10, overflow: TextOverflow.ellipsis,),
-          )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
             child: Column(
@@ -61,7 +104,7 @@ class BookCard extends StatelessWidget {
                   children: [
                     Icon(Icons.thumb_up_alt_outlined, size: 30,),
                     SizedBox(width: 10,),
-                    Text(bookData.likes.toString(), style: TextStyle(fontSize: 30),),
+                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 30),),
                   ],
                 ),
                 SizedBox(
@@ -75,7 +118,7 @@ class BookCard extends StatelessWidget {
                   children: [
                     Icon(Icons.front_hand_outlined, size: 30,),
                     SizedBox(width: 10,),
-                    Text(bookData.likes.toString(), style: TextStyle(fontSize: 30),),
+                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 30),),
                   ],
                 ),
               ],
@@ -88,32 +131,57 @@ class BookCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:_deleteHover? Colors.red.withOpacity(0.5): Colors.white,
                     ),
-                    child: MaterialButton(
-                      hoverColor: Colors.red.withOpacity(0.5),
-                      onPressed: (){
-                        bookData.delete();
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
                       },
-                      child: Center(
-                       child:  Icon(Icons.delete_outline,color: Colors.black, size: 40,),
-                      )
+                      onDoubleTap: (){
+                        widget.bookData.delete();
+                      },
+                      child: MouseRegion(
+                        onEnter: (event) {
+                          setState(() {
+                            _deleteHover = true;
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            _deleteHover = false;
+                          });
+                        },
+                        child:Center(
+                           child:  Icon(Icons.delete_outline,color: Colors.black, size: 40,),
+                          ),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:_editHover? Colors.blue.withOpacity(0.5): Colors.white,
                     ),
-                    child: MaterialButton(
-                      hoverColor: Colors.blue.withOpacity(0.5),
-                      onPressed: (){
-                        Get.toNamed('/edit_book', arguments: bookData);
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.toNamed('/edit_book', arguments: widget.bookData);
                       },
-                      child: Center(
-                       child:  Icon(Icons.edit_outlined,color: Colors.black, size: 40,),
-                      )
+                      child: MouseRegion(
+                        onEnter: (event) {
+                          setState(() {
+                            _editHover = true;
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            _editHover = false;
+                          });
+                        },
+                        child:Center(
+                           child:  Icon(Icons.edit_outlined,color: Colors.black, size: 40,),
+                          ),
+                      ),
                     ),
                   ),
                 ),
