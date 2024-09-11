@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -57,12 +58,13 @@ Future delete(String id,token) async {
   }
 }
 
-Future getBooks() async {
+Future getBooks(String search,language,category) async {
   
   try{
     
     http.Response response = await http.get(
-    Uri.parse('http://localhost:9090/books'),
+    Uri.http('localhost:9090', '/books', {'search': search, 'language': language, 'category': category}),
+  
     // headers: '"Content-Type": "application/json"'
   );
   if (response.statusCode != 200) {

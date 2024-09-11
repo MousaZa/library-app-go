@@ -95,12 +95,48 @@ func (r *Repository) AddBook(ctx *gin.Context) {
 //	200: booksResponse
 func (r *Repository) GetBooks(ctx *gin.Context) {
 	books := &[]models.Book{}
-	err := r.DB.Find(&books).Error
+	search := ctx.Query("search")
+	language := ctx.Query("language")
+	category := ctx.Query("category")
+	err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Find(&books).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
 		return
 	}
 	ctx.JSON(http.StatusOK, books)
+	// if language != "" {
+	// 	err := r.DB.Where("language = ?", language).Find(&books).Error
+	// 	if err != nil {
+	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
+	// 		return
+	// 	}
+	// 	ctx.JSON(http.StatusOK, books)
+	// 	return
+	// }
+	// if category != "" {
+	// 	err := r.DB.Where("category = ?", category).Find(&books).Error
+	// 	if err != nil {
+	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
+	// 		return
+	// 	}
+	// 	ctx.JSON(http.StatusOK, books)
+	// 	return
+	// }
+	// if search != "" {
+	// 	err := r.DB.Where("title LIKE ?", "%"+search+"%").Find(&books).Error
+	// 	if err != nil {
+	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
+	// 		return
+	// 	}
+	// 	ctx.JSON(http.StatusOK, books)
+	// 	return
+	// }
+	// err := r.DB.Find(&books).Error
+	// if err != nil {
+	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
+	// 	return
+	// }
+	// ctx.JSON(http.StatusOK, books)
 }
 
 // swagger:route GET /books/{id} books getBook
