@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_ui/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
-Future login(String username, String password) async {
-  
+Future<String> login(String username, String password) async {
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
   try{
     
     http.Response response = await http.post(
@@ -16,9 +17,12 @@ Future login(String username, String password) async {
   if (response.statusCode != 200) {
     throw Exception('Failed to login');
   }
-  return jsonDecode(response.body);
+  print(jsonDecode(response.body));
+  return jsonDecode(response.body)['access_token'];
+
   }catch(e){
     print(e);
+    return 'error';
   }
 }
 
@@ -27,11 +31,12 @@ Future register(String email, String username, String password) async {
   try{
     
     http.Response response = await http.post(
-    Uri.parse('http://localhost:8080/create'),
-    // headers: '"Content-Type": "application/json"'
-    body: '{ "id" : "1" , "username" : "$username" , "email" :"$email" , "password" : "$password" }',
+    Uri.http('localhost:8080','/create'),
+    // headers: '"Content-Type": "application/json"' 
+    body: '{ "id" : 1 , "username" : "$username" , "email" :"$email" , "password" : "$password" }',
   );
   if (response.statusCode != 200) {
+    print(response.body);
     throw Exception('Failed to create user');
   }
   return jsonDecode(response.body);
@@ -40,7 +45,7 @@ Future register(String email, String username, String password) async {
   }
 }
 
-Future delete(String id,token) async {
+Future delete(int id,String token) async {
   
   try{
     
@@ -70,7 +75,7 @@ Future getBooks(String search,language,category) async {
   if (response.statusCode != 200) {
     throw Exception('Failed to get books');
   }
-  print (jsonDecode(response.body));
+  // print (jsonDecode(response.body));
   return jsonDecode(response.body);
   }catch(e){
     print(e);

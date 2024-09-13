@@ -1,15 +1,37 @@
+import 'dart:convert';
+
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:choice/inline.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:library_ui/controllers/auth_provider.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/add_book_page.dart';
 import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/login.dart';
+import 'package:library_ui/views/profile.dart';
 import 'package:library_ui/views/register.dart';
 
 class MyHomePage extends StatefulWidget {
+  factory MyHomePage.fromBase64(String jwt) {
+    return MyHomePage(
+      jwt: jwt,
+      payload: json.decode(
+        ascii.decode(
+          base64.decode(
+            base64.normalize(jwt.split(".")[1]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  final String jwt;
+  final Map<String, dynamic> payload;
+
+  const MyHomePage({super.key, required this.jwt, required this.payload});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -48,22 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.app_registration_rounded),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()));
-              },
-            ),
-          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -100,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             selected: state.selected(languages[i]),
                             onSelected: state.onSelected(languages[i]),
                             label: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(languages[i])),
                           );
                         },

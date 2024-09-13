@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -18,8 +19,7 @@ type loginRequest struct {
 }
 
 type loginResponse struct {
-	AccessToken string      `json:"access_token"`
-	User        models.User `json:"user"`
+	AccessToken string `json:"access_token"`
 }
 
 func (server *Server) login(ctx *gin.Context) {
@@ -45,7 +45,7 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 	// Create and send an access token
-	accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute)
+	accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute*15)
 	if err != nil {
 		// server.l.Error("Failed to create access token", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
@@ -55,7 +55,6 @@ func (server *Server) login(ctx *gin.Context) {
 	// Respond with login details
 	rsp := loginResponse{
 		AccessToken: accessToken,
-		User:        user,
 	}
 	// server.l.Info("User logged in", "username", req.Username)
 	ctx.JSON(http.StatusOK, rsp)
@@ -78,12 +77,15 @@ func (server *Server) createUser(ctx *gin.Context) {
 	if err != nil {
 		// server.l.Error("Failed to hash password", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to hash password\n"})
+		return
 	}
 	user.Password = hashedPass
 	err = server.db.Create(&user).Error
 	if err != nil {
 		// server.l.Error("Failed to create user", err)
+		fmt.Printf("Failed to create user: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create user\n"})
+		return
 	}
 
 	// Respond with the updated user list

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/book_page.dart';
 
@@ -70,9 +68,9 @@ class _BookCardState extends State<BookCard> {
                       ),
                       onPressed: (){
                         Get.defaultDialog(
-                          backgroundColor: Colors.white,
-                          title: 'Book Info',
-                          content: BookPage(bookData: widget.bookData,),
+                         content:  BookPage(bookData: widget.bookData),
+                         backgroundColor: Colors.white,
+                          title: 'book details',  
                         );
                       },
                       ),
@@ -135,7 +133,7 @@ class _BookCardState extends State<BookCard> {
                     ),
                     child: GestureDetector(
                       onTap: (){
-                        Get.snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
+                        // snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
                       },
                       onDoubleTap: (){
                         widget.bookData.delete();
@@ -165,11 +163,11 @@ class _BookCardState extends State<BookCard> {
                     ),
                     child: GestureDetector(
                       onTap: (){
-                        Get.toNamed('/edit_book', arguments: widget.bookData);
+                        Navigator.of(context).pushNamed('/edit_book', arguments: widget.bookData);
                       },
                       child: MouseRegion(
                         onEnter: (event) {
-                          setState(() {
+                          setState(() { 
                             _editHover = true;
                           });
                         },

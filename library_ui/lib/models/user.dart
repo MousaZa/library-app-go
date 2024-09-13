@@ -8,14 +8,14 @@ class User {
   final String password;
 
   User({required this.token,required this.id,required this.name,required this.email,required this.password});
-
+  const User.empty() : token = '', id = 0, name = '', email = '', password = '';
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      name: json['name'],
-      email: json['email'],
-      password: json['password'],
-      id: json['id'],
-      token: json['token'],
+      name: json['user']['username'],
+      email: json['user']['email'],
+      password: json['user']['password'],
+      id: json['user']['id'],
+      token: json['access_token'],
     );
   }
 

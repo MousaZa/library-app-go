@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:library_ui/controllers/auth_provider.dart';
+import 'package:library_ui/views/home.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
+import 'package:library_ui/models/user.dart';
 import 'package:library_ui/views/profile.dart';
 
 class LoginPage extends StatelessWidget {
@@ -34,15 +40,21 @@ class LoginPage extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () async{
-                  dynamic user = await login(_usernameController.text, _passwordController.text);
-                  String username = user["user"]['username'];
-                  String email = user["user"]['email'];
-                  String id = user["user"]['id'];
-                  String access_token = user['access_token'];
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(username: username, email: email, id: id, access_token: access_token)));
-                },
+                  dynamic jwt = await login(_usernameController.text, _passwordController.text);
+                   if(jwt != null) {
+                  storage.write(key: "jwt", value: jwt);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyHomePage.fromBase64(jwt)
+                    )
+                  );
+                } else {
+                  Get.defaultDialog(title:  "An Error Occurred",content: Text( "No account was found matching that username and password"));
+                }
+              },
                 child: Text('Login'),
-              ),
+              ), 
             ],
           ),
         ),
