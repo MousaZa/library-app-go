@@ -7,6 +7,7 @@ import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/user.dart';
 import 'package:library_ui/views/profile.dart';
+import 'package:library_ui/views/register.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -43,7 +44,7 @@ class LoginPage extends StatelessWidget {
                   dynamic paseto = await login(_usernameController.text, _passwordController.text);
                    if(paseto != null) {
                   storage.write(key: "paseto", value: paseto);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MyHomePage.withAuth(paseto),
@@ -55,6 +56,17 @@ class LoginPage extends StatelessWidget {
               },
                 child: Text('Login'),
               ), 
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterPage(),
+                    ),
+                  );
+                },
+                child: Text('Register'), 
+              ),
             ],
           ),
         ),

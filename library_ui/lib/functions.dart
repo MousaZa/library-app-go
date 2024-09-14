@@ -75,10 +75,7 @@ Future delete(int id,String token) async {
     // headers: '"Content-Type": "application/json"'
     headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
   );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to login');
-  }
-  return jsonDecode(response.body);
+  return response.statusCode;
   }catch(e){
     print(e);
   }

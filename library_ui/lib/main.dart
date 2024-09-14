@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
       GetPage(name: '/register', page: () => RegisterPage()),
       GetPage(name: '/addbook', page: () => AddBookPage()),
       GetPage(name: '/editbook', page: () => EditBookPage()),
+      GetPage(name: '/', page: () => MyHomePage(paseto: pasetoOrEmpty.toString())),
     ],
       debugShowCheckedModeBanner: false ,
       title: 'Library UI',

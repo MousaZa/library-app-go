@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -37,10 +38,12 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Password',
                 ),
-              ),
+              ), 
               MaterialButton(
-                onPressed: () {
-                  register(_emailController.text, _usernameController.text, _passwordController.text);
+                onPressed: ()async {
+                  await register(_emailController.text, _usernameController.text, _passwordController.text);
+                  Get.snackbar('Account created successfully', 'Please login to continue');
+                  Get.offAllNamed('/login');
                 },
                 child: Text('Register'),
               ),

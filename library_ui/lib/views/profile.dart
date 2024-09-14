@@ -32,10 +32,11 @@ class Profile extends StatelessWidget {
                 icon: Icon(Icons.delete),
                 onPressed: ()async {
                   String? paseto = await storage.read(key: "paseto");
-                  await delete(userData["user_id"],paseto! ).then((value){
-                    if (value['message'] == 'User deleted successfully'){
-                      print('User deleted successfully');
-                       Navigator.pop(context);
+                  await delete(int.parse(userData["user_id"]),paseto! ).then((value){
+                    if (value == 200) {
+                      Get.snackbar('Account deleted successfully', 'Please login to continue');
+                      storage.delete(key: "paseto");
+                      Get.offAllNamed('/login');
                     } 
                   });
                  
