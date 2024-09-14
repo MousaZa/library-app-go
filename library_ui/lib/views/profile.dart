@@ -24,7 +24,7 @@ class Profile extends StatelessWidget {
                 radius: 50,  
                 child: Icon(Icons.person, size: 50,),
               ),
-              Text("${userData["id"]}", style: TextStyle(fontSize: 20),),
+              Text("${userData["user_id"]}", style: TextStyle(fontSize: 20),),
               Text(userData["username"], style: TextStyle(fontSize: 30),),
               Text(userData["email"], style: TextStyle(fontSize: 20),),
               // Text(, style: TextStyle(fontSize: 20),),
@@ -32,7 +32,7 @@ class Profile extends StatelessWidget {
                 icon: Icon(Icons.delete),
                 onPressed: ()async {
                   String? paseto = await storage.read(key: "paseto");
-                  await delete(userData["id"],paseto! ).then((value){
+                  await delete(userData["user_id"],paseto! ).then((value){
                     if (value['message'] == 'User deleted successfully'){
                       print('User deleted successfully');
                        Navigator.pop(context);
