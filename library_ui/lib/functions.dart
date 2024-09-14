@@ -26,6 +26,27 @@ Future<String> login(String username, String password) async {
   }
 }
 
+Future getUser(String token) async {
+  try{
+    
+    http.Response response = await http.get(
+    Uri.parse('http://localhost:8080/user'),
+    // headers: '"Content-Type": "application/json"' 
+    headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+  );
+  if (response.statusCode  == 401) {
+    print(jsonDecode(response.body));
+    return false;
+  }if (response.statusCode != 200) {
+    throw Exception('Failed to get user');
+  }
+  print(jsonDecode(response.body));
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+}
+
 Future register(String email, String username, String password) async {
   
   try{

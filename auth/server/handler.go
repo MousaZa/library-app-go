@@ -1,8 +1,10 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/MousaZa/library-app-go/auth/models"
@@ -20,6 +22,31 @@ type loginRequest struct {
 
 type loginResponse struct {
 	AccessToken string `json:"access_token"`
+}
+
+type UserResponse struct {
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
+func (server *Server) getUserData(ctx *gin.Context) {
+	authHeader := ctx.GetHeader(authorizationHeaderKey)
+	token := strings.Fields(authHeader)[1]
+	payload, err := server.tokenMaker.VerifyToken(token)
+	if err != nil {
+		// server.l.Error("Failed to verify token", err)
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Access Token Not Valid\n"})
+		return
+	}
+	// resp := UserResponse{
+	// 	ID:       payload.UserId,
+	// 	Username: payload.Username,
+	// 	Email:    payload.Email,
+	// }
+	resp := &UserResponse{}
+	json.Unmarshal(payload, resp)
+	ctx.JSON(http.StatusOK, resp)
 }
 
 func (server *Server) login(ctx *gin.Context) {
@@ -45,18 +72,28 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 	// Create and send an access token
-	accessToken, err := server.tokenMaker.CreateToken(req.Username, time.Minute*15)
+	payload, err := token.NewPayload(user.Username, user.Email, user.ID, time.Hour*2)
 	if err != nil {
-		// server.l.Error("Failed to create access token", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
+		// server.l.Error("Failed to create payload", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create payload\n"})
 		return
 	}
+	accessToken, err := server.tokenMaker.CreateToken(payload)
+	// if err != nil {
+	// 	// server.l.Error("Failed to create access token", err)
+	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
+	// 	return
+	// }
 
-	// Respond with login details
+	// // Respond with login details
+	// rsp := loginResponse{
+	// 	AccessToken: accessToken,
+	// }
+	// // server.l.Info("User logged in", "username", req.Username)
+
 	rsp := loginResponse{
 		AccessToken: accessToken,
 	}
-	// server.l.Info("User logged in", "username", req.Username)
 	ctx.JSON(http.StatusOK, rsp)
 
 }

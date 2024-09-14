@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/add_book_page.dart';
 import 'package:library_ui/views/edit_book_page.dart';
@@ -14,32 +15,23 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-    Future<String> get jwtOrEmpty async {
-    var jwt = await storage.read(key: "jwt");
-    if(jwt == null) return "";
-    return jwt;
+    Future<String> get pasetoOrEmpty async {
+    var paseto = await storage.read(key: "paseto");
+    if(paseto == null) return "";
+    await getUser(paseto) == false ? paseto = "" : paseto = paseto;
+    return paseto;
   }
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // home:  LoginPage(),
     home: FutureBuilder(
-        future: jwtOrEmpty,            
+        future: pasetoOrEmpty,            
         builder: (context, snapshot) {
           if(!snapshot.hasData) return CircularProgressIndicator();
           if(snapshot.data != "") {
             var str = snapshot.data;
-            var jwt = str?.split(".");
-
-            if(jwt?.length !=3) {
-              return LoginPage();
-            } else {
-              var payload = json.decode(ascii.decode(base64.decode(base64.normalize(jwt![1]))));
-              if(DateTime.fromMillisecondsSinceEpoch(payload["exp"]*1000).isAfter(DateTime.now())) {
-                return MyHomePage(jwt: str!,payload: payload,);
-              } else {
-                return LoginPage();
-              }
-            }
+                return MyHomePage.withAuth(str!);
           } else {
             return LoginPage();
           }

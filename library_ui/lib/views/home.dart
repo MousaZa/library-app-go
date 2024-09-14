@@ -15,23 +15,15 @@ import 'package:library_ui/views/profile.dart';
 import 'package:library_ui/views/register.dart';
 
 class MyHomePage extends StatefulWidget {
-  factory MyHomePage.fromBase64(String jwt) {
+  factory MyHomePage.withAuth(String paseto) {
     return MyHomePage(
-      jwt: jwt,
-      payload: json.decode(
-        ascii.decode(
-          base64.decode(
-            base64.normalize(jwt.split(".")[1]),
-          ),
-        ),
-      ),
+      paseto: paseto,
     );
   }
 
-  final String jwt;
-  final Map<String, dynamic> payload;
+  final String paseto;
 
-  const MyHomePage({super.key, required this.jwt, required this.payload});
+  const MyHomePage({super.key, required this.paseto});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -61,6 +53,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: widget.paseto.isNotEmpty ? [
+             IconButton(
+                onPressed: ()async {
+                  await getUser(widget.paseto).then((value) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile(userData: value)));
+                  }); 
+                },
+                icon: Icon(Icons.person)) ,
+          ]:[
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+                icon: Icon(Icons.login)) ,
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()));
+                },
+                icon: Icon(Icons.person_add)) ,
+          ],
           title: AnimatedSearchBar(
             label: "Library UI",
             onChanged: (value) {
@@ -98,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                           setState(() {
                             language = value!;
-                          });
+                          }); 
                         },
                         itemCount: languages.length,
                         itemBuilder: (state, i) {

@@ -7,7 +7,8 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/user.dart';
 
 class Profile extends StatelessWidget {
-   Profile({super.key});
+  final Map<String,dynamic> userData ;
+   Profile({super.key, required this.userData});
   // final controller = Get.find<AuthState>();
   @override
   Widget build(BuildContext context) {
@@ -15,36 +16,34 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body:  Padding(
-        padding: const EdgeInsets.all(100),
-        child: Center(
+      body:  Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CircleAvatar(
-                radius: 50, 
+                radius: 50,  
                 child: Icon(Icons.person, size: 50,),
               ),
-              // Text("${controller.userInfo.id}", style: TextStyle(fontSize: 20),),
-              // Text(controller.userInfo.name, style: TextStyle(fontSize: 30),),
-              // Text(controller.userInfo.email, style: TextStyle(fontSize: 20),),
-              // Text(controller.userInfo.token, style: TextStyle(fontSize: 20),),
-              // IconButton(
-                // icon: Icon(Icons.delete),
-                // onPressed: ()async {
-                  // await delete(controller.userInfo.id, controller.userInfo.token).then((value){
-                    // if (value['message'] == 'User deleted successfully'){
-                      // print('User deleted successfully');
-                      //  Navigator.pop(context);
-                    // }
-                  // });
+              Text("${userData["id"]}", style: TextStyle(fontSize: 20),),
+              Text(userData["username"], style: TextStyle(fontSize: 30),),
+              Text(userData["email"], style: TextStyle(fontSize: 20),),
+              // Text(, style: TextStyle(fontSize: 20),),
+              IconButton(  
+                icon: Icon(Icons.delete),
+                onPressed: ()async {
+                  String? paseto = await storage.read(key: "paseto");
+                  await delete(userData["id"],paseto! ).then((value){
+                    if (value['message'] == 'User deleted successfully'){
+                      print('User deleted successfully');
+                       Navigator.pop(context);
+                    } 
+                  });
                  
-                // },
-              // ),
+                },
+              ),
             ],
           ),
-        ),
-      ),
-    );
-  }
+        )
+  );
+    }
 }

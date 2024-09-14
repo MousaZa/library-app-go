@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -34,6 +35,7 @@ func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
 		}
 
 		token := fields[1]
+		fmt.Printf("Token: %v\n", token)
 		_, err := maker.VerifyToken(token)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Access Token Not Valid\n"})

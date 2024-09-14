@@ -40,13 +40,13 @@ class LoginPage extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () async{
-                  dynamic jwt = await login(_usernameController.text, _passwordController.text);
-                   if(jwt != null) {
-                  storage.write(key: "jwt", value: jwt);
+                  dynamic paseto = await login(_usernameController.text, _passwordController.text);
+                   if(paseto != null) {
+                  storage.write(key: "paseto", value: paseto);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyHomePage.fromBase64(jwt)
+                      builder: (context) => MyHomePage.withAuth(paseto),
                     )
                   );
                 } else {
