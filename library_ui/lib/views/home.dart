@@ -4,9 +4,12 @@ import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:choice/inline.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:library_ui/controllers/auth_provider.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/add_book_page.dart';
 import 'package:library_ui/views/book_card.dart';
@@ -53,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: widget.paseto.isNotEmpty ? [
+          actions: [
              IconButton(
                 onPressed: ()async {
                   await getUser(widget.paseto).then((value) {
@@ -62,19 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   }); 
                 },
                 icon: Icon(Icons.person)) ,
-          ]:[
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                icon: Icon(Icons.login)) ,
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()));
-                },
-                icon: Icon(Icons.person_add)) ,
+                IconButton(onPressed: (){
+                  storage.delete(key: "paseto");
+                  Get.offAllNamed('/login');
+                }, icon: Icon(Icons.logout))
           ],
           title: AnimatedSearchBar(
             label: "Library UI",
