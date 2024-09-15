@@ -24,6 +24,126 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+// Borrow Model
+type Borrow struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=Id,proto3" json:"Id,omitempty"`
+	BookId               int64    `protobuf:"varint,2,opt,name=BookId,proto3" json:"BookId,omitempty"`
+	UserId               int64    `protobuf:"varint,3,opt,name=UserId,proto3" json:"UserId,omitempty"`
+	BorrowDate           string   `protobuf:"bytes,4,opt,name=BorrowDate,proto3" json:"BorrowDate,omitempty"`
+	ReturnDate           string   `protobuf:"bytes,5,opt,name=ReturnDate,proto3" json:"ReturnDate,omitempty"`
+	Status               string   `protobuf:"bytes,6,opt,name=Status,proto3" json:"Status,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Borrow) Reset()         { *m = Borrow{} }
+func (m *Borrow) String() string { return proto.CompactTextString(m) }
+func (*Borrow) ProtoMessage()    {}
+func (*Borrow) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{0}
+}
+
+func (m *Borrow) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Borrow.Unmarshal(m, b)
+}
+func (m *Borrow) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Borrow.Marshal(b, m, deterministic)
+}
+func (m *Borrow) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Borrow.Merge(m, src)
+}
+func (m *Borrow) XXX_Size() int {
+	return xxx_messageInfo_Borrow.Size(m)
+}
+func (m *Borrow) XXX_DiscardUnknown() {
+	xxx_messageInfo_Borrow.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Borrow proto.InternalMessageInfo
+
+func (m *Borrow) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *Borrow) GetBookId() int64 {
+	if m != nil {
+		return m.BookId
+	}
+	return 0
+}
+
+func (m *Borrow) GetUserId() int64 {
+	if m != nil {
+		return m.UserId
+	}
+	return 0
+}
+
+func (m *Borrow) GetBorrowDate() string {
+	if m != nil {
+		return m.BorrowDate
+	}
+	return ""
+}
+
+func (m *Borrow) GetReturnDate() string {
+	if m != nil {
+		return m.ReturnDate
+	}
+	return ""
+}
+
+func (m *Borrow) GetStatus() string {
+	if m != nil {
+		return m.Status
+	}
+	return ""
+}
+
+type MessageResponse struct {
+	Message              string   `protobuf:"bytes,1,opt,name=Message,proto3" json:"Message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MessageResponse) Reset()         { *m = MessageResponse{} }
+func (m *MessageResponse) String() string { return proto.CompactTextString(m) }
+func (*MessageResponse) ProtoMessage()    {}
+func (*MessageResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{1}
+}
+
+func (m *MessageResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MessageResponse.Unmarshal(m, b)
+}
+func (m *MessageResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MessageResponse.Marshal(b, m, deterministic)
+}
+func (m *MessageResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MessageResponse.Merge(m, src)
+}
+func (m *MessageResponse) XXX_Size() int {
+	return xxx_messageInfo_MessageResponse.Size(m)
+}
+func (m *MessageResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MessageResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MessageResponse proto.InternalMessageInfo
+
+func (m *MessageResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+// ADD
 type AddBorrowRequest struct {
 	BookId               int64    `protobuf:"varint,1,opt,name=BookId,proto3" json:"BookId,omitempty"`
 	UserId               int64    `protobuf:"varint,2,opt,name=UserId,proto3" json:"UserId,omitempty"`
@@ -36,7 +156,7 @@ func (m *AddBorrowRequest) Reset()         { *m = AddBorrowRequest{} }
 func (m *AddBorrowRequest) String() string { return proto.CompactTextString(m) }
 func (*AddBorrowRequest) ProtoMessage()    {}
 func (*AddBorrowRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0a5779074719ee4c, []int{0}
+	return fileDescriptor_0a5779074719ee4c, []int{2}
 }
 
 func (m *AddBorrowRequest) XXX_Unmarshal(b []byte) error {
@@ -71,48 +191,293 @@ func (m *AddBorrowRequest) GetUserId() int64 {
 	return 0
 }
 
-type AddBorrowResponse struct {
+// UPDATE
+type UpdateBorrowRequest struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=Id,proto3" json:"Id,omitempty"`
+	Status               string   `protobuf:"bytes,2,opt,name=Status,proto3" json:"Status,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateBorrowRequest) Reset()         { *m = UpdateBorrowRequest{} }
+func (m *UpdateBorrowRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateBorrowRequest) ProtoMessage()    {}
+func (*UpdateBorrowRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{3}
+}
+
+func (m *UpdateBorrowRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateBorrowRequest.Unmarshal(m, b)
+}
+func (m *UpdateBorrowRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateBorrowRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateBorrowRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBorrowRequest.Merge(m, src)
+}
+func (m *UpdateBorrowRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateBorrowRequest.Size(m)
+}
+func (m *UpdateBorrowRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateBorrowRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateBorrowRequest proto.InternalMessageInfo
+
+func (m *UpdateBorrowRequest) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *UpdateBorrowRequest) GetStatus() string {
+	if m != nil {
+		return m.Status
+	}
+	return ""
+}
+
+type UpdateBorrowResponse struct {
 	Message              string   `protobuf:"bytes,1,opt,name=Message,proto3" json:"Message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *AddBorrowResponse) Reset()         { *m = AddBorrowResponse{} }
-func (m *AddBorrowResponse) String() string { return proto.CompactTextString(m) }
-func (*AddBorrowResponse) ProtoMessage()    {}
-func (*AddBorrowResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0a5779074719ee4c, []int{1}
+func (m *UpdateBorrowResponse) Reset()         { *m = UpdateBorrowResponse{} }
+func (m *UpdateBorrowResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateBorrowResponse) ProtoMessage()    {}
+func (*UpdateBorrowResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{4}
 }
 
-func (m *AddBorrowResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_AddBorrowResponse.Unmarshal(m, b)
+func (m *UpdateBorrowResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateBorrowResponse.Unmarshal(m, b)
 }
-func (m *AddBorrowResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_AddBorrowResponse.Marshal(b, m, deterministic)
+func (m *UpdateBorrowResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateBorrowResponse.Marshal(b, m, deterministic)
 }
-func (m *AddBorrowResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AddBorrowResponse.Merge(m, src)
+func (m *UpdateBorrowResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBorrowResponse.Merge(m, src)
 }
-func (m *AddBorrowResponse) XXX_Size() int {
-	return xxx_messageInfo_AddBorrowResponse.Size(m)
+func (m *UpdateBorrowResponse) XXX_Size() int {
+	return xxx_messageInfo_UpdateBorrowResponse.Size(m)
 }
-func (m *AddBorrowResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_AddBorrowResponse.DiscardUnknown(m)
+func (m *UpdateBorrowResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateBorrowResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AddBorrowResponse proto.InternalMessageInfo
+var xxx_messageInfo_UpdateBorrowResponse proto.InternalMessageInfo
 
-func (m *AddBorrowResponse) GetMessage() string {
+func (m *UpdateBorrowResponse) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
 	return ""
 }
 
+// DELETE
+type DeleteBorrowRequest struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=Id,proto3" json:"Id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DeleteBorrowRequest) Reset()         { *m = DeleteBorrowRequest{} }
+func (m *DeleteBorrowRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteBorrowRequest) ProtoMessage()    {}
+func (*DeleteBorrowRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{5}
+}
+
+func (m *DeleteBorrowRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteBorrowRequest.Unmarshal(m, b)
+}
+func (m *DeleteBorrowRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteBorrowRequest.Marshal(b, m, deterministic)
+}
+func (m *DeleteBorrowRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteBorrowRequest.Merge(m, src)
+}
+func (m *DeleteBorrowRequest) XXX_Size() int {
+	return xxx_messageInfo_DeleteBorrowRequest.Size(m)
+}
+func (m *DeleteBorrowRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteBorrowRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteBorrowRequest proto.InternalMessageInfo
+
+func (m *DeleteBorrowRequest) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+// GET
+type GetBookBorrowsRequest struct {
+	BookId               int64    `protobuf:"varint,1,opt,name=BookId,proto3" json:"BookId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetBookBorrowsRequest) Reset()         { *m = GetBookBorrowsRequest{} }
+func (m *GetBookBorrowsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetBookBorrowsRequest) ProtoMessage()    {}
+func (*GetBookBorrowsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{6}
+}
+
+func (m *GetBookBorrowsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBookBorrowsRequest.Unmarshal(m, b)
+}
+func (m *GetBookBorrowsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBookBorrowsRequest.Marshal(b, m, deterministic)
+}
+func (m *GetBookBorrowsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBookBorrowsRequest.Merge(m, src)
+}
+func (m *GetBookBorrowsRequest) XXX_Size() int {
+	return xxx_messageInfo_GetBookBorrowsRequest.Size(m)
+}
+func (m *GetBookBorrowsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBookBorrowsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBookBorrowsRequest proto.InternalMessageInfo
+
+func (m *GetBookBorrowsRequest) GetBookId() int64 {
+	if m != nil {
+		return m.BookId
+	}
+	return 0
+}
+
+type GetUserBorrowsRequest struct {
+	UserId               int64    `protobuf:"varint,1,opt,name=UserId,proto3" json:"UserId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetUserBorrowsRequest) Reset()         { *m = GetUserBorrowsRequest{} }
+func (m *GetUserBorrowsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetUserBorrowsRequest) ProtoMessage()    {}
+func (*GetUserBorrowsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{7}
+}
+
+func (m *GetUserBorrowsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetUserBorrowsRequest.Unmarshal(m, b)
+}
+func (m *GetUserBorrowsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetUserBorrowsRequest.Marshal(b, m, deterministic)
+}
+func (m *GetUserBorrowsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUserBorrowsRequest.Merge(m, src)
+}
+func (m *GetUserBorrowsRequest) XXX_Size() int {
+	return xxx_messageInfo_GetUserBorrowsRequest.Size(m)
+}
+func (m *GetUserBorrowsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUserBorrowsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetUserBorrowsRequest proto.InternalMessageInfo
+
+func (m *GetUserBorrowsRequest) GetUserId() int64 {
+	if m != nil {
+		return m.UserId
+	}
+	return 0
+}
+
+type GetAllBorrowsRequest struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetAllBorrowsRequest) Reset()         { *m = GetAllBorrowsRequest{} }
+func (m *GetAllBorrowsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetAllBorrowsRequest) ProtoMessage()    {}
+func (*GetAllBorrowsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{8}
+}
+
+func (m *GetAllBorrowsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetAllBorrowsRequest.Unmarshal(m, b)
+}
+func (m *GetAllBorrowsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetAllBorrowsRequest.Marshal(b, m, deterministic)
+}
+func (m *GetAllBorrowsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetAllBorrowsRequest.Merge(m, src)
+}
+func (m *GetAllBorrowsRequest) XXX_Size() int {
+	return xxx_messageInfo_GetAllBorrowsRequest.Size(m)
+}
+func (m *GetAllBorrowsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetAllBorrowsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetAllBorrowsRequest proto.InternalMessageInfo
+
+type GetBorrowsResponse struct {
+	Borrows              []*Borrow `protobuf:"bytes,1,rep,name=borrows,proto3" json:"borrows,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *GetBorrowsResponse) Reset()         { *m = GetBorrowsResponse{} }
+func (m *GetBorrowsResponse) String() string { return proto.CompactTextString(m) }
+func (*GetBorrowsResponse) ProtoMessage()    {}
+func (*GetBorrowsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0a5779074719ee4c, []int{9}
+}
+
+func (m *GetBorrowsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBorrowsResponse.Unmarshal(m, b)
+}
+func (m *GetBorrowsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBorrowsResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBorrowsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBorrowsResponse.Merge(m, src)
+}
+func (m *GetBorrowsResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBorrowsResponse.Size(m)
+}
+func (m *GetBorrowsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBorrowsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBorrowsResponse proto.InternalMessageInfo
+
+func (m *GetBorrowsResponse) GetBorrows() []*Borrow {
+	if m != nil {
+		return m.Borrows
+	}
+	return nil
+}
+
 func init() {
+	proto.RegisterType((*Borrow)(nil), "Borrow")
+	proto.RegisterType((*MessageResponse)(nil), "MessageResponse")
 	proto.RegisterType((*AddBorrowRequest)(nil), "AddBorrowRequest")
-	proto.RegisterType((*AddBorrowResponse)(nil), "AddBorrowResponse")
+	proto.RegisterType((*UpdateBorrowRequest)(nil), "UpdateBorrowRequest")
+	proto.RegisterType((*UpdateBorrowResponse)(nil), "UpdateBorrowResponse")
+	proto.RegisterType((*DeleteBorrowRequest)(nil), "DeleteBorrowRequest")
+	proto.RegisterType((*GetBookBorrowsRequest)(nil), "GetBookBorrowsRequest")
+	proto.RegisterType((*GetUserBorrowsRequest)(nil), "GetUserBorrowsRequest")
+	proto.RegisterType((*GetAllBorrowsRequest)(nil), "GetAllBorrowsRequest")
+	proto.RegisterType((*GetBorrowsResponse)(nil), "GetBorrowsResponse")
 }
 
 func init() {
@@ -120,17 +485,31 @@ func init() {
 }
 
 var fileDescriptor_0a5779074719ee4c = []byte{
-	// 146 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4d, 0xca, 0x2f, 0x2a,
-	0xca, 0x2f, 0x2f, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x57, 0x72, 0xe2, 0x12, 0x70, 0x4c, 0x49,
-	0x71, 0x02, 0x8b, 0x05, 0xa5, 0x16, 0x96, 0xa6, 0x16, 0x97, 0x08, 0x89, 0x71, 0xb1, 0x39, 0xe5,
-	0xe7, 0x67, 0x7b, 0xa6, 0x48, 0x30, 0x2a, 0x30, 0x6a, 0x30, 0x07, 0x41, 0x79, 0x20, 0xf1, 0xd0,
-	0xe2, 0xd4, 0x22, 0xcf, 0x14, 0x09, 0x26, 0x88, 0x38, 0x84, 0xa7, 0xa4, 0xcb, 0x25, 0x88, 0x64,
-	0x46, 0x71, 0x41, 0x7e, 0x5e, 0x71, 0xaa, 0x90, 0x04, 0x17, 0xbb, 0x6f, 0x6a, 0x71, 0x71, 0x62,
-	0x7a, 0x2a, 0xd8, 0x14, 0xce, 0x20, 0x18, 0xd7, 0xc8, 0x96, 0x8b, 0x1d, 0xa2, 0xb6, 0x58, 0xc8,
-	0x88, 0x8b, 0x13, 0xae, 0x53, 0x48, 0x50, 0x0f, 0xdd, 0x25, 0x52, 0x42, 0x7a, 0x18, 0x06, 0x27,
-	0xb1, 0x81, 0x1d, 0x6e, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xf0, 0x92, 0x97, 0x1d, 0xc9, 0x00,
-	0x00, 0x00,
+	// 373 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x53, 0x41, 0x6b, 0xf2, 0x40,
+	0x10, 0x65, 0xe3, 0xf7, 0x19, 0x9c, 0x56, 0x6b, 0xd7, 0x28, 0x8b, 0x87, 0x62, 0x03, 0x05, 0xa1,
+	0xb0, 0x15, 0x0b, 0xed, 0xa1, 0x78, 0x50, 0x04, 0xc9, 0xa1, 0x97, 0x14, 0x7f, 0x40, 0x64, 0x87,
+	0x1e, 0x2a, 0xc6, 0x66, 0x57, 0xfa, 0x77, 0xfa, 0xeb, 0xfa, 0x3b, 0x4a, 0x76, 0xd7, 0x36, 0xab,
+	0x5b, 0x3c, 0xce, 0x9b, 0x7d, 0x33, 0xf3, 0xde, 0x4b, 0xa0, 0xb9, 0xca, 0x8b, 0x22, 0xff, 0x90,
+	0x7c, 0x5b, 0xe4, 0x2a, 0x8f, 0x3f, 0x09, 0xd4, 0x67, 0x1a, 0xa1, 0x2d, 0x08, 0x12, 0xc1, 0xc8,
+	0x80, 0x0c, 0x6b, 0x69, 0x90, 0x08, 0xda, 0x2b, 0x3b, 0xf9, 0x5b, 0x22, 0x58, 0xa0, 0x31, 0x5b,
+	0x95, 0xf8, 0x52, 0x62, 0x91, 0x08, 0x56, 0x33, 0xb8, 0xa9, 0xe8, 0x15, 0x80, 0x99, 0x34, 0xcf,
+	0x14, 0xb2, 0x7f, 0x03, 0x32, 0x6c, 0xa4, 0x15, 0xa4, 0xec, 0xa7, 0xa8, 0x76, 0xc5, 0x46, 0xf7,
+	0xff, 0x9b, 0xfe, 0x2f, 0x52, 0xce, 0x7d, 0x51, 0x99, 0xda, 0x49, 0x56, 0xd7, 0x3d, 0x5b, 0xc5,
+	0xb7, 0x70, 0xf1, 0x8c, 0x52, 0x66, 0xaf, 0x98, 0xa2, 0xdc, 0xe6, 0x1b, 0x89, 0x94, 0x41, 0x68,
+	0x21, 0x7d, 0x6f, 0x23, 0xdd, 0x97, 0xf1, 0x0c, 0xda, 0x53, 0x21, 0xcc, 0xd6, 0x14, 0xdf, 0x77,
+	0x28, 0x55, 0x45, 0x08, 0xf9, 0x43, 0x48, 0x50, 0x15, 0x12, 0x4f, 0xa0, 0xb3, 0xdc, 0x8a, 0x4c,
+	0xa1, 0x3b, 0xc6, 0xe3, 0x8f, 0xbd, 0x37, 0x70, 0xee, 0x1d, 0x41, 0xe4, 0xd2, 0x4f, 0x1e, 0x7d,
+	0x03, 0x9d, 0x39, 0xae, 0xf1, 0xc4, 0xc2, 0xf8, 0x0e, 0xba, 0x0b, 0x54, 0xe5, 0xf1, 0xe6, 0x9d,
+	0x3c, 0x21, 0xd0, 0x12, 0x4a, 0x55, 0xc7, 0x04, 0xab, 0x9c, 0x38, 0xca, 0x7b, 0x10, 0x2d, 0x50,
+	0x4d, 0xd7, 0x6b, 0xf7, 0x7d, 0xfc, 0x08, 0x54, 0x6f, 0xb6, 0xa0, 0x15, 0x74, 0x0d, 0xa1, 0xfd,
+	0x98, 0x18, 0x19, 0xd4, 0x86, 0x67, 0xe3, 0x90, 0x5b, 0x01, 0x7b, 0x7c, 0xfc, 0x15, 0x40, 0x68,
+	0x69, 0x74, 0x04, 0x8d, 0x9f, 0x68, 0xe8, 0x25, 0x3f, 0x8c, 0xa9, 0xdf, 0xe6, 0x87, 0x31, 0x3f,
+	0xc0, 0x79, 0xd5, 0x49, 0x1a, 0x71, 0x4f, 0x2e, 0x7e, 0x5e, 0xd5, 0x4f, 0x1a, 0x71, 0x8f, 0xbd,
+	0x1e, 0xde, 0x04, 0x5a, 0xae, 0xc1, 0xb4, 0xc7, 0xbd, 0x8e, 0xf7, 0x3b, 0xdc, 0xe3, 0x87, 0xa1,
+	0x57, 0xec, 0x36, 0xf4, 0x63, 0xff, 0xfd, 0xf4, 0x27, 0x68, 0x3a, 0xe6, 0xd3, 0x2e, 0xf7, 0x85,
+	0xe1, 0x25, 0xaf, 0xea, 0xfa, 0x77, 0xbe, 0xff, 0x0e, 0x00, 0x00, 0xff, 0xff, 0xbb, 0xfd, 0x57,
+	0x23, 0xdf, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -145,7 +524,16 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BorrowsClient interface {
-	AddBorrow(ctx context.Context, in *AddBorrowRequest, opts ...grpc.CallOption) (*AddBorrowResponse, error)
+	// ADD
+	AddBorrow(ctx context.Context, in *AddBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	// UPDATE
+	UpdateBorrow(ctx context.Context, in *UpdateBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	// DELETE
+	DeleteBorrow(ctx context.Context, in *DeleteBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	// GET
+	GetBookBorrows(ctx context.Context, in *GetBookBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error)
+	GetUserBorrows(ctx context.Context, in *GetUserBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error)
+	GetAllBorrows(ctx context.Context, in *GetAllBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error)
 }
 
 type borrowsClient struct {
@@ -156,9 +544,54 @@ func NewBorrowsClient(cc grpc.ClientConnInterface) BorrowsClient {
 	return &borrowsClient{cc}
 }
 
-func (c *borrowsClient) AddBorrow(ctx context.Context, in *AddBorrowRequest, opts ...grpc.CallOption) (*AddBorrowResponse, error) {
-	out := new(AddBorrowResponse)
+func (c *borrowsClient) AddBorrow(ctx context.Context, in *AddBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Borrows/AddBorrow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowsClient) UpdateBorrow(ctx context.Context, in *UpdateBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Borrows/UpdateBorrow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowsClient) DeleteBorrow(ctx context.Context, in *DeleteBorrowRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Borrows/DeleteBorrow", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowsClient) GetBookBorrows(ctx context.Context, in *GetBookBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error) {
+	out := new(GetBorrowsResponse)
+	err := c.cc.Invoke(ctx, "/Borrows/GetBookBorrows", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowsClient) GetUserBorrows(ctx context.Context, in *GetUserBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error) {
+	out := new(GetBorrowsResponse)
+	err := c.cc.Invoke(ctx, "/Borrows/GetUserBorrows", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowsClient) GetAllBorrows(ctx context.Context, in *GetAllBorrowsRequest, opts ...grpc.CallOption) (*GetBorrowsResponse, error) {
+	out := new(GetBorrowsResponse)
+	err := c.cc.Invoke(ctx, "/Borrows/GetAllBorrows", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -167,15 +600,39 @@ func (c *borrowsClient) AddBorrow(ctx context.Context, in *AddBorrowRequest, opt
 
 // BorrowsServer is the server API for Borrows service.
 type BorrowsServer interface {
-	AddBorrow(context.Context, *AddBorrowRequest) (*AddBorrowResponse, error)
+	// ADD
+	AddBorrow(context.Context, *AddBorrowRequest) (*MessageResponse, error)
+	// UPDATE
+	UpdateBorrow(context.Context, *UpdateBorrowRequest) (*MessageResponse, error)
+	// DELETE
+	DeleteBorrow(context.Context, *DeleteBorrowRequest) (*MessageResponse, error)
+	// GET
+	GetBookBorrows(context.Context, *GetBookBorrowsRequest) (*GetBorrowsResponse, error)
+	GetUserBorrows(context.Context, *GetUserBorrowsRequest) (*GetBorrowsResponse, error)
+	GetAllBorrows(context.Context, *GetAllBorrowsRequest) (*GetBorrowsResponse, error)
 }
 
 // UnimplementedBorrowsServer can be embedded to have forward compatible implementations.
 type UnimplementedBorrowsServer struct {
 }
 
-func (*UnimplementedBorrowsServer) AddBorrow(ctx context.Context, req *AddBorrowRequest) (*AddBorrowResponse, error) {
+func (*UnimplementedBorrowsServer) AddBorrow(ctx context.Context, req *AddBorrowRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddBorrow not implemented")
+}
+func (*UnimplementedBorrowsServer) UpdateBorrow(ctx context.Context, req *UpdateBorrowRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBorrow not implemented")
+}
+func (*UnimplementedBorrowsServer) DeleteBorrow(ctx context.Context, req *DeleteBorrowRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBorrow not implemented")
+}
+func (*UnimplementedBorrowsServer) GetBookBorrows(ctx context.Context, req *GetBookBorrowsRequest) (*GetBorrowsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookBorrows not implemented")
+}
+func (*UnimplementedBorrowsServer) GetUserBorrows(ctx context.Context, req *GetUserBorrowsRequest) (*GetBorrowsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBorrows not implemented")
+}
+func (*UnimplementedBorrowsServer) GetAllBorrows(ctx context.Context, req *GetAllBorrowsRequest) (*GetBorrowsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllBorrows not implemented")
 }
 
 func RegisterBorrowsServer(s *grpc.Server, srv BorrowsServer) {
@@ -200,6 +657,96 @@ func _Borrows_AddBorrow_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Borrows_UpdateBorrow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBorrowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowsServer).UpdateBorrow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Borrows/UpdateBorrow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowsServer).UpdateBorrow(ctx, req.(*UpdateBorrowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Borrows_DeleteBorrow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBorrowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowsServer).DeleteBorrow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Borrows/DeleteBorrow",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowsServer).DeleteBorrow(ctx, req.(*DeleteBorrowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Borrows_GetBookBorrows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBookBorrowsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowsServer).GetBookBorrows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Borrows/GetBookBorrows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowsServer).GetBookBorrows(ctx, req.(*GetBookBorrowsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Borrows_GetUserBorrows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBorrowsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowsServer).GetUserBorrows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Borrows/GetUserBorrows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowsServer).GetUserBorrows(ctx, req.(*GetUserBorrowsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Borrows_GetAllBorrows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllBorrowsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowsServer).GetAllBorrows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Borrows/GetAllBorrows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowsServer).GetAllBorrows(ctx, req.(*GetAllBorrowsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Borrows_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Borrows",
 	HandlerType: (*BorrowsServer)(nil),
@@ -207,6 +754,26 @@ var _Borrows_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddBorrow",
 			Handler:    _Borrows_AddBorrow_Handler,
+		},
+		{
+			MethodName: "UpdateBorrow",
+			Handler:    _Borrows_UpdateBorrow_Handler,
+		},
+		{
+			MethodName: "DeleteBorrow",
+			Handler:    _Borrows_DeleteBorrow_Handler,
+		},
+		{
+			MethodName: "GetBookBorrows",
+			Handler:    _Borrows_GetBookBorrows_Handler,
+		},
+		{
+			MethodName: "GetUserBorrows",
+			Handler:    _Borrows_GetUserBorrows_Handler,
+		},
+		{
+			MethodName: "GetAllBorrows",
+			Handler:    _Borrows_GetAllBorrows_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

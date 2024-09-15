@@ -1,14 +1,68 @@
 syntax = "proto3";
 
 service Borrows {
-  rpc AddBorrow(AddBorrowRequest) returns (AddBorrowResponse);
+  // ADD
+  rpc AddBorrow(AddBorrowRequest) returns (MessageResponse);
+  // UPDATE
+  rpc UpdateBorrow(UpdateBorrowRequest) returns (MessageResponse);
+  // DELETE
+  rpc DeleteBorrow(DeleteBorrowRequest) returns (MessageResponse);
+  // GET
+  rpc GetBookBorrows(GetBookBorrowsRequest) returns (GetBorrowsResponse);
+  rpc GetUserBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
+  rpc GetAllBorrows(GetAllBorrowsRequest) returns (GetBorrowsResponse);
 }
 
+// Borrow Model
+message Borrow {
+    int64 Id = 1;
+    int64 BookId = 2;
+    int64 UserId = 3;
+    string BorrowDate = 4;
+    string ReturnDate = 5;
+    string Status = 6;
+}
+
+message MessageResponse {
+    string Message = 1;
+}
+
+
+// ADD
 message AddBorrowRequest {
     int64 BookId = 1;
     int64 UserId = 2;
 }
 
-message AddBorrowResponse {
-  string Message = 1;
+// UPDATE 
+message UpdateBorrowRequest {
+    int64 Id = 1;
+    string Status = 2;
 }
+
+message UpdateBorrowResponse {
+    string Message = 1;
+}
+
+// DELETE
+message DeleteBorrowRequest {
+    int64 Id = 1;
+}
+
+
+// GET
+message GetBookBorrowsRequest {
+    int64 BookId = 1;
+}
+
+message GetUserBorrowsRequest {
+    int64 UserId = 1;
+}
+
+message GetAllBorrowsRequest {
+}
+
+message GetBorrowsResponse {
+    repeated Borrow borrows = 1;
+}
+
