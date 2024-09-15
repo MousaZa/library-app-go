@@ -4,11 +4,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/MousaZa/library-app-go/auth/clients"
 	"github.com/MousaZa/library-app-go/auth/models"
 	"github.com/MousaZa/library-app-go/auth/server"
 	"github.com/MousaZa/library-app-go/auth/storage"
+	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -38,7 +41,21 @@ func main() {
 	if err != nil {
 		l.Error("Unable to migrate books", "error", err)
 	}
-	if _, err := server.NewServer(":8080", db); err != nil {
+
+	// Borrows client
+	conn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	defer conn.Close()
+
+	// create client
+	borrowsClient := borrows.NewBorrowsClient(conn)
+
+	bc := clients.NewBorrowsClient(borrowsClient)
+
+	if _, err := server.NewServer(":8080", db, bc); err != nil {
 		log.Fatal("Failed to start server\n")
 	}
 }

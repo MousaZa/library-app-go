@@ -4,21 +4,38 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/MousaZa/library-app-go/auth/clients"
 	"github.com/MousaZa/library-app-go/auth/token"
+	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-hclog"
+	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
 
 type Server struct {
-	tokenMaker *token.PasetoMaker
-	router     *gin.Engine
-	db         *gorm.DB
-	l          hclog.Logger
+	tokenMaker    *token.PasetoMaker
+	router        *gin.Engine
+	borrowsClient *clients.BorrowsClient
+	db            *gorm.DB
+	l             hclog.Logger
 }
 
-func NewServer(address string, db *gorm.DB) (*Server, error) {
+func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient) (*Server, error) {
+	// Borrows client
+	conn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	defer conn.Close()
+
+	// create client
+	bc := borrows.NewBorrowsClient(conn)
+
+	borrowsClient := clients.NewBorrowsClient(bc)
+
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
 	if err != nil {
