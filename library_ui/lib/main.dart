@@ -9,6 +9,7 @@ import 'package:library_ui/views/edit_book_page.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/views/login.dart';
 import 'package:library_ui/views/register.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,9 +24,12 @@ class MyApp extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return ResponsiveSizer(  
+  builder: (context, orientation, screenType) {
+    return MaterialApp(
+      home: GetMaterialApp(
       // home:  LoginPage(),
-    home: FutureBuilder(
+    home: FutureBuilder( 
         future: pasetoOrEmpty,            
         builder: (context, snapshot) {
           if(!snapshot.hasData) return CircularProgressIndicator();
@@ -50,7 +54,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+    )
     );
+  },
+);
   }
 }
 

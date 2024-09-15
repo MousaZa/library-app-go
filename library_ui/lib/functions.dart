@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,6 +60,24 @@ Future register(String email, String username, String password) async {
   if (response.statusCode != 200) {
     print(response.body);
     throw Exception('Failed to create user');
+  }
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+}
+
+Future createBorrow(int bookId,userId) async {
+  try{
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.post(
+    Uri.parse('http://localhost:8080/borrow'),
+    // headers: '"Content-Type": "application/json"'
+    headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    body: '{ "bookId": $bookId, "userId": $userId }',
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to borrow book');
   }
   return jsonDecode(response.body);
   }catch(e){

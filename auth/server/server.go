@@ -6,11 +6,9 @@ import (
 
 	"github.com/MousaZa/library-app-go/auth/clients"
 	"github.com/MousaZa/library-app-go/auth/token"
-	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-hclog"
-	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
 
@@ -23,18 +21,6 @@ type Server struct {
 }
 
 func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient) (*Server, error) {
-	// Borrows client
-	conn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
-	if err != nil {
-		panic(err)
-	}
-
-	defer conn.Close()
-
-	// create client
-	bc := borrows.NewBorrowsClient(conn)
-
-	borrowsClient := clients.NewBorrowsClient(bc)
 
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
@@ -44,8 +30,10 @@ func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient) (*Server,
 
 	// Create a new server instance
 	server := &Server{
-		tokenMaker: tokenMaker,
-		db:         db,
+		tokenMaker:    tokenMaker,
+		db:            db,
+		l:             hclog.Default(),
+		borrowsClient: bc,
 	}
 
 	// Set up routes and run the server
@@ -65,6 +53,8 @@ func (server *Server) setRoutes() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	})).Use(AuthMiddleware(*server.tokenMaker))
+
+	auth.POST("/borrow", server.borrowsClient.AddBorrow)
 	auth.DELETE("/delete/:id", server.deleteUser)
 	auth.GET("/user", server.getUserData)
 	router.POST("/create", server.createUser)

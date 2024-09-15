@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/book_page.dart';
+import 'package:sizer/sizer.dart';
 
 class BookCard extends StatefulWidget {
   const BookCard({super.key,category, required this.bookData});
   final Book bookData  ;
-
+  
   @override
   State<BookCard> createState() => _BookCardState();
 }
@@ -20,9 +23,8 @@ class _BookCardState extends State<BookCard> {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-
-      height: 350,
-      width: MediaQuery.of(context).size.width * 0.4,
+      height: 20.w,
+      width: 40.w,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
         color: Colors.white,
@@ -45,7 +47,10 @@ class _BookCardState extends State<BookCard> {
             padding: const EdgeInsets.only(left: 20),
             child: Stack(
               children: [
-                Image.network(widget.bookData.coverURL, width: 200, height: 300, fit: BoxFit.cover,),
+                Image.network(widget.bookData.coverURL,
+                height: 16.w,
+      width: 10.w,
+       fit: BoxFit.cover,),
                 MouseRegion(
                   onEnter: (event) {
                     setState(() {
@@ -58,21 +63,25 @@ class _BookCardState extends State<BookCard> {
                     });
                   },
                   child: Container(
-                    width: 200,
-                    height: 300,
+                  height: 16.w,
+      width: 10.w,
                     child: MaterialButton(
                       hoverColor: Colors.black.withOpacity(0.5),
                       child: Center(
-                        child: _coverHover ? Icon(Icons.info_outline, color: Colors.white, size: 40,) :
+                        child: _coverHover ? Icon(Icons.info_outline, color: Colors.white, size: 3.w,) :
                           null,
                       ),
-                      onPressed: (){
-                        Get.defaultDialog(
-                         content:  BookPage(bookData: widget.bookData),
+                      onPressed: ()async{
+                        final paseto = await storage.read(key: 'paseto');
+                         await getUser(paseto!).then((value) {
+                    Get.defaultDialog(
+                         content:  BookPage(bookData: widget.bookData, userId: int.parse(value["user_id"]) ),
                          backgroundColor: Colors.white,
                           title: 'book details',  
                         );
-                      },
+                  }); 
+                       
+                      }, 
                       ),
                   ),
                 ),
@@ -86,37 +95,37 @@ class _BookCardState extends State<BookCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.bookData.title, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
-                Text(widget.bookData.author, style: TextStyle(fontSize: 24),),
-                SizedBox(height: 100,),
-                Text('${widget.bookData.language}, ${widget.bookData.category}', style: TextStyle(fontSize: 20),),
+                Text(widget.bookData.title, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),),
+                Text(widget.bookData.author, style: TextStyle(fontSize: 14.sp),),
+                SizedBox(height: 5.w,),
+                Text('${widget.bookData.language}, ${widget.bookData.category}', style: TextStyle(fontSize: 14.sp),),
               ],
             ),
           ), 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            padding:  EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.thumb_up_alt_outlined, size: 30,),
-                    SizedBox(width: 10,),
-                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 30),),
+                    Icon(Icons.thumb_up_alt_outlined, size: 2.w,),
+                    SizedBox(width: 1.w,),
+                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 14.sp),),
                   ],
                 ),
                 SizedBox(
-                  width: 40,
+                  width: 4.w,
                   child: Divider(
                     thickness: 2,
-                    height: 20,
+                    height: 2.w,
                   ),
                 ),
                  Row(
                   children: [
-                    Icon(Icons.front_hand_outlined, size: 30,),
-                    SizedBox(width: 10,),
-                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 30),),
+                    Icon(Icons.front_hand_outlined, size: 2.w,),
+                    SizedBox(width: 1.w,),
+                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 14.sp),),
                   ],
                 ),
               ],
@@ -133,7 +142,7 @@ class _BookCardState extends State<BookCard> {
                     ),
                     child: GestureDetector(
                       onTap: (){
-                        // snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
+                        Get.snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
                       },
                       onDoubleTap: (){
                         widget.bookData.delete();
@@ -150,7 +159,7 @@ class _BookCardState extends State<BookCard> {
                           });
                         },
                         child:Center(
-                           child:  Icon(Icons.delete_outline,color: Colors.black, size: 40,),
+                           child:  Icon(Icons.delete_outline,color: Colors.black, size: 2.w,),
                           ),
                       ),
                     ),
@@ -177,7 +186,7 @@ class _BookCardState extends State<BookCard> {
                           });
                         },
                         child:Center(
-                           child:  Icon(Icons.edit_outlined,color: Colors.black, size: 40,),
+                           child:  Icon(Icons.edit_outlined,color: Colors.black, size: 2.w,),
                           ),
                       ),
                     ),

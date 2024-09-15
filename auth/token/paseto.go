@@ -25,10 +25,7 @@ func NewPaseto(symmetricKey string) (*PasetoMaker, error) {
 }
 
 func (maker *PasetoMaker) CreateToken(payload *Payload) (string, error) {
-	// payload, err := NewPayload(username)
-	// if err != nil {
-	// 	return "", err
-	// }
+
 	token := paseto.NewToken()
 
 	token.SetIssuedAt(time.Now())
@@ -47,9 +44,8 @@ func (maker *PasetoMaker) CreateToken(payload *Payload) (string, error) {
 func (maker *PasetoMaker) VerifyToken(signed string) ([]byte, error) {
 
 	parser := paseto.NewParser()
-	token, err := parser.ParseV4Public(maker.publicKey, signed, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
+	token, err := parser.ParseV4Public(maker.publicKey, signed, nil)
 
-	// err := maker.paseto.Decrypt(token, maker.symmetricKey, payload, nil)
 	if err != nil {
 		return nil, err
 	}
