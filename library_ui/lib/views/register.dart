@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
+import 'package:sizer/sizer.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -11,41 +12,52 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: Text('Register Page'),
       ),
       body: Center(
         child: SizedBox(
-          width: 400,
-          height: 400,
+          width: 40.w,
+          height: 50.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text('Welcome to Library UI'),
+              Text('Welcome to Library UI', style: TextStyle(fontSize: 18.sp),),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  border: OutlineInputBorder()
                 ),
               ),
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  border: OutlineInputBorder()
                 ),
               ),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  border: OutlineInputBorder()
                 ),
               ), 
-              MaterialButton(
-                onPressed: ()async {
-                  await register(_emailController.text, _usernameController.text, _passwordController.text);
-                  Get.snackbar('Account created successfully', 'Please login to continue');
-                  Get.offAllNamed('/login');
-                },
-                child: Text('Register'),
+              Container(
+                width: 20.w,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: MaterialButton(
+                  onPressed: ()async {
+                    await register(_emailController.text, _usernameController.text, _passwordController.text);
+                    Get.snackbar('Account created successfully', 'Please login to continue');
+                    Get.offAllNamed('/login');
+                  },
+                  child: Text('Register', style: TextStyle(color: Colors.white, fontSize: 11.sp),),
+                ),
               ),
             ],
           ),
