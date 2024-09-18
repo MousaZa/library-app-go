@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:library_ui/controllers/auth_provider.dart';
+import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/functions.dart';
@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final controller = Get.put(Auth());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,8 +53,8 @@ class LoginPage extends StatelessWidget {
                 ),
                 child: MaterialButton(
                   onPressed: () async{
-                    dynamic paseto = await login(_usernameController.text, _passwordController.text);
-                     if(paseto != null) {
+                    dynamic paseto = await controller.login(_usernameController.text, _passwordController.text);
+                     if(paseto != null && paseto != 'error')  {
                     storage.write(key: "paseto", value: paseto);
                     Navigator.pushReplacement(
                       context,
@@ -61,8 +62,6 @@ class LoginPage extends StatelessWidget {
                         builder: (context) => MyHomePage.withAuth(paseto),
                       )
                     );
-                  } else {
-                    Get.defaultDialog(title:  "An Error Occurred",content: Text( "No account was found matching that username and password"));
                   }
                 },
                   child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 11.sp),),

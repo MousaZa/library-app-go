@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:library_ui/controllers/auth_provider.dart';
+import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';

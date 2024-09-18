@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -11,6 +12,7 @@ import (
 	"github.com/MousaZa/library-app-go/auth/token"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 var users []models.User
@@ -98,6 +100,16 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
+	// Check if username already exists
+	var existingUser models.User
+	if err := server.db.Where("username = ?", user.Username).First(&existingUser).Error; err == nil {
+		ctx.JSON(http.StatusConflict, gin.H{"error": "Username already exists\n"})
+		return
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to check username\n"})
+		return
+	}
+
 	id, err := uuid.NewRandom()
 	user.ID = int64(id.ID())
 	hashedPass, err := token.HashPassword(user.Password)
@@ -107,6 +119,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 	user.Password = hashedPass
+
 	err = server.db.Create(&user).Error
 	if err != nil {
 		// server.l.Error("Failed to create user", err)

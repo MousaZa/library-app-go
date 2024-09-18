@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/functions.dart';
 import 'package:sizer/sizer.dart';
 
@@ -8,6 +9,8 @@ class RegisterPage extends StatelessWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
+
+  final controller = Get.put(Auth());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +55,12 @@ class RegisterPage extends StatelessWidget {
                 ),
                 child: MaterialButton(
                   onPressed: ()async {
-                    await register(_emailController.text, _usernameController.text, _passwordController.text);
-                    Get.snackbar('Account created successfully', 'Please login to continue');
+                    final user = await controller.register(_emailController.text, _usernameController.text, _passwordController.text);
+                    if (user != 'error') {
+                         Get.snackbar('Account created successfully', 'Please login to continue');
                     Get.offAllNamed('/login');
+                    }
+                    
                   },
                   child: Text('Register', style: TextStyle(color: Colors.white, fontSize: 11.sp),),
                 ),
