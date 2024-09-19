@@ -54,7 +54,7 @@ func (server *Server) setRoutes() {
 		MaxAge:           12 * time.Hour,
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
-	auth.POST("/borrow", server.borrowsClient.AddBorrow)
+	auth.POST("/borrows", server.borrowsClient.AddBorrow)
 	auth.DELETE("/delete/:id", server.deleteUser)
 	auth.GET("/user", server.getUserData)
 	router.POST("/create", server.createUser)

@@ -20,6 +20,7 @@ func NewBorrowsServer(l hclog.Logger, db *gorm.DB) *BorrowsServer {
 }
 
 func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequest) (*protos.MessageResponse, error) {
+
 	borrow := models.NewBorrow(req.BookId, req.UserId, 7*24*time.Hour)
 
 	err := s.db.Create(&borrow).Error

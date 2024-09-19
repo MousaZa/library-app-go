@@ -177,8 +177,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return SizedBox(child: Center(child: CircularProgressIndicator()));
                         } else {
+                          if (snapshot.data == null) {
+                            return Center(
+                                child: Text("An error occurred, please try again"));
+                          }
+                          if (snapshot.data.length == 0) {
+                            return Center(child: Text("No books found"));
+                          }
                           return DynamicHeightGridView(
                             builder: (context, index) {
                               return BookCard(

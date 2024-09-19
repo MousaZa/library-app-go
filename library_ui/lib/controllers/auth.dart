@@ -51,7 +51,7 @@ Future<String> register(String email, String username, String password) async {
   );
   switch (response.statusCode) {
     case 200:
-      return jsonDecode(response.body);
+      return 'ok';
       break;
     case 409:
       Get.defaultDialog(title:  "An Error Occurred",content: Text( "Username already exists"));
