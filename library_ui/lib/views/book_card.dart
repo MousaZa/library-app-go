@@ -7,17 +7,17 @@ import 'package:library_ui/views/book_page.dart';
 import 'package:sizer/sizer.dart';
 
 class BookCard extends StatefulWidget {
-  const BookCard({super.key,category, required this.bookData});
-  final Book bookData  ;
-  
+  const BookCard({super.key, category, required this.bookData});
+  final Book bookData;
+
   @override
   State<BookCard> createState() => _BookCardState();
 }
 
 class _BookCardState extends State<BookCard> {
-  bool _coverHover = false ;
-  bool _deleteHover = false ;
-  bool _editHover = false ;
+  bool _coverHover = false;
+  bool _deleteHover = false;
+  bool _editHover = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +47,12 @@ class _BookCardState extends State<BookCard> {
             padding: const EdgeInsets.only(left: 20),
             child: Stack(
               children: [
-                Image.network(widget.bookData.coverURL,
-                height: 16.w,
-      width: 10.w,
-       fit: BoxFit.cover,),
+                Image.network(
+                  widget.bookData.coverURL,
+                  height: 16.w,
+                  width: 10.w,
+                  fit: BoxFit.cover,
+                ),
                 MouseRegion(
                   onEnter: (event) {
                     setState(() {
@@ -63,55 +65,80 @@ class _BookCardState extends State<BookCard> {
                     });
                   },
                   child: Container(
-                  height: 16.w,
-      width: 10.w,
+                    height: 16.w,
+                    width: 10.w,
                     child: MaterialButton(
                       hoverColor: Colors.black.withOpacity(0.5),
                       child: Center(
-                        child: _coverHover ? Icon(Icons.info_outline, color: Colors.white, size: 3.w,) :
-                          null,
+                        child: _coverHover
+                            ? Icon(
+                                Icons.info_outline,
+                                color: Colors.white,
+                                size: 3.w,
+                              )
+                            : null,
                       ),
-                      onPressed: ()async{
+                      onPressed: () async {
                         final paseto = await storage.read(key: 'paseto');
-                         await getUser(paseto!).then((value) {
-                    Get.defaultDialog(
-                         content:  BookPage(bookData: widget.bookData, userId: int.parse(value["user_id"]) ),
-                         backgroundColor: Colors.white,
-                          title: 'book details',  
-                        );
-                  }); 
-                       
-                      }, 
-                      ),
+                        await getUser(paseto!).then((value) {
+                          Get.defaultDialog(
+                            content: BookPage(
+                                bookData: widget.bookData,
+                                userId: int.parse(value["user_id"])),
+                            backgroundColor: Colors.white,
+                            title: 'book details',
+                          );
+                        });
+                      },
+                    ),
                   ),
                 ),
-              
               ],
             ),
-          ), 
+          ),
           const SizedBox(width: 20),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.bookData.title, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),),
-                Text(widget.bookData.author, style: TextStyle(fontSize: 14.sp),),
-                SizedBox(height: 5.w,),
-                Text('${widget.bookData.language}, ${widget.bookData.category}', style: TextStyle(fontSize: 14.sp),),
+                Text(
+                  widget.bookData.title,
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.bookData.author,
+                  style: TextStyle(fontSize: 14.sp),
+                ),
+                SizedBox(
+                  height: 5.w,
+                ),
+                Text(
+                  '${widget.bookData.language}, ${widget.bookData.category}',
+                  style: TextStyle(fontSize: 14.sp),
+                ),
               ],
             ),
-          ), 
+          ),
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 4.w),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.thumb_up_alt_outlined, size: 2.w,),
-                    SizedBox(width: 1.w,),
-                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 14.sp),),
+                    Icon(
+                      Icons.thumb_up_alt_outlined,
+                      size: 2.w,
+                    ),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    Text(
+                      widget.bookData.likes.toString(),
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -121,11 +148,19 @@ class _BookCardState extends State<BookCard> {
                     height: 2.w,
                   ),
                 ),
-                 Row(
+                Row(
                   children: [
-                    Icon(Icons.front_hand_outlined, size: 2.w,),
-                    SizedBox(width: 1.w,),
-                    Text(widget.bookData.likes.toString(), style: TextStyle(fontSize: 14.sp),),
+                    Icon(
+                      Icons.front_hand_outlined,
+                      size: 2.w,
+                    ),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    Text(
+                      widget.bookData.likes.toString(),
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
                   ],
                 ),
               ],
@@ -138,13 +173,19 @@ class _BookCardState extends State<BookCard> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color:_deleteHover? Colors.red.withOpacity(0.5): Colors.white,
+                      color: _deleteHover
+                          ? Colors.red.withOpacity(0.5)
+                          : Colors.white,
                     ),
                     child: GestureDetector(
-                      onTap: (){
-                        Get.snackbar('Warning', 'Double tap to delete', snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white, duration: Duration(seconds: 2));
+                      onTap: () {
+                        Get.snackbar('Warning', 'Double tap to delete',
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 2));
                       },
-                      onDoubleTap: (){
+                      onDoubleTap: () {
                         widget.bookData.delete();
                       },
                       child: MouseRegion(
@@ -158,9 +199,13 @@ class _BookCardState extends State<BookCard> {
                             _deleteHover = false;
                           });
                         },
-                        child:Center(
-                           child:  Icon(Icons.delete_outline,color: Colors.black, size: 2.w,),
+                        child: Center(
+                          child: Icon(
+                            Icons.delete_outline,
+                            color: Colors.black,
+                            size: 2.w,
                           ),
+                        ),
                       ),
                     ),
                   ),
@@ -168,15 +213,18 @@ class _BookCardState extends State<BookCard> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color:_editHover? Colors.blue.withOpacity(0.5): Colors.white,
+                      color: _editHover
+                          ? Colors.blue.withOpacity(0.5)
+                          : Colors.white,
                     ),
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).pushNamed('/edit_book', arguments: widget.bookData);
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/edit_book',
+                            arguments: widget.bookData);
                       },
                       child: MouseRegion(
                         onEnter: (event) {
-                          setState(() { 
+                          setState(() {
                             _editHover = true;
                           });
                         },
@@ -185,9 +233,13 @@ class _BookCardState extends State<BookCard> {
                             _editHover = false;
                           });
                         },
-                        child:Center(
-                           child:  Icon(Icons.edit_outlined,color: Colors.black, size: 2.w,),
+                        child: Center(
+                          child: Icon(
+                            Icons.edit_outlined,
+                            color: Colors.black,
+                            size: 2.w,
                           ),
+                        ),
                       ),
                     ),
                   ),

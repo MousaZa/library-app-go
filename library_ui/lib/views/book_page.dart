@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -143,9 +145,13 @@ class BookPage extends StatelessWidget {
                             textConfirm: 'Borrow',
                             onConfirm: ()async {
                               final token = await storage.read(key: 'paseto');
-                              borrowsController.add(token!,bookData);
+                              borrowsController.add(token!,bookData,userId).then((_){
+                                sleep(Duration(seconds: 2));
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              });
                             },
-                            onCancel: () => Get.back(),
+                            onCancel: (){ Navigator.pop(context);},
                           );
                         },
                         icon: Icon(
