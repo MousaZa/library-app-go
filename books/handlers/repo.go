@@ -67,6 +67,26 @@ type Repository struct {
 	DB *gorm.DB
 }
 
+// swagger:route POST /books/borrow/{id} books addBorrow
+// responses:
+//
+//	201: noContent
+
+// BorrowBook increments the borrow count of a book
+func (r *Repository) BorrowBook(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
+		return
+	}
+	err = r.DB.Exec("UPDATE books SET borrows = borrows + 1 WHERE id = ?", id).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to borrow book"})
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{"message": "Book borrowed successfully"})
+}
+
 // swagger:route POST /books books addBook
 // responses:
 //
@@ -80,6 +100,9 @@ func (r *Repository) AddBook(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
+	book.Borrows = 0
+	book.Likes = 0
+
 	err = r.DB.Create(&book).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to add book"})
@@ -98,45 +121,12 @@ func (r *Repository) GetBooks(ctx *gin.Context) {
 	search := ctx.Query("search")
 	language := ctx.Query("language")
 	category := ctx.Query("category")
-	err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Find(&books).Error
+	err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&books).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
 		return
 	}
 	ctx.JSON(http.StatusOK, books)
-	// if language != "" {
-	// 	err := r.DB.Where("language = ?", language).Find(&books).Error
-	// 	if err != nil {
-	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
-	// 		return
-	// 	}
-	// 	ctx.JSON(http.StatusOK, books)
-	// 	return
-	// }
-	// if category != "" {
-	// 	err := r.DB.Where("category = ?", category).Find(&books).Error
-	// 	if err != nil {
-	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
-	// 		return
-	// 	}
-	// 	ctx.JSON(http.StatusOK, books)
-	// 	return
-	// }
-	// if search != "" {
-	// 	err := r.DB.Where("title LIKE ?", "%"+search+"%").Find(&books).Error
-	// 	if err != nil {
-	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
-	// 		return
-	// 	}
-	// 	ctx.JSON(http.StatusOK, books)
-	// 	return
-	// }
-	// err := r.DB.Find(&books).Error
-	// if err != nil {
-	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
-	// 	return
-	// }
-	// ctx.JSON(http.StatusOK, books)
 }
 
 // swagger:route GET /books/{id} books getBook
@@ -222,6 +212,7 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 	app.GET("/books", r.GetBooks)
 	app.GET("/books/:id", r.GetBook)
 	app.POST("/books", r.AddBook)
+	app.POST("/books/borrow/:id", r.BorrowBook)
 	app.DELETE("/books/:id", r.DeleteBook)
 	app.PUT("/books/:id", r.UpdateBook)
 

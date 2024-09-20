@@ -158,7 +158,7 @@ class _BookCardState extends State<BookCard> {
                       width: 1.w,
                     ),
                     Text(
-                      widget.bookData.likes.toString(),
+                      widget.bookData.borrows.toString(),
                       style: TextStyle(fontSize: 14.sp),
                     ),
                   ],

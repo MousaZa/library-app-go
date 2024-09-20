@@ -2,6 +2,9 @@ package server
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/MousaZa/library-app-go/borrows/models"
@@ -28,6 +31,20 @@ func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequ
 		s.l.Error("Failed to create borrow", "error", err)
 		return nil, err
 	}
+
+	link := fmt.Sprintf("http://localhost:9090/books/borrow/%v", req.BookId)
+
+	resp, err := http.Post(link, "application/json", nil)
+
+	if err != nil {
+		s.l.Error("Failed to post to books", "error", err)
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusCreated {
+		return nil, errors.New("Failed to post to books")
+	}
+
 	return &protos.MessageResponse{Message: "Borrow Was Added Successfully"}, nil
 }
 
