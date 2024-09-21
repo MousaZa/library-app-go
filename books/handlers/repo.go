@@ -16,16 +16,28 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/MousaZa/library-app-go/books/models"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"github.com/hashicorp/go-hclog"
 	"github.com/mvrilo/go-redoc"
 	ginredoc "github.com/mvrilo/go-redoc/gin"
 	"gorm.io/gorm"
 )
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 // A list of books returns in the response
 // swagger:response booksResponse
@@ -79,6 +91,12 @@ func (r *Repository) BorrowBook(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
 		return
 	}
+	err = r.DB.Exec("UPDATE books SET available = false WHERE id = ?", id).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to borrow book"})
+		return
+	}
+
 	err = r.DB.Exec("UPDATE books SET borrows = borrows + 1 WHERE id = ?", id).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to borrow book"})
@@ -102,6 +120,7 @@ func (r *Repository) AddBook(ctx *gin.Context) {
 	}
 	book.Borrows = 0
 	book.Likes = 0
+	book.Available = true
 
 	err = r.DB.Create(&book).Error
 	if err != nil {
@@ -117,16 +136,30 @@ func (r *Repository) AddBook(ctx *gin.Context) {
 //
 //	200: booksResponse
 func (r *Repository) GetBooks(ctx *gin.Context) {
-	books := &[]models.Book{}
+
 	search := ctx.Query("search")
 	language := ctx.Query("language")
 	category := ctx.Query("category")
-	err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&books).Error
+	fmt.Printf("upgrading connection")
+	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get books"})
+		fmt.Printf("Error upgrading connection: %v", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to upgrade connection"})
 		return
 	}
-	ctx.JSON(http.StatusOK, books)
+	defer conn.Close()
+	for {
+		books := &[]models.Book{}
+		err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&books).Error
+		if err != nil {
+			conn.WriteMessage(websocket.TextMessage, []byte("Unable to get books"))
+			return
+		}
+		// conn.WriteMessage(websocket.TextMessage, []byte("Hello, WebSocket!"))
+		conn.WriteJSON(books)
+		time.Sleep(time.Second)
+	}
+
 }
 
 // swagger:route GET /books/{id} books getBook
@@ -209,12 +242,20 @@ func (r *Repository) UpdateBook(ctx *gin.Context) {
 }
 
 func (r *Repository) SetupRoutes(app *gin.Engine) {
-	app.GET("/books", r.GetBooks)
-	app.GET("/books/:id", r.GetBook)
-	app.POST("/books", r.AddBook)
-	app.POST("/books/borrow/:id", r.BorrowBook)
-	app.DELETE("/books/:id", r.DeleteBook)
-	app.PUT("/books/:id", r.UpdateBook)
+
+	cors := app.Group("/").Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	cors.GET("/books", r.GetBooks)
+	cors.GET("/books/:id", r.GetBook)
+	cors.POST("/books", r.AddBook)
+	cors.POST("/books/borrow/:id", r.BorrowBook)
+	cors.DELETE("/books/:id", r.DeleteBook)
+	cors.PUT("/books/:id", r.UpdateBook)
 
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",
@@ -224,6 +265,6 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 		DocsPath:    "/docs",
 	}
 
-	app.Use(ginredoc.New(doc))
+	cors.Use(ginredoc.New(doc))
 
 }

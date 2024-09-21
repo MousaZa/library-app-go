@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:animated_search_bar/animated_search_bar.dart';
@@ -13,6 +14,7 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/add_book_page.dart';
 import 'package:library_ui/views/book_card.dart';
+import 'package:library_ui/views/books_view.dart';
 import 'package:library_ui/views/login.dart';
 import 'package:library_ui/views/profile.dart';
 import 'package:library_ui/views/register.dart';
@@ -32,6 +34,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+
   final List<String> languages = ["English", "Arabic", "Turkish"];
   final List<String> categories = [
     "Science",
@@ -68,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 IconButton(onPressed: (){
                   storage.delete(key: "paseto");
                   Get.offAllNamed('/login');
-                }, icon: Icon(Icons.logout))
+                }, icon: Icon(Icons.logout)) 
           ],
           title: AnimatedSearchBar(
             label: "Library UI",
@@ -172,33 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Expanded(
-                  child: FutureBuilder(
-                      future: getBooks(searchText, language, category),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return SizedBox(child: Center(child: CircularProgressIndicator()));
-                        } else {
-                          if (snapshot.data == null) {
-                            return Center(
-                                child: Text("An error occurred, please try again"));
-                          }
-                          if (snapshot.data.length == 0) {
-                            return Center(child: Text("No books found"));
-                          }
-                          return DynamicHeightGridView(
-                            builder: (context, index) {
-                              return BookCard(
-                                  bookData:
-                                      Book.fromJson(snapshot.data[index]));
-                            },
-                            itemCount: snapshot.data.length,
-                            crossAxisCount: 2,
-                          );
-                        }
-                      }),
+                  child: BookFetcher(category: category,language: language,search: searchText,)
                 ),
               ],
             )));
-  }
+  } 
 }

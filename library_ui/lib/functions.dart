@@ -3,7 +3,11 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/user.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 
 Future<String> login(String username, String password) async {
@@ -99,23 +103,21 @@ Future delete(int id,String token) async {
     print(e);
   }
 }
+Stream<dynamic> getBooks(String search, String language, String category) async* {
+  try {
+    // Create a WebSocket channel
+    final channel = WebSocketChannel.connect(
+      Uri.parse('ws://localhost:9090/books?search=$search&language=$language&category=$category'),
+    );
 
-Future getBooks(String search,language,category) async {
-  
-  try{
-    
-    http.Response response = await http.get(
-    Uri.http('localhost:9090', '/books', {'search': search, 'language': language, 'category': category}),
-  
-    // headers: '"Content-Type": "application/json"'
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to get books');
-  }
-  // print (jsonDecode(response.body));
-  return jsonDecode(response.body);
-  }catch(e){
-    print(e);
+    // Stream the data from the WebSocket
+    await for (var message in channel.stream) {
+      yield jsonDecode(message);
+    }
+  } catch (e) {
+    print('Error occurred: $e');
+    yield [];
   }
 }
+
 
