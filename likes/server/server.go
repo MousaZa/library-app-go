@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 
+	"github.com/MousaZa/library-app-go/likes/models"
 	protos "github.com/MousaZa/library-app-go/likes/protos/likes"
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/gorm"
@@ -18,15 +19,38 @@ func NewServer(log hclog.Logger, db *gorm.DB) *Server {
 }
 
 func (s *Server) AddLike(ctx context.Context, req *protos.LikeRequest) (*protos.BoolResponse, error) {
-	// Add like logic here
+	s.log.Info("Adding like")
+
+	like := models.Like{
+		UserID: req.UserId,
+		BookID: req.BookId,
+	}
+
+	err := s.DB.Create(&like).Error
+	if err != nil {
+		s.log.Error("Failed to create like", "error", err)
+		return nil, err
+	}
 	return &protos.BoolResponse{Response: true}, nil
 }
 
 func (s *Server) GetLike(ctx context.Context, req *protos.LikeRequest) (*protos.BoolResponse, error) {
-	// Add like logic here
+
+	like := models.Like{}
+
+	err := s.DB.Where("user_id = ? AND book_id = ?", req.UserId, req.BookId).First(&like).Error
+	if err != nil {
+		return &protos.BoolResponse{Response: false}, nil
+	}
+
 	return &protos.BoolResponse{Response: true}, nil
 }
 func (s *Server) DeleteLike(ctx context.Context, req *protos.LikeRequest) (*protos.BoolResponse, error) {
-	// Add like logic here
+	like := models.Like{}
+
+	err := s.DB.Where("user_id = ? AND book_id = ?", req.UserId, req.BookId).Delete(&like).Error
+	if err != nil {
+		return nil, err
+	}
 	return &protos.BoolResponse{Response: true}, nil
 }
