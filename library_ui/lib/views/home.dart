@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 IconButton(onPressed: (){
                   storage.delete(key: "paseto");
                   Get.offAllNamed('/login');
-                }, icon: Icon(Icons.logout)) 
+                }, icon: Icon(Icons.logout))
           ],
           title: AnimatedSearchBar(
             label: "Library UI",
@@ -96,86 +96,86 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.all(20),
             child: Column(
               children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      InlineChoice<String>.single(
-                        clearable: true,
-                        value: language,
-                        onChanged: (value) {
-                          if (value == null) {
-                            value = "";
-                          }
-                          if (value == language) {
-                            value = "";
-                          }
-                          setState(() {
-                            language = value!;
-                          }); 
-                        },
-                        itemCount: languages.length,
-                        itemBuilder: (state, i) {
-                          return ChoiceChip(
-                            selected: state.selected(languages[i]),
-                            onSelected: state.onSelected(languages[i]),
-                            label: Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(languages[i])),
-                          );
-                        },
-                        listBuilder: ChoiceList.createScrollable(
-                          spacing: 20,
-                          // runSpacing: 10,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 25,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                        child: VerticalDivider(
-                          color: Colors.black,
-                          thickness: 1,
-                        ),
-                      ),
-                      InlineChoice<String>.single(
-                        clearable: true,
-                        value: category,
-                        onChanged: (value) {
-                          if (value == null) {
-                            value = "";
-                          }
-                          if (value == category) {
-                            value = "";
-                          }
-                          setState(() {
-                            category = value!;
-                          });
-                        },
-                        itemCount: categories.length,
-                        itemBuilder: (state, i) {
-                          return ChoiceChip(
-                            selected: state.selected(categories[i]),
-                            onSelected: state.onSelected(categories[i]),
-                            label: Text(categories[i]),
-                          );
-                        },
-                        listBuilder: ChoiceList.createScrollable(
-                          direction: Axis.horizontal,
-                          spacing: 20,
-                          // runSpacing: 10,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 25,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children: [
+                //       InlineChoice<String>.single(
+                //         clearable: true,
+                //         value: language,
+                //         onChanged: (value) {
+                //           if (value == null) {
+                //             value = "";
+                //           }
+                //           if (value == language) {
+                //             value = "";
+                //           }
+                //           setState(() {
+                //             language = value!;
+                //           }); 
+                //         },
+                //         itemCount: languages.length,
+                //         itemBuilder: (state, i) {
+                //           return ChoiceChip(
+                //             selected: state.selected(languages[i]),
+                //             onSelected: state.onSelected(languages[i]),
+                //             label: Padding(
+                //                 padding:
+                //                     EdgeInsets.symmetric(horizontal: 10),
+                //                 child: Text(languages[i])),
+                //           );
+                //         },
+                //         listBuilder: ChoiceList.createScrollable(
+                //           spacing: 20,
+                //           // runSpacing: 10,
+                //           padding: const EdgeInsets.symmetric(
+                //             horizontal: 20,
+                //             vertical: 25,
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         height: 30,
+                //         child: VerticalDivider(
+                //           color: Colors.black,
+                //           thickness: 1,
+                //         ),
+                //       ),
+                //       InlineChoice<String>.single(
+                //         clearable: true,
+                //         value: category,
+                //         onChanged: (value) {
+                //           if (value == null) {
+                //             value = "";
+                //           }
+                //           if (value == category) {
+                //             value = "";
+                //           }
+                //           setState(() {
+                //             category = value!;
+                //           });
+                //         },
+                //         itemCount: categories.length,
+                //         itemBuilder: (state, i) {
+                //           return ChoiceChip(
+                //             selected: state.selected(categories[i]),
+                //             onSelected: state.onSelected(categories[i]),
+                //             label: Text(categories[i]),
+                //           );
+                //         },
+                //         listBuilder: ChoiceList.createScrollable(
+                //           direction: Axis.horizontal,
+                //           spacing: 20,
+                //           // runSpacing: 10,
+                //           padding: const EdgeInsets.symmetric(
+                //             horizontal: 20,
+                //             vertical: 25,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Expanded(
                   child: BookFetcher(category: category,language: language,search: searchText,)
                 ),

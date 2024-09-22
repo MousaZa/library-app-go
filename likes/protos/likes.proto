@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+service Likes {
+    rpc AddLike(LikeRequest) returns (BoolResponse);
+    rpc DeleteLike(LikeRequest) returns (BoolResponse);
+    rpc GetLike(LikeRequest) returns (BoolResponse);
+}
+
+// like Model
+message Like {
+    int64 Id = 1;
+    int64 BookId = 2;
+    int64 UserId = 3;
+}
+
+message LikeRequest {
+    int64 BookId = 1;
+    int64 UserId = 2;
+}
+
+message BoolResponse {
+    bool Response = 1;
+}
+

@@ -219,7 +219,7 @@ class _BookCardState extends State<BookCard> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed('/edit_book',
+                        Navigator.of(context).pushNamed('/editbook',
                             arguments: widget.bookData);
                       },
                       child: MouseRegion(
