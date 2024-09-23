@@ -111,7 +111,9 @@ class BookPage extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () async{
+                         await likeBook(bookData.id , userId);
+                        },
                         icon: Icon(
                           Icons.thumb_up_alt_outlined,
                           size: 3.w,

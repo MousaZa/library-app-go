@@ -9,6 +9,39 @@ import 'dart:async';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+Future likeBook(int bookId, int userId) async {
+  try {
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.post(
+      Uri.parse('http://localhost:8080/like'),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+      body: '{ "bookId": $bookId, "userId": $userId }',
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to like book');
+    }
+    return jsonDecode(response.body);
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<bool> getLike(int bookId, int userId) async {
+  try {
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.get(
+      Uri.parse('http://localhost:8080/like?bookId=$bookId&userId=$userId'),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to like book');
+    }
+    return jsonDecode(response.body)['Response'];
+  } catch (e) {
+    return false;
+    print(e);
+  }
+}
 
 Future<String> login(String username, String password) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -119,5 +152,4 @@ Stream<dynamic> getBooks(String search, String language, String category) async*
     yield [];
   }
 }
-
 

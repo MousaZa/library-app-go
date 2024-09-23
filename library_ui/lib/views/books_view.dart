@@ -6,7 +6,7 @@ import 'package:library_ui/views/book_card.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BookFetcher extends StatefulWidget {
-    final String search  ;
+  final String search  ;
   final String language ;
   final String category ;
 

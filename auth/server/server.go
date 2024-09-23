@@ -16,11 +16,12 @@ type Server struct {
 	tokenMaker    *token.PasetoMaker
 	router        *gin.Engine
 	borrowsClient *clients.BorrowsClient
+	likesClient   *clients.LikesClient
 	db            *gorm.DB
 	l             hclog.Logger
 }
 
-func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient) (*Server, error) {
+func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clients.LikesClient) (*Server, error) {
 
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
@@ -34,6 +35,7 @@ func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient) (*Server,
 		db:            db,
 		l:             hclog.Default(),
 		borrowsClient: bc,
+		likesClient:   lc,
 	}
 
 	// Set up routes and run the server
@@ -55,6 +57,7 @@ func (server *Server) setRoutes() {
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
 	auth.POST("/borrows", server.borrowsClient.AddBorrow)
+	auth.POST("/like", server.likesClient.AddLike)
 	auth.DELETE("/delete/:id", server.deleteUser)
 	auth.GET("/user", server.getUserData)
 	router.POST("/create", server.createUser)

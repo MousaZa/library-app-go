@@ -44,7 +44,7 @@ func main() {
 	err = models.MigrateLikes(db)
 
 	if err != nil {
-		log.Error("Unable to migrate borrows", "error", err)
+		log.Error("Unable to migrate likes", "error", err)
 		os.Exit(1)
 	}
 
@@ -54,7 +54,7 @@ func main() {
 	protos.RegisterLikesServer(gs, cs)
 
 	reflection.Register(gs)
-
+	log.Info("listening on port 9094")
 	l, err := net.Listen("tcp", ":9094")
 	if err != nil {
 		log.Error("unable to listen", err)

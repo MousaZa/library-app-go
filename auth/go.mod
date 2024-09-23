@@ -9,7 +9,7 @@ require (
 
 require (
 	aidanwoods.dev/go-result v0.1.0 // indirect
-	github.com/MousaZa/library-app-go/borrows v0.0.0-20240915112116-5818e2591ac9 // indirect
+	github.com/MousaZa/library-app-go/borrows v0.0.0-20240922085647-a271c93a8176 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -20,12 +20,13 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240604185151-ef581f913117 // indirect
-	google.golang.org/grpc v1.66.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
+	google.golang.org/grpc v1.67.0 // indirect
 )
 
 require (
 	aidanwoods.dev/go-paseto v1.5.2
+	github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect

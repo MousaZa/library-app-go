@@ -9,12 +9,14 @@ import 'package:sizer/sizer.dart';
 class BookCard extends StatefulWidget {
   const BookCard({super.key, category, required this.bookData});
   final Book bookData;
-
   @override
   State<BookCard> createState() => _BookCardState();
 }
 
 class _BookCardState extends State<BookCard> {
+
+
+
   bool _coverHover = false;
   bool _deleteHover = false;
   bool _editHover = false;
@@ -128,10 +130,11 @@ class _BookCardState extends State<BookCard> {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    // todo: fix 
+                    FutureBuilder(future: getLike(widget.bookData.id,0 ), builder: (context,snapshot) => Icon(
                       Icons.thumb_up_alt_outlined,
                       size: 2.w,
-                    ),
+                    )),
                     SizedBox(
                       width: 1.w,
                     ),
@@ -219,7 +222,7 @@ class _BookCardState extends State<BookCard> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed('/editbook',
+                        Navigator.of(context).pushNamed('/edit_book',
                             arguments: widget.bookData);
                       },
                       child: MouseRegion(

@@ -9,6 +9,7 @@ import (
 	"github.com/MousaZa/library-app-go/auth/server"
 	"github.com/MousaZa/library-app-go/auth/storage"
 	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
+	"github.com/MousaZa/library-app-go/likes/protos/likes"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -42,20 +43,30 @@ func main() {
 		l.Error("Unable to migrate books", "error", err)
 	}
 
-	// Borrows client
-	conn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
+	// Likes client
+	likesConn, err := grpc.NewClient("localhost:9094", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
 
-	defer conn.Close()
+	defer likesConn.Close()
+
+	// Borrows client
+	borrowsConn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	defer borrowsConn.Close()
 
 	// create client
-	borrowsClient := borrows.NewBorrowsClient(conn)
+	borrowsClient := borrows.NewBorrowsClient(borrowsConn)
+	likesClient := likes.NewLikesClient(likesConn)
 
 	bc := clients.NewBorrowsClient(borrowsClient)
+	lc := clients.NewLikesClient(likesClient)
 
-	if _, err := server.NewServer(":8080", db, bc); err != nil {
+	if _, err := server.NewServer(":8080", db, bc, lc); err != nil {
 		log.Fatal("Failed to start server\n")
 	}
 }
