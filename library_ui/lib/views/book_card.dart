@@ -131,10 +131,10 @@ class _BookCardState extends State<BookCard> {
                 Row(
                   children: [
                     // todo: fix 
-                    FutureBuilder(future: getLike(widget.bookData.id,0 ), builder: (context,snapshot) => Icon(
+                   Icon(
                       Icons.thumb_up_alt_outlined,
                       size: 2.w,
-                    )),
+                    ),
                     SizedBox(
                       width: 1.w,
                     ),

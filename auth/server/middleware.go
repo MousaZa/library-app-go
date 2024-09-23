@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
@@ -13,6 +14,10 @@ const (
 	authorizationHeaderKey        = "Authorization"
 	authorizationHeaderBearerType = "bearer"
 )
+
+type UserData struct {
+	UserId int64 `json:"userId"`
+}
 
 func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -36,11 +41,17 @@ func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
 
 		token := fields[1]
 		fmt.Printf("Token: %v\n", token)
-		_, err := maker.VerifyToken(token)
+		data, err := maker.VerifyToken(token)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Access Token Not Valid\n"})
 			return
 		}
+
+		ud := &UserData{}
+
+		json.Unmarshal(data, ud)
+
+		ctx.Set("userId", ud.UserId)
 
 		ctx.Next()
 	}

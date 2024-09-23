@@ -26,20 +26,20 @@ Future likeBook(int bookId, int userId) async {
   }
 }
 
-Future<bool> getLike(int bookId, int userId) async {
+Future<bool> getLike(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
-      Uri.parse('http://localhost:8080/like?bookId=$bookId&userId=$userId'),
+      Uri.parse('http://localhost:8080/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to like book');
     }
-    return jsonDecode(response.body)['Response'];
+    return jsonDecode(response.body)['response'];
   } catch (e) {
-    return false;
     print(e);
+    return false;
   }
 }
 

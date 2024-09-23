@@ -110,14 +110,20 @@ class BookPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    IconButton(
+                    FutureBuilder(future: getLike(bookData.id), builder: (context,snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      return IconButton(
                         onPressed: () async{
                          await likeBook(bookData.id , userId);
                         },
                         icon: Icon(
-                          Icons.thumb_up_alt_outlined,
+                          snapshot.data! ? Icons.thumb_up :Icons.thumb_up_alt_outlined,
+                          color: snapshot.data! ? Colors.blue : Colors.black,
                           size: 3.w,
-                        )),
+                        ));}),
+                    
                     SizedBox(
                       width: 1.w,
                     ),
