@@ -23,19 +23,21 @@ type LikeRequest struct {
 }
 
 func (c *LikesClient) AddLike(ctx *gin.Context) {
-	lr := &LikeRequest{}
-	if err := ctx.ShouldBindJSON(lr); err != nil {
+	bookId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
 		fmt.Printf("Failed to bind JSON: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	userId := ctx.MustGet("userId").(int64)
-	_, err := c.client.AddLike(context.Background(), &likes.LikeRequest{BookId: lr.BookId, UserId: userId})
+	resp, err := c.client.AddLike(context.Background(), &likes.LikeRequest{BookId: bookId, UserId: userId})
 	if err != nil {
 		fmt.Printf("Failed to bind JSON: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	ctx.JSON(http.StatusOK, gin.H{"response": resp.Response})
 }
 
 func (c *LikesClient) GetLike(ctx *gin.Context) {
@@ -48,6 +50,24 @@ func (c *LikesClient) GetLike(ctx *gin.Context) {
 
 	userId := ctx.MustGet("userId").(int64)
 	resp, err := c.client.GetLike(context.Background(), &likes.LikeRequest{BookId: bookId, UserId: userId})
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"response": resp.Response})
+}
+
+func (c *LikesClient) DeleteLike(ctx *gin.Context) {
+	bookId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userId := ctx.MustGet("userId").(int64)
+	resp, err := c.client.DeleteLike(context.Background(), &likes.LikeRequest{BookId: bookId, UserId: userId})
 	if err != nil {
 		fmt.Printf("Failed to bind JSON: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

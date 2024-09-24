@@ -9,13 +9,13 @@ import 'dart:async';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-Future likeBook(int bookId, int userId) async {
+Future likeBook(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
-      Uri.parse('http://localhost:8080/like'),
+      Uri.parse('http://localhost:8080/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
-      body: '{ "bookId": $bookId, "userId": $userId }',
+      
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to like book');
@@ -25,6 +25,24 @@ Future likeBook(int bookId, int userId) async {
     print(e);
   }
 }
+
+
+Future deleteLike(int bookId) async {
+  try {
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.delete(
+      Uri.parse('http://localhost:8080/like/$bookId'),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to like book');
+    }
+    return jsonDecode(response.body);
+  } catch (e) {
+    print(e);
+  }
+}
+
 
 Future<bool> getLike(int bookId) async {
   try {

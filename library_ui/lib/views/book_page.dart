@@ -9,12 +9,18 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:sizer/sizer.dart';
 
-class BookPage extends StatelessWidget {
+class BookPage extends StatefulWidget {
   BookPage({super.key, required this.bookData, required this.userId});
   final Book bookData;
   final int userId;
 
+  @override
+  State<BookPage> createState() => _BookPageState();
+}
+
+class _BookPageState extends State<BookPage> {
   final borrowsController = Get.put(BorrowsController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +30,7 @@ class BookPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
-            bookData.coverURL,
+            widget.bookData.coverURL,
             height: 50.h,
           ),
           Padding(
@@ -33,18 +39,18 @@ class BookPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '# ${bookData.id}',
+                  '# ${widget.bookData.id}',
                   style: TextStyle(
                     fontSize: 12.sp,
                   ),
                 ),
                 Text(
-                  bookData.title,
+                  widget.bookData.title,
                   style:
                       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  bookData.author,
+                  widget.bookData.author,
                   style:
                       TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
@@ -62,7 +68,7 @@ class BookPage extends StatelessWidget {
                       width: 1.w,
                     ),
                     Text(
-                      bookData.category,
+                      widget.bookData.category,
                       style: TextStyle(
                         fontSize: 14.sp,
                       ),
@@ -79,7 +85,7 @@ class BookPage extends StatelessWidget {
                       width: 1.w,
                     ),
                     Text(
-                      bookData.language,
+                      widget.bookData.language,
                       style: TextStyle(
                         fontSize: 14.sp,
                       ),
@@ -92,7 +98,7 @@ class BookPage extends StatelessWidget {
                 SizedBox(
                     width: 40.w,
                     child: Text(
-                      bookData.summary,
+                      widget.bookData.summary,
                       maxLines: 10,
                       style: TextStyle(
                           fontSize: 12.sp, fontWeight: FontWeight.bold),
@@ -110,13 +116,19 @@ class BookPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    FutureBuilder(future: getLike(bookData.id), builder: (context,snapshot) {
+                    FutureBuilder(future: getLike(widget.bookData.id), builder: (context,snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
                       }
                       return IconButton(
                         onPressed: () async{
-                         await likeBook(bookData.id , userId);
+                        if (snapshot.data == true) {
+                          await deleteLike(widget.bookData.id);}else{
+                            await likeBook(widget.bookData.id);
+                          }
+                         setState(() {
+                           
+                         });
                         },
                         icon: Icon(
                           snapshot.data! ? Icons.thumb_up :Icons.thumb_up_alt_outlined,
@@ -128,7 +140,7 @@ class BookPage extends StatelessWidget {
                       width: 1.w,
                     ),
                     Text(
-                      bookData.likes.toString(),
+                      widget.bookData.likes.toString(),
                       style: TextStyle(fontSize: 18.sp),
                     ),
                   ],
@@ -145,7 +157,7 @@ class BookPage extends StatelessWidget {
                             content: Column(
                               children: [
                                 Text(
-                                    "Are you sure you want to borrow ${bookData.title}?"),
+                                    "Are you sure you want to borrow ${widget.bookData.title}?"),
                                 Text("you will have to return it in 7 days"),
                               ],
                             ),
@@ -153,7 +165,7 @@ class BookPage extends StatelessWidget {
                             textConfirm: 'Borrow',
                             onConfirm: ()async {
                               final token = await storage.read(key: 'paseto');
-                              borrowsController.add(token!,bookData,userId).then((_){
+                              borrowsController.add(token!,widget.bookData,widget.userId).then((_){
                                 sleep(Duration(seconds: 2));
                                 Navigator.pop(context);
                                 Navigator.pop(context);
@@ -170,7 +182,7 @@ class BookPage extends StatelessWidget {
                       width: 1.w,
                     ),
                     Text(
-                      bookData.likes.toString(),
+                      widget.bookData.likes.toString(),
                       style: TextStyle(fontSize: 18.sp),
                     ),
                   ],

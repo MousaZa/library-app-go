@@ -57,7 +57,8 @@ func (server *Server) setRoutes() {
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
 	auth.POST("/borrows", server.borrowsClient.AddBorrow)
-	auth.POST("/like", server.likesClient.AddLike)
+	auth.POST("/like/:id", server.likesClient.AddLike)
+	auth.DELETE("/like/:id", server.likesClient.DeleteLike)
 	auth.GET("/like/:id", server.likesClient.GetLike)
 	auth.DELETE("/delete/:id", server.deleteUser)
 	auth.GET("/user", server.getUserData)
