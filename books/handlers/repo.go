@@ -105,6 +105,48 @@ func (r *Repository) BorrowBook(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{"message": "Book borrowed successfully"})
 }
 
+// swagger:route POST /books/like/{id} books LikeBook
+// responses:
+//
+//	201: noContent
+
+// LikeBook increments the likes count of a book
+func (r *Repository) LikeBook(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
+		return
+	}
+
+	err = r.DB.Exec("UPDATE books SET likes = likes + 1 WHERE id = ?", id).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to like book"})
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{"message": "Book liked successfully"})
+}
+
+// swagger:route POST /books/remove_like/{id} books RemoveLike
+// responses:
+//
+//	201: noContent
+
+// RemoveLike decrement the likes count of a book
+func (r *Repository) RemoveLike(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
+		return
+	}
+
+	err = r.DB.Exec("UPDATE books SET likes = likes - 1 WHERE id = ?", id).Error
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to remove like"})
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{"message": "like removed successfully"})
+}
+
 // swagger:route POST /books books addBook
 // responses:
 //
@@ -256,6 +298,8 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 	cors.POST("/books/borrow/:id", r.BorrowBook)
 	cors.DELETE("/books/:id", r.DeleteBook)
 	cors.PUT("/books/:id", r.UpdateBook)
+	cors.POST("/books/like/:id", r.LikeBook)
+	cors.POST("/books/remove_like/:id", r.RemoveLike)
 
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",

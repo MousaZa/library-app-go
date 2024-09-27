@@ -2,6 +2,8 @@ package server
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 
 	"github.com/MousaZa/library-app-go/likes/models"
 	protos "github.com/MousaZa/library-app-go/likes/protos/likes"
@@ -31,6 +33,12 @@ func (s *Server) AddLike(ctx context.Context, req *protos.LikeRequest) (*protos.
 		s.log.Error("Failed to create like", "error", err)
 		return nil, err
 	}
+	link := fmt.Sprintf("http://localhost:9090/books/like/%v", req.BookId)
+	_, err = http.Post(link, "application/json", nil)
+	if err != nil {
+		s.log.Error("Failed to create like", "error", err)
+		return nil, err
+	}
 	return &protos.BoolResponse{Response: true}, nil
 }
 
@@ -50,6 +58,13 @@ func (s *Server) DeleteLike(ctx context.Context, req *protos.LikeRequest) (*prot
 
 	err := s.DB.Where("user_id = ? AND book_id = ?", req.UserId, req.BookId).Delete(&like).Error
 	if err != nil {
+		return nil, err
+	}
+
+	link := fmt.Sprintf("http://localhost:9090/books/remove_like/%v", req.BookId)
+	_, err = http.Post(link, "application/json", nil)
+	if err != nil {
+		s.log.Error("Failed to create like", "error", err)
 		return nil, err
 	}
 	return &protos.BoolResponse{Response: true}, nil

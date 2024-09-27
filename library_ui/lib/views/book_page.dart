@@ -118,18 +118,29 @@ class _BookPageState extends State<BookPage> {
                   children: [
                     FutureBuilder(future: getLike(widget.bookData.id), builder: (context,snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Icon(
+                          Icons.thumb_up_alt_outlined,
+                          color: Colors.black,
+                          size: 3.w,
+                        );
                       }
                       return IconButton(
                         onPressed: () async{
                         if (snapshot.data == true) {
-                          await deleteLike(widget.bookData.id);}else{
-                            await likeBook(widget.bookData.id);
+                          final delete = await deleteLike(widget.bookData.id);
+                          if(delete){
+                            widget.bookData.likes -= 1;
+                          }}else{
+                            final add = await likeBook(widget.bookData.id);
+                            if(add){
+                              widget.bookData.likes += 1;
+                            }
                           }
                          setState(() {
                            
                          });
-                        },
+                        
+                      },
                         icon: Icon(
                           snapshot.data! ? Icons.thumb_up :Icons.thumb_up_alt_outlined,
                           color: snapshot.data! ? Colors.blue : Colors.black,
@@ -182,7 +193,7 @@ class _BookPageState extends State<BookPage> {
                       width: 1.w,
                     ),
                     Text(
-                      widget.bookData.likes.toString(),
+                      widget.bookData.borrows.toString(),
                       style: TextStyle(fontSize: 18.sp),
                     ),
                   ],

@@ -20,7 +20,7 @@ Future likeBook(int bookId) async {
     if (response.statusCode != 200) {
       throw Exception('Failed to like book');
     }
-    return jsonDecode(response.body);
+    return true;
   } catch (e) {
     print(e);
   }
@@ -37,7 +37,7 @@ Future deleteLike(int bookId) async {
     if (response.statusCode != 200) {
       throw Exception('Failed to like book');
     }
-    return jsonDecode(response.body);
+    return true;
   } catch (e) {
     print(e);
   }
