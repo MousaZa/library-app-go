@@ -9,6 +9,24 @@ import 'dart:async';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+
+Future getBorrowedBooks() async {
+    try {
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.get(
+      Uri.parse('http://localhost:8080/borrows/user'),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to like book');
+    }
+    print (jsonDecode(response.body));
+    return jsonDecode(response.body); 
+  } catch (e) {
+    print(e);
+  }
+}
+
 Future likeBook(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");

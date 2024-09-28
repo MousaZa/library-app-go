@@ -70,7 +70,28 @@ func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBor
 }
 
 func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserBorrowsRequest) (*protos.GetBorrowsResponse, error) {
-	return nil, nil
+	var borrows []models.Borrow
+	userId := req.UserId
+	err := s.db.Find(&borrows).Where("user_id = ?", userId).Error
+	if err != nil {
+		s.l.Error("Failed to get borrows", "error", err)
+		return nil, err
+	}
+
+	resp := &protos.GetBorrowsResponse{}
+
+	for _, borrow := range borrows {
+		resp.Borrows = append(resp.Borrows, &protos.Borrow{
+			Id:         borrow.ID,
+			BookId:     borrow.BookID,
+			UserId:     borrow.UserID,
+			BorrowDate: borrow.StartDate.Format(time.RFC3339),
+			ReturnDate: borrow.EndDate.Format(time.RFC3339),
+			Status:     borrow.Status,
+		})
+	}
+	// fmt.Printf("Borrows: %d\n", resp.Borrows)
+	return resp, nil
 }
 
 func (s *BorrowsServer) GetBookBorrows(ctx context.Context, req *protos.GetBookBorrowsRequest) (*protos.GetBorrowsResponse, error) {

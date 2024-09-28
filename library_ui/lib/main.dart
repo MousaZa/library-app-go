@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       GetPage(name: '/login', page: () => LoginPage()), 
       GetPage(name: '/register', page: () => RegisterPage()),
       GetPage(name: '/addbook', page: () => AddBookPage()),
-      GetPage(name: '/editbook', page: () => EditBookPage()),
+      GetPage(name: '/edit_book', page: () => EditBookPage()),
       GetPage(name: '/', page: () => MyHomePage(paseto: pasetoOrEmpty.toString())),
     ],
       debugShowCheckedModeBanner: false ,

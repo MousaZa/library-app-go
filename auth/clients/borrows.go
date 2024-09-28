@@ -31,3 +31,15 @@ func (c *BorrowsClient) AddBorrow(ctx *gin.Context) {
 		return
 	}
 }
+
+func (c *BorrowsClient) GetUserBorrows(ctx *gin.Context) {
+	userId := ctx.MustGet("userId").(int64)
+
+	resp, err := c.client.GetUserBorrows(context.Background(), &borrows.GetUserBorrowsRequest{UserId: userId})
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, resp.Borrows)
+}
