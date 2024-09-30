@@ -210,14 +210,18 @@ func (r *Repository) GetBooks(ctx *gin.Context) {
 //
 //	200: bookResponse
 func (r *Repository) GetBook(ctx *gin.Context) {
-	id := ctx.Param("id")
-	if id == "" {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
 		return
 	}
+	// if id == "" {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book id"})
+	// 	return
+	// }
 
 	book := &models.Book{}
-	err := r.DB.Where("id = ?", id).First(&book).Error
+	err = r.DB.First(&book).Where("id = ?", id).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get book"})
 		return

@@ -15,9 +15,11 @@ class Book {
   String summary;
   int likes;
   int borrows;
+  bool available;
 
   Book(
       {required this.id,
+      required this.available,
       required this.title,
       required this.author,
       required this.coverURL,
@@ -29,6 +31,7 @@ class Book {
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
+      available: json['available'],
       id: json['id'],
       title: json['title'],
       author: json['author'],
@@ -44,6 +47,7 @@ class Book {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['available'] = available;
     data['title'] = title;
     data['author'] = author;
     data['coverUrl'] = coverURL;
@@ -73,7 +77,7 @@ class Book {
     Uri.parse(url),
     body: jsonEncode(toJson()),
   );
-  if (response.statusCode != 200) {
+  if (response.statusCode != 200) { 
     throw Exception('Failed to add book');
   }
   return jsonDecode(response.body);

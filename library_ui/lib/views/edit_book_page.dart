@@ -127,6 +127,7 @@ class _EditBookPageState extends State<EditBookPage> {
               ElevatedButton(        
                 onPressed: () async {
                   await Book(
+                    available: true, // todo: fix
                     borrows: borrows,
                     likes: likes,
                     id: id, 

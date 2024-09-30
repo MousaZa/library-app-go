@@ -43,13 +43,14 @@ dependencies:
   shared_preferences: ^2.3.2
   web_socket_channel: ^3.0.1
   sizer: ^3.0.3
+  flutter_stepindicator: ^0.1.7
   paseto: ^1.0.0
   flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+ 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

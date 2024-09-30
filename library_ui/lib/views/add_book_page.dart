@@ -108,6 +108,7 @@ class _AddBookPageState extends State<AddBookPage> {
               ElevatedButton(        
                 onPressed: () async {
                   await Book(
+                    available: true, 
                     borrows: 0,
                     likes: 0,
                     id: 0,

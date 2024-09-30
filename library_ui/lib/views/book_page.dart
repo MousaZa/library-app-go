@@ -162,7 +162,9 @@ class _BookPageState extends State<BookPage> {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {
+                      disabledColor: Colors.grey,
+                      color: Colors.black,
+                        onPressed: widget.bookData.available ? () {
                           Get.defaultDialog(
                             title: "Borrowing Book",
                             content: Column(
@@ -184,7 +186,7 @@ class _BookPageState extends State<BookPage> {
                             },
                             onCancel: (){ Navigator.pop(context);},
                           );
-                        },
+                        } : null,
                         icon: Icon(
                           Icons.front_hand_outlined,
                           size: 3.w,

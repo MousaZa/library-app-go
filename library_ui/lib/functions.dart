@@ -10,6 +10,21 @@ import 'dart:async';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 
+Future getBook(int id)async{
+  try{
+    http.Response response = await http.get(
+    Uri.parse('http://localhost:9090/books/$id'),
+    // headers: '"Content-Type": "application/json"'
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to get book');
+  }
+  return jsonDecode(response.body);
+  }catch(e){
+    print(e);
+  }
+}
+
 Future getBorrowedBooks() async {
     try {
     final token = await storage.read(key: "paseto");
@@ -181,9 +196,10 @@ Stream<dynamic> getBooks(String search, String language, String category) async*
 
     // Stream the data from the WebSocket
     await for (var message in channel.stream) {
+      print (jsonDecode(message));
       yield jsonDecode(message);
     }
-  } catch (e) {
+  } catch (e) { 
     print('Error occurred: $e');
     yield [];
   }
