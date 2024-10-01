@@ -3,7 +3,7 @@ module github.com/MousaZa/library-app-go/auth
 go 1.22.2
 
 require (
-	github.com/MousaZa/library-app-go/borrows v0.0.0-20241001085644-02fcd9d2611a
+	github.com/MousaZa/library-app-go/borrows v0.0.0-20241001092822-64d805ca039d
 	github.com/gin-contrib/cors v1.7.2
 	github.com/hashicorp/go-hclog v1.6.3
 	google.golang.org/grpc v1.67.0

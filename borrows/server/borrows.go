@@ -72,6 +72,7 @@ func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBor
 func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserBorrowsRequest) (*protos.GetBorrowsResponse, error) {
 	var borrows []models.Borrow
 	userId := req.UserId
+	fmt.Printf("User ID: %d\n", userId)
 	err := s.db.Where("user_id = ? AND returned = ?", userId, true).Find(&borrows).Error
 	if err != nil {
 		s.l.Error("Failed to get borrows", "error", err)
@@ -91,7 +92,6 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 			Returned:   borrow.Returned,
 		})
 	}
-	// fmt.Printf("Borrows: %d\n", resp.Borrows)
 	return resp, nil
 }
 
@@ -116,7 +116,7 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	var borrows []models.Borrow
 	userId := req.UserId
 	fmt.Printf("User ID: %d\n", userId)
-	err := s.db.Find(&borrows).Error
+	err := s.db.Where("user_id = ? AND returned = ?", userId, false).Find(&borrows).Error
 	if err != nil {
 		s.l.Error("Failed to get borrows", "error", err)
 		return nil, err

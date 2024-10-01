@@ -47,7 +47,7 @@ func (c *BorrowsClient) GetUserBorrows(ctx *gin.Context) {
 func (c *BorrowsClient) GetUserOnGoingBorrows(ctx *gin.Context) {
 	userId := ctx.MustGet("userId").(int64)
 	// TODO FIX
-	resp, err := c.client.GetUserBorrows(context.Background(), &borrows.GetUserBorrowsRequest{UserId: userId})
+	resp, err := c.client.GetUserOnGoingBorrows(context.Background(), &borrows.GetUserBorrowsRequest{UserId: userId})
 	if err != nil {
 		fmt.Printf("Failed to bind JSON: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
