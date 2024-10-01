@@ -119,7 +119,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 	user.Password = hashedPass
-
+	user.CanBorrow = true
 	err = server.db.Create(&user).Error
 	if err != nil {
 		// server.l.Error("Failed to create user", err)
