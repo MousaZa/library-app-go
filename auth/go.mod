@@ -3,15 +3,15 @@ module github.com/MousaZa/library-app-go/auth
 go 1.22.2
 
 require (
+	github.com/MousaZa/library-app-go/borrows v0.0.0-20241001085644-02fcd9d2611a
 	github.com/gin-contrib/cors v1.7.2
 	github.com/hashicorp/go-hclog v1.6.3
+	google.golang.org/grpc v1.67.0
 )
 
 require (
 	aidanwoods.dev/go-result v0.1.0 // indirect
-	github.com/MousaZa/library-app-go/borrows v0.0.0-20240922085647-a271c93a8176 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.5.5 // indirect
@@ -21,15 +21,11 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
-	google.golang.org/grpc v1.67.0 // indirect
 )
 
 require (
 	aidanwoods.dev/go-paseto v1.5.2
 	github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176
-	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
-	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29
-	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
@@ -52,7 +48,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
-	github.com/pkg/errors v0.8.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.8.0 // indirect

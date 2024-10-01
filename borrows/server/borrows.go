@@ -112,7 +112,7 @@ func (s *BorrowsServer) UpdateBorrow(ctx context.Context, req *protos.UpdateBorr
 	return nil, nil
 }
 
-func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.GetUserOnGoingBorrowsRequest) (*protos.GetBorrowsResponse, error) {
+func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.GetUserBorrowsRequest) (*protos.GetBorrowsResponse, error) {
 	var borrows []models.Borrow
 	userId := req.UserId
 	fmt.Printf("User ID: %d\n", userId)
