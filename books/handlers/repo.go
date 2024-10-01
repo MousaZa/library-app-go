@@ -221,7 +221,7 @@ func (r *Repository) GetBook(ctx *gin.Context) {
 	// }
 
 	book := &models.Book{}
-	err = r.DB.First(&book).Where("id = ?", id).Error
+	err = r.DB.Where("id = ?", id).First(&book).Error
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get book"})
 		return

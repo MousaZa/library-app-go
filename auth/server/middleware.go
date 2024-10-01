@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/MousaZa/library-app-go/auth/token"
@@ -16,7 +17,7 @@ const (
 )
 
 type UserData struct {
-	UserId int64 `json:"userId"`
+	UserId string `json:"user_id"`
 }
 
 func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
@@ -48,10 +49,11 @@ func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
 		}
 
 		ud := &UserData{}
-
+		fmt.Printf("Data: %s\n", data)
 		json.Unmarshal(data, ud)
-
-		ctx.Set("userId", ud.UserId)
+		fmt.Printf("User ID: %v\n", ud.UserId)
+		ui, _ := strconv.ParseInt(ud.UserId, 10, 64)
+		ctx.Set("userId", ui)
 
 		ctx.Next()
 	}

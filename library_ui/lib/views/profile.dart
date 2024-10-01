@@ -8,6 +8,7 @@ import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/models/user.dart';
 import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/borrow_card.dart';
+import 'package:library_ui/views/ongoing_borrow_card.dart';
 import 'package:sizer/sizer.dart';
 
 class Profile extends StatelessWidget {
@@ -63,14 +64,32 @@ class Profile extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Text('Books borrowed', style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),),
+                  Text('My borrows', style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),),
+                  SizedBox(height: 20,),
+                  Expanded(
+                    child: FutureBuilder(
+                      future: getOnGoingBorrowedBooks(),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.waiting) return CircularProgressIndicator();
+                        if(!snapshot.hasData) return Center(child: Text('No books borrowed yet'),);
+                        return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return OngoingBorrowCard(
+                              borrowData: Borrow.fromJson(snapshot.data[index]),
+                            );
+                          },
+                        );
+                      }
+                    ),
+                  ),
                   SizedBox(height: 20,),
                   Expanded(
                     child: FutureBuilder(
                       future: getBorrowedBooks(),
                       builder: (context, snapshot) {
-                        if(!snapshot.hasData) return CircularProgressIndicator();
-                        if(snapshot.data.length == 0) return Center(child: Text('No books borrowed yet'),);
+                        if(snapshot.connectionState == ConnectionState.waiting) return CircularProgressIndicator();
+                        if(!snapshot.hasData) return Center(child: Text('No books borrowed yet'),);
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {

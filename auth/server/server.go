@@ -63,6 +63,7 @@ func (server *Server) setRoutes() {
 	auth.DELETE("/delete/:id", server.deleteUser)
 	auth.GET("/user", server.getUserData)
 	auth.GET("/borrows/user", server.borrowsClient.GetUserBorrows)
+	auth.GET("/borrows/o/user", server.borrowsClient.GetUserOnGoingBorrows)
 	router.POST("/create", server.createUser)
 	router.POST("/login", server.login)
 	server.router = router

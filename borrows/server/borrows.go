@@ -72,7 +72,7 @@ func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBor
 func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserBorrowsRequest) (*protos.GetBorrowsResponse, error) {
 	var borrows []models.Borrow
 	userId := req.UserId
-	err := s.db.Find(&borrows).Where("user_id = ?", userId).Error
+	err := s.db.Where("user_id = ? AND returned = ?", userId, true).Find(&borrows).Error
 	if err != nil {
 		s.l.Error("Failed to get borrows", "error", err)
 		return nil, err
@@ -88,6 +88,7 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 			BorrowDate: borrow.StartDate.Format(time.RFC3339),
 			ReturnDate: borrow.EndDate.Format(time.RFC3339),
 			Status:     borrow.Status,
+			Returned:   borrow.Returned,
 		})
 	}
 	// fmt.Printf("Borrows: %d\n", resp.Borrows)
@@ -109,4 +110,29 @@ func (s *BorrowsServer) DeleteBorrow(ctx context.Context, req *protos.DeleteBorr
 
 func (s *BorrowsServer) UpdateBorrow(ctx context.Context, req *protos.UpdateBorrowRequest) (*protos.MessageResponse, error) {
 	return nil, nil
+}
+
+func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.GetUserOnGoingBorrowsRequest) (*protos.GetBorrowsResponse, error) {
+	var borrows []models.Borrow
+	userId := req.UserId
+	err := s.db.Where("user_id = ? AND returned = ?", userId, false).Find(&borrows).Error
+	if err != nil {
+		s.l.Error("Failed to get borrows", "error", err)
+		return nil, err
+	}
+
+	resp := &protos.GetBorrowsResponse{}
+
+	for _, borrow := range borrows {
+		resp.Borrows = append(resp.Borrows, &protos.Borrow{
+			Id:         borrow.ID,
+			BookId:     borrow.BookID,
+			UserId:     borrow.UserID,
+			BorrowDate: borrow.StartDate.Format(time.RFC3339),
+			ReturnDate: borrow.EndDate.Format(time.RFC3339),
+			Status:     borrow.Status,
+			Returned:   borrow.Returned,
+		})
+	}
+	return resp, nil
 }

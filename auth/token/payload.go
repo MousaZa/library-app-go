@@ -8,7 +8,7 @@ import (
 
 type Payload struct {
 	ID        uuid.UUID `json:"payload_id"`
-	UserId    int64     `json:"id"`
+	UserId    int64     `json:"user_id"`
 	Email     string    `json:"email"`
 	Username  string    `json:"username"`
 	CreatedAt time.Time `json:"created_at"`

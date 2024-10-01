@@ -61,54 +61,6 @@ class BorrowCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 5.w,),
-                    SizedBox(
-                      width: 30.w,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Pending",
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.bold),
-                                ), 
-                                Text(
-                                  "Taken",
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.bold),
-                                ), 
-                                Text(
-                                  "Returned",
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.bold),
-                                ), 
-                              ], 
-                            ),
-                            SizedBox(height: 20),
-                            FlutterStepIndicator(
-                              negativeColor: Colors.purple.withOpacity(0.1),
-                              positiveColor: Colors.purple,
-                              progressColor: Colors.purple,
-                              durationCheckBulb: Duration(milliseconds: 500),
-                              durationScroller: Duration(milliseconds: 800),
-                              onChange: (i){
-                                // print(i);
-                              },
-                               list: ["pending", "taken", "returned"], 
-                                page: 1,
-                                height: 50,
-                                ),
-                          ],
-                        ),
-                      )
-                    )
                   ],
                 ),
               ],
