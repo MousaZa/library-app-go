@@ -48,10 +48,10 @@ class MyApp extends StatelessWidget {
     ],
       debugShowCheckedModeBanner: false ,
       title: 'Library UI',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
     )
     );
   },

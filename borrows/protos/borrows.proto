@@ -22,7 +22,6 @@ message Borrow {
     string BorrowDate = 4;
     string ReturnDate = 5;
     string Status = 6;
-    bool Returned = 7;
 }
 
 message MessageResponse {

@@ -14,7 +14,7 @@ class BorrowCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       clipBehavior: Clip.antiAlias,
-      height: 20.w,
+      height: 10.w,
       width: 40.w,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
@@ -33,37 +33,27 @@ class BorrowCard extends StatelessWidget {
           future: getBook(borrowData.bookId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
-            return Row(
-              // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data["title"],
-                            style: TextStyle(
-                                fontSize: 20.sp, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Borrowed on: ${borrowData.startDate}",
-                            style: TextStyle(fontSize: 12.sp),
-                          ),
-                          Text(
-                            "Due on: ${borrowData.endDate}",
-                            style: TextStyle(fontSize: 12.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    snapshot.data["title"],
+                    style: TextStyle(
+                        fontSize: 20.sp, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Borrowed on: ${borrowData.startDate}",
+                    style: TextStyle(fontSize: 12.sp),
+                  ),
+                  Text(
+                    "Due on: ${borrowData.endDate}",
+                    style: TextStyle(fontSize: 12.sp),
+                  ),
+                ],
+              ),
             );
           }),
     );

@@ -5,17 +5,18 @@ import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
 
 class OngoingBorrowCard extends StatelessWidget {
-  const OngoingBorrowCard({super.key, required this.borrowData});
+  
+  OngoingBorrowCard({super.key, required this.borrowData});
 
   final Borrow borrowData;
-
+  final List<String> stages = ["pending", "taken", "returned"];
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
       clipBehavior: Clip.antiAlias,
       height: 20.w,
-      width: 40.w,
+      width: double.infinity,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
         color: Colors.white,
@@ -70,39 +71,25 @@ class OngoingBorrowCard extends StatelessWidget {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Pending",
+                              children: stages.map((e) => Text(
+                                  e.toUpperCase(),
                                   style: TextStyle(
-                                      color: Colors.purple,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                                       fontWeight: FontWeight.bold),
-                                ), 
-                                Text(
-                                  "Taken",
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.bold),
-                                ), 
-                                Text(
-                                  "Returned",
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.bold),
-                                ), 
-                              ], 
+                                ), ).toList(),
                             ),
                             SizedBox(height: 20),
                             FlutterStepIndicator(
-                              negativeColor: Colors.purple.withOpacity(0.1),
-                              positiveColor: Colors.purple,
-                              progressColor: Colors.purple,
+                              negativeColor: Theme.of(context).colorScheme.primaryContainer,
+                              positiveColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                              progressColor: Theme.of(context).colorScheme.onPrimaryContainer,
                               durationCheckBulb: Duration(milliseconds: 500),
                               durationScroller: Duration(milliseconds: 800),
                               onChange: (i){
                                 // print(i);
                               },
-                               list: ["pending", "taken", "returned"], 
-                                page: 1,
+                               list: stages, 
+                                page: stages.indexOf(borrowData.status),
                                 height: 50,
                                 ),
                           ],

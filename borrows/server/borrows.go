@@ -73,7 +73,7 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 	var borrows []models.Borrow
 	userId := req.UserId
 	fmt.Printf("User ID: %d\n", userId)
-	err := s.db.Where("user_id = ? AND returned = ?", userId, true).Find(&borrows).Error
+	err := s.db.Where("user_id = ? AND status = ?", userId, "returned").Find(&borrows).Error
 	if err != nil {
 		s.l.Error("Failed to get borrows", "error", err)
 		return nil, err
@@ -89,9 +89,9 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 			BorrowDate: borrow.StartDate.Format(time.RFC3339),
 			ReturnDate: borrow.EndDate.Format(time.RFC3339),
 			Status:     borrow.Status,
-			Returned:   borrow.Returned,
 		})
 	}
+	fmt.Printf("Borrows: %v\n", resp.Borrows)
 	return resp, nil
 }
 
@@ -116,7 +116,7 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	var borrows []models.Borrow
 	userId := req.UserId
 	fmt.Printf("User ID: %d\n", userId)
-	err := s.db.Where("user_id = ? AND returned = ?", userId, false).Find(&borrows).Error
+	err := s.db.Where("user_id = ? AND status != ?", userId, "returned").Find(&borrows).Error
 	if err != nil {
 		s.l.Error("Failed to get borrows", "error", err)
 		return nil, err
@@ -132,7 +132,6 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 			BorrowDate: borrow.StartDate.Format(time.RFC3339),
 			ReturnDate: borrow.EndDate.Format(time.RFC3339),
 			Status:     borrow.Status,
-			Returned:   borrow.Returned,
 		})
 	}
 	return resp, nil

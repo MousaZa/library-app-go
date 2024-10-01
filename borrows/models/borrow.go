@@ -13,7 +13,6 @@ type Borrow struct {
 	StartDate time.Time `json:"start_date"`
 	EndDate   time.Time `json:"end_date"`
 	Status    string    `json:"status"`
-	Returned  bool      `json:"returned"`
 }
 
 func NewBorrow(bookID, userID int64, duration time.Duration) *Borrow {
@@ -22,7 +21,6 @@ func NewBorrow(bookID, userID int64, duration time.Duration) *Borrow {
 		UserID:    userID,
 		StartDate: time.Now(),
 		EndDate:   time.Now().Add(duration),
-		Returned:  false,
 		Status:    "pending",
 	}
 }

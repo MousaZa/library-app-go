@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
                 width: 20.w,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: MaterialButton(
@@ -64,7 +64,7 @@ class LoginPage extends StatelessWidget {
                     );
                   }
                 },
-                  child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 11.sp),),
+                  child: Text('Login',style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 11.sp),),
                 ),
               ), 
               TextButton(
