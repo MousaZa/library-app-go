@@ -654,7 +654,7 @@ func (c *borrowsClient) GetUserOnGoingBorrows(ctx context.Context, in *GetUserBo
 	err := c.cc.Invoke(ctx, "/Borrows/GetUserOnGoingBorrows", in, out, opts...)
 	if err != nil {
 		return nil, err
-	}
+	} 
 	return out, nil
 }
 

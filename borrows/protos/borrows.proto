@@ -17,7 +17,7 @@ service Borrows {
 // Borrow Model
 message Borrow {
     int64 Id = 1;
-    int64 BookId = 2;
+    int64 BookId = 2; 
     int64 UserId = 3;
     string BorrowDate = 4;
     string ReturnDate = 5;
