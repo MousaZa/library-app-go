@@ -3,9 +3,9 @@ class Borrow {
   final int id;
   final int bookId;
   final int userId;
-  final String startDate;
+  final DateTime startDate;
   // final bool isReturned;
-  final String endDate;
+  final DateTime endDate;
   final String status;
 
   Borrow({
@@ -16,15 +16,16 @@ class Borrow {
     // required this.isReturned,
     required this.endDate,
     required this.status,
-  });
+  }); 
 
   factory Borrow.fromJson(Map<String, dynamic> json) {
+    print(json['BorrowDate']['seconds']); 
     return Borrow(
       id: json['Id'],
       bookId: json['BookId'],
       userId: json['UserId'],
-      startDate: json['BorrowDate'],
-      endDate: json['ReturnDate'],
+      startDate: json['BorrowDate']['seconds'],
+      endDate: json['ReturnDate']['seconds'],
       status: json['Status'],
       // isReturned: json['returned'],
     );

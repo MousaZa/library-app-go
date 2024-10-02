@@ -3,24 +3,30 @@ package models
 import (
 	"time"
 
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"gorm.io/gorm"
 )
 
 type Borrow struct {
-	ID        int64     `json:"id" gorm:"primary key;autoIncrement"`
-	BookID    int64     `json:"BookId"`
-	UserID    int64     `json:"UserId"`
-	StartDate time.Time `json:"start_date"`
-	EndDate   time.Time `json:"end_date"`
-	Status    string    `json:"status"`
+	ID        int64  `json:"id" gorm:"primary key;autoIncrement"`
+	BookID    int64  `json:"BookId"`
+	UserID    int64  `json:"UserId"`
+	StartDate []byte `json:"start_date"`
+	EndDate   []byte `json:"end_date"`
+	Status    string `json:"status"`
 }
 
 func NewBorrow(bookID, userID int64, duration time.Duration) *Borrow {
+	// now :=
+	sd, _ := proto.Marshal(timestamppb.Now())
+	ed, _ := proto.Marshal(timestamppb.New(time.Now().Add(duration)))
+	// proto.Unmarshal(bytes, msg)
 	return &Borrow{
 		BookID:    bookID,
 		UserID:    userID,
-		StartDate: time.Now(),
-		EndDate:   time.Now().Add(duration),
+		StartDate: sd,
+		EndDate:   ed,
 		Status:    "pending",
 	}
 }
