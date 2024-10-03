@@ -19,13 +19,18 @@ class Borrow {
   }); 
 
   factory Borrow.fromJson(Map<String, dynamic> json) {
+    // print("ddddddddddddddd"+ json['start_date_seconds']);
+    // final DateTime startDate = DateTime.fromMillisecondsSinceEpoch(json['start_date_seconds']*1000);
+    // final DateTime endDate = DateTime.fromMillisecondsSinceEpoch(json['end_date_seconds']*1000);
     // print(json['BorrowDate']['seconds']); 
+
+
     return Borrow(
       id: json['Id'],
       bookId: json['BookId'],
       userId: json['UserId'],
-      startDate: json['BorrowDate']['seconds'],
-      endDate: json['ReturnDate']['seconds'],
+      startDate: DateTime.fromMillisecondsSinceEpoch(json['BorrowDate']['seconds']*1000), 
+      endDate: DateTime.fromMillisecondsSinceEpoch(json['ReturnDate']['seconds']*1000),
       status: json['Status'],
       // isReturned: json['returned'],
     );

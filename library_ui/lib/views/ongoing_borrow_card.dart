@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
+import 'package:intl/intl.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
@@ -52,11 +53,11 @@ class OngoingBorrowCard extends StatelessWidget {
                                 fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Borrowed on: ${borrowData.startDate}",
+                            "Borrowed on: ${DateFormat.yMMMEd().format(borrowData.startDate)}",
                             style: TextStyle(fontSize: 12.sp),
                           ),
                           Text(
-                            "Due on: ${borrowData.endDate}",
+                            "Due on: ${DateFormat.yMMMEd().format(borrowData.endDate)}",
                             style: TextStyle(fontSize: 12.sp),
                           ),
                         ],
