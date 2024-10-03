@@ -10,7 +10,6 @@ import (
 	"github.com/MousaZa/library-app-go/borrows/models"
 	protos "github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/hashicorp/go-hclog"
-	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"gorm.io/gorm"
 )
@@ -84,26 +83,26 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
-		sd := &timestamppb.Timestamp{}
-		err = proto.Unmarshal(borrow.StartDate, sd)
-		if err != nil {
-			s.l.Error("Failed to unmarshal start date", "error", err)
-			return nil, err
-		}
+		// sd := &timestamppb.Timestamp{}
+		// // err = proto.Unmarshal(borrow.StartDate, sd)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal start date", "error", err)
+		// 	return nil, err
+		// }
 
-		ed := &timestamppb.Timestamp{}
-		err = proto.Unmarshal(borrow.StartDate, ed)
-		if err != nil {
-			s.l.Error("Failed to unmarshal ednd date", "error", err)
-			return nil, err
-		}
+		// ed := &timestamppb.Timestamp{}
+		// // err = proto.Unmarshal(borrow.StartDate, ed)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal ednd date", "error", err)
+		// 	return nil, err
+		// }
 
 		resp.Borrows = append(resp.Borrows, &protos.Borrow{
 			Id:         borrow.ID,
 			BookId:     borrow.BookID,
 			UserId:     borrow.UserID,
-			BorrowDate: sd,
-			ReturnDate: ed,
+			BorrowDate: timestamppb.New(time.Unix(int64(borrow.StartDateSeconds), int64(borrow.StartDateNanoSec))),
+			ReturnDate: timestamppb.New(time.Unix(int64(borrow.EndDateSeconds), int64(borrow.EndDateNanoSec))),
 			Status:     borrow.Status,
 		})
 	}
@@ -141,29 +140,30 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
-		sd := &timestamppb.Timestamp{}
-		err = proto.Unmarshal(borrow.StartDate, sd)
-		if err != nil {
-			s.l.Error("Failed to unmarshal start date", "error", err)
-			return nil, err
-		}
+		// sd := &timestamppb.Timestamp{}
+		// err = proto.Unmarshal(borrow.StartDate, sd)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal start date", "error", err)
+		// 	return nil, err
+		// }
 
-		ed := &timestamppb.Timestamp{}
-		err = proto.Unmarshal(borrow.StartDate, ed)
-		if err != nil {
-			s.l.Error("Failed to unmarshal ednd date", "error", err)
-			return nil, err
-		}
-		fmt.Printf("ed: %s\n", ed)
+		// ed := &timestamppb.Timestamp{}
+		// err = proto.Unmarshal(borrow.StartDate, ed)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal ednd date", "error", err)
+		// 	return nil, err
+		// }
+		// fmt.Printf("ed: %s\n", ed)
 		resp.Borrows = append(resp.Borrows, &protos.Borrow{
 			Id:         borrow.ID,
 			BookId:     borrow.BookID,
 			UserId:     borrow.UserID,
-			BorrowDate: sd,
-			ReturnDate: ed,
+			BorrowDate: timestamppb.New(time.Unix(int64(borrow.StartDateSeconds), int64(borrow.StartDateNanoSec))),
+			ReturnDate: timestamppb.New(time.Unix(int64(borrow.EndDateSeconds), int64(borrow.EndDateNanoSec))),
 			Status:     borrow.Status,
 		})
 	}
 	fmt.Printf("Ongoing Borrows: %v\n", resp.Borrows)
+
 	return resp, nil
 }

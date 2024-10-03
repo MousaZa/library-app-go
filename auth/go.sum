@@ -6,6 +6,8 @@ github.com/MousaZa/library-app-go/borrows v0.0.0-20241001085644-02fcd9d2611a h1:
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001085644-02fcd9d2611a/go.mod h1:Eh0gz+ovExmmeV1ChKB89xrYvlLfLINjxlQ8fw0Hb+E=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001092822-64d805ca039d h1:Ca6hQIelgx0FsgLh9gde4cwcjEMONt0tIASwGp5GE5Y=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001092822-64d805ca039d/go.mod h1:Eh0gz+ovExmmeV1ChKB89xrYvlLfLINjxlQ8fw0Hb+E=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20241001180853-87b2dc84f32d h1:0jFEi33Xd1yPKIuamVb9wqd2WqmZkChMwVyOPAGTWmg=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20241001180853-87b2dc84f32d/go.mod h1:iUiyMkKXgx0MDTFo9A3Pnv8cxHk1n2J00EhzRCkKQP8=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176 h1:Y+qAadMJFZPNLARMd6xngVBTNsvg4PGkbf98NENOvrI=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
@@ -134,6 +136,8 @@ google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 h1:
 google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142/go.mod h1:UqMtugtsSgubUsoxbuAoiCXvqvErP7Gf0so0mK9tHxU=
 google.golang.org/grpc v1.67.0 h1:IdH9y6PF5MPSdAntIcpjQ+tXO41pcQsfZV2RxtQgVcw=
 google.golang.org/grpc v1.67.0/go.mod h1:1gLDyUQU7CTLJI90u3nXZ9ekeghjeM7pTDZlqFNg2AA=
+google.golang.org/grpc v1.67.1 h1:zWnc1Vrcno+lHZCOofnIMvycFcc0QRGIzm9dhnDX68E=
+google.golang.org/grpc v1.67.1/go.mod h1:1gLDyUQU7CTLJI90u3nXZ9ekeghjeM7pTDZlqFNg2AA=
 google.golang.org/protobuf v1.34.2 h1:6xV6lTsCfpGD21XK49h7MhtcApnLqkfYgPcdHftf6hg=
 google.golang.org/protobuf v1.34.2/go.mod h1:qYOHts0dSfpeUzUFpOMr/WGzszTmLH+DiWniOlNbLDw=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=

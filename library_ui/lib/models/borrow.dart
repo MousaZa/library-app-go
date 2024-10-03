@@ -19,7 +19,7 @@ class Borrow {
   }); 
 
   factory Borrow.fromJson(Map<String, dynamic> json) {
-    print(json['BorrowDate']['seconds']); 
+    // print(json['BorrowDate']['seconds']); 
     return Borrow(
       id: json['Id'],
       bookId: json['BookId'],

@@ -13,7 +13,7 @@ service Borrows {
   rpc GetBookBorrows(GetBookBorrowsRequest) returns (GetBorrowsResponse);
   rpc GetUserBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
   rpc GetAllBorrows(GetAllBorrowsRequest) returns (GetBorrowsResponse);
-    rpc GetUserOnGoingBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
+  rpc GetUserOnGoingBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
 }
 
 // Borrow Model
