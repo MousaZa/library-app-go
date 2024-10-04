@@ -8,6 +8,8 @@ github.com/MousaZa/library-app-go/borrows v0.0.0-20241001092822-64d805ca039d h1:
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001092822-64d805ca039d/go.mod h1:Eh0gz+ovExmmeV1ChKB89xrYvlLfLINjxlQ8fw0Hb+E=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001180853-87b2dc84f32d h1:0jFEi33Xd1yPKIuamVb9wqd2WqmZkChMwVyOPAGTWmg=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241001180853-87b2dc84f32d/go.mod h1:iUiyMkKXgx0MDTFo9A3Pnv8cxHk1n2J00EhzRCkKQP8=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f h1:cU9xElr+z5YqtmdUIOwfBRmoJppJRTNCMebuo06xBqg=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f/go.mod h1:iUiyMkKXgx0MDTFo9A3Pnv8cxHk1n2J00EhzRCkKQP8=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176 h1:Y+qAadMJFZPNLARMd6xngVBTNsvg4PGkbf98NENOvrI=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=

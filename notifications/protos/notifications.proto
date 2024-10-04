@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+service Notifications {
+  // ADD
+  rpc pushNotification(PushNotificationRequest) returns (MessageResponse);
+  // GET
+  rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse);
+}
+
+message Notification{
+    int64 Id = 1 ;
+    int64 UserId = 2 ;
+    string message = 3 ;
+    string type = 4 ;
+    string status = 5 ;
+}
+
+message GetUserNotificationsRequest{
+    int64 UserId = 1 ;
+}
+
+message GetUserNotificationsResponse{
+    repeated Notification notifications = 1 ;
+}
+
+message PushNotificationRequest{
+    int64 UserId = 1 ;
+    string message = 2 ;
+    string type = 3 ;
+}
+
+message MessageResponse{
+    string message = 1 ;
+}
+
