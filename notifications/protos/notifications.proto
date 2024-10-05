@@ -2,7 +2,7 @@ syntax = "proto3";
 
 service Notifications {
   // ADD
-  rpc pushNotification(PushNotificationRequest) returns (MessageResponse);
+  rpc pushNotification(PushNotificationRequest) returns (NMessageResponse);
   // GET
   rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse);
 }
@@ -29,7 +29,7 @@ message PushNotificationRequest{
     string type = 3 ;
 }
 
-message MessageResponse{
+message NMessageResponse{
     string message = 1 ;
 }
 

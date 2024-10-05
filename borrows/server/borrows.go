@@ -45,7 +45,7 @@ func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequ
 	}
 
 	if resp.StatusCode != http.StatusCreated {
-		return nil, errors.New("Failed to post to books")
+		return nil, errors.New("failed to post to books")
 	}
 
 	return &protos.MessageResponse{Message: "Borrow Was Added Successfully"}, nil
@@ -62,6 +62,9 @@ func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBor
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
+		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
+			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
+		}
 		resp.Borrows = append(resp.Borrows, &protos.Borrow{
 			Id:     borrow.ID,
 			BookId: borrow.BookID,
@@ -142,20 +145,7 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
-		// sd := &timestamppb.Timestamp{}
-		// err = proto.Unmarshal(borrow.StartDate, sd)
-		// if err != nil {
-		// 	s.l.Error("Failed to unmarshal start date", "error", err)
-		// 	return nil, err
-		// }
 
-		// ed := &timestamppb.Timestamp{}
-		// err = proto.Unmarshal(borrow.StartDate, ed)
-		// if err != nil {
-		// 	s.l.Error("Failed to unmarshal ednd date", "error", err)
-		// 	return nil, err
-		// }
-		// fmt.Printf("ed: %s\n", ed)
 		resp.Borrows = append(resp.Borrows, &protos.Borrow{
 			Id:         borrow.ID,
 			BookId:     borrow.BookID,

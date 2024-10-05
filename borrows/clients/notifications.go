@@ -33,6 +33,6 @@ func (c *NotificationsClient) PushNotification(userId int64, message string, not
 	return resp, nil
 }
 
-func (c *NotificationsClient) GetUserNotifications() {
+// func (c *NotificationsClient) GetUserNotifications() {
 
-}
+// }

@@ -27,7 +27,7 @@ func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clien
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
 	if err != nil {
-		return nil, fmt.Errorf("Couldn't create token maker: %w\n", err)
+		return nil, fmt.Errorf("couldn't create token maker: %w", err)
 	}
 
 	// Create a new server instance
@@ -59,7 +59,6 @@ func (server *Server) setRoutes() {
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
 	auth.GET("/notifications", server.notificationsClient.GetUserNotifications)
-
 	auth.POST("/borrows", server.borrowsClient.AddBorrow)
 	auth.POST("/like/:id", server.likesClient.AddLike)
 	auth.DELETE("/like/:id", server.likesClient.DeleteLike)

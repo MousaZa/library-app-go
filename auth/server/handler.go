@@ -110,7 +110,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	id, err := uuid.NewRandom()
+	id, _ := uuid.NewRandom()
 	user.ID = int64(id.ID())
 	hashedPass, err := token.HashPassword(user.Password)
 	if err != nil {

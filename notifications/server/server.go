@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/MousaZa/library-app-go/notifications/models"
-	protos "github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/gorm"
 )
@@ -44,5 +43,5 @@ func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificat
 		return nil, err
 	}
 
-	return &protos.MessageResponse{Message: "Notification pushed successfully"}, nil
+	return &protos.{Message: "Notification pushed successfully"}, nil
 }
