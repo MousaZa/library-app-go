@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/MousaZa/library-app-go/borrows/clients"
 	"github.com/MousaZa/library-app-go/borrows/models"
 	protos "github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/hashicorp/go-hclog"
@@ -17,10 +18,11 @@ import (
 type BorrowsServer struct {
 	l  hclog.Logger
 	db *gorm.DB
+	nc *clients.NotificationsClient
 }
 
-func NewBorrowsServer(l hclog.Logger, db *gorm.DB) *BorrowsServer {
-	return &BorrowsServer{l: l, db: db}
+func NewBorrowsServer(l hclog.Logger, db *gorm.DB, nc *clients.NotificationsClient) *BorrowsServer {
+	return &BorrowsServer{l: l, db: db, nc: nc}
 }
 
 func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequest) (*protos.MessageResponse, error) {
