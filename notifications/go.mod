@@ -2,11 +2,13 @@ module github.com/MousaZa/library-app-go/notifications
 
 go 1.22.2
 
-require github.com/MousaZa/library-app-go/likes v0.0.0-20241003134001-6c8deb9b09d4
+require (
+	github.com/MousaZa/library-app-go/likes v0.0.0-20241003134001-6c8deb9b09d4
+	github.com/golang/protobuf v1.5.4
+)
 
 require (
 	github.com/fatih/color v1.13.0 // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.5.5 // indirect

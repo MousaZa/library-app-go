@@ -10,6 +10,7 @@ import (
 	"github.com/MousaZa/library-app-go/auth/storage"
 	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/MousaZa/library-app-go/likes/protos/likes"
+	"github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -59,14 +60,24 @@ func main() {
 
 	defer borrowsConn.Close()
 
+	// Notifications client
+	notificationsconn, err := grpc.NewClient("localhost:9096", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	defer notificationsconn.Close()
+
 	// create client
 	borrowsClient := borrows.NewBorrowsClient(borrowsConn)
 	likesClient := likes.NewLikesClient(likesConn)
+	notificationsClient := notifications.NewNotificationsClient(notificationsconn)
 
 	bc := clients.NewBorrowsClient(borrowsClient)
 	lc := clients.NewLikesClient(likesClient)
+	nc := clients.NewNotificationsClient(notificationsClient)
 
-	if _, err := server.NewServer(":8080", db, bc, lc); err != nil {
+	if _, err := server.NewServer(":8080", db, bc, lc, nc); err != nil {
 		log.Fatal("Failed to start server\n")
 	}
 }

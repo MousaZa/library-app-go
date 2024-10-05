@@ -13,15 +13,16 @@ import (
 )
 
 type Server struct {
-	tokenMaker    *token.PasetoMaker
-	router        *gin.Engine
-	borrowsClient *clients.BorrowsClient
-	likesClient   *clients.LikesClient
-	db            *gorm.DB
-	l             hclog.Logger
+	tokenMaker          *token.PasetoMaker
+	router              *gin.Engine
+	borrowsClient       *clients.BorrowsClient
+	likesClient         *clients.LikesClient
+	notificationsClient *clients.NotificationsClient
+	db                  *gorm.DB
+	l                   hclog.Logger
 }
 
-func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clients.LikesClient) (*Server, error) {
+func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clients.LikesClient, nc *clients.NotificationsClient) (*Server, error) {
 
 	// Initialize Paseto token maker
 	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
@@ -31,11 +32,12 @@ func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clien
 
 	// Create a new server instance
 	server := &Server{
-		tokenMaker:    tokenMaker,
-		db:            db,
-		l:             hclog.Default(),
-		borrowsClient: bc,
-		likesClient:   lc,
+		tokenMaker:          tokenMaker,
+		db:                  db,
+		l:                   hclog.Default(),
+		borrowsClient:       bc,
+		notificationsClient: nc,
+		likesClient:         lc,
 	}
 
 	// Set up routes and run the server
@@ -56,6 +58,8 @@ func (server *Server) setRoutes() {
 		MaxAge:           12 * time.Hour,
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
+	auth.GET("/notifications", server.notificationsClient.GetUserNotifications)
+
 	auth.POST("/borrows", server.borrowsClient.AddBorrow)
 	auth.POST("/like/:id", server.likesClient.AddLike)
 	auth.DELETE("/like/:id", server.likesClient.DeleteLike)
@@ -65,6 +69,7 @@ func (server *Server) setRoutes() {
 	auth.GET("/borrows/user", server.borrowsClient.GetUserBorrows)
 	auth.GET("/borrows/o/user", server.borrowsClient.GetUserOnGoingBorrows)
 	router.POST("/create", server.createUser)
+	router.POST("/notifications/:id", server.notificationsClient.PushNotification)
 	router.POST("/login", server.login)
 	server.router = router
 }

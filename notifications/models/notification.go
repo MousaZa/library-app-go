@@ -10,10 +10,11 @@ type Notification struct {
 	Status  string `json:"status"`
 }
 
-func NewNotification(userID int64, message string) *Notification {
+func NewNotification(userID int64, Type string, message string) *Notification {
 	return &Notification{
 		UserID:  userID,
 		Message: message,
+		Type:    Type,
 		Status:  "unread",
 	}
 }

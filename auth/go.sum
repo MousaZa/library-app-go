@@ -12,6 +12,11 @@ github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f h1:
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f/go.mod h1:iUiyMkKXgx0MDTFo9A3Pnv8cxHk1n2J00EhzRCkKQP8=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176 h1:Y+qAadMJFZPNLARMd6xngVBTNsvg4PGkbf98NENOvrI=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
+github.com/MousaZa/library-app-go/likes v0.0.0-20241003134001-6c8deb9b09d4/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
+github.com/MousaZa/library-app-go/likes v0.0.0-20241004174956-0ae7138acdb6 h1:Xaw9YXsYvdiNZXxdVwqGGTC5/XeCart+aOK+uMxQ3EE=
+github.com/MousaZa/library-app-go/likes v0.0.0-20241004174956-0ae7138acdb6/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
+github.com/MousaZa/library-app-go/notifications v0.0.0-20241004174956-0ae7138acdb6 h1:oyD6X92IUKMyX6XGIO7rGisF1kqyiZpkV5tdJnpYteQ=
+github.com/MousaZa/library-app-go/notifications v0.0.0-20241004174956-0ae7138acdb6/go.mod h1:2RsfClrANoTfbptSQhmAQKXB58jZFcpfVQvocFk11NY=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
 github.com/bytedance/sonic v1.11.6/go.mod h1:LysEHSvpvDySVdC2f87zGWf6CIKJcAvqab1ZaiQtds4=
 github.com/bytedance/sonic/loader v0.1.1 h1:c+e5Pt1k/cy5wMveRDyk2X4B9hF4g7an8N3zCYjJFNM=

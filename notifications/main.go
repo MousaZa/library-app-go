@@ -55,8 +55,8 @@ func main() {
 	protos.RegisterNotificationsServer(gs, cs)
 
 	reflection.Register(gs)
-	log.Info("listening on port 9094")
-	l, err := net.Listen("tcp", ":9094")
+	log.Info("listening on port 9096")
+	l, err := net.Listen("tcp", ":9096")
 	if err != nil {
 		log.Error("unable to listen", err)
 		os.Exit(1)
