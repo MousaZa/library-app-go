@@ -2,10 +2,7 @@ module github.com/MousaZa/library-app-go/notifications
 
 go 1.22.2
 
-require (
-	github.com/MousaZa/library-app-go/likes v0.0.0-20241003134001-6c8deb9b09d4
-	github.com/golang/protobuf v1.5.4
-)
+require github.com/golang/protobuf v1.5.4
 
 require (
 	github.com/fatih/color v1.13.0 // indirect
@@ -31,5 +28,5 @@ require (
 	golang.org/x/text v0.17.0 // indirect
 	google.golang.org/grpc v1.67.1
 	gorm.io/driver/postgres v1.5.9
-	gorm.io/gorm v1.25.11 // indirect
+	gorm.io/gorm v1.25.11
 )

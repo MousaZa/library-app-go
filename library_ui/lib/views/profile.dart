@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/functions.dart';
-import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/borrow.dart';
-import 'package:library_ui/models/user.dart';
-import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/borrow_card.dart';
 import 'package:library_ui/views/ongoing_borrow_card.dart';
 import 'package:sizer/sizer.dart';

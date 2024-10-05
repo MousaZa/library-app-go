@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:library_ui/controllers/auth.dart';
-import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/home.dart';
-import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
-import 'package:library_ui/models/user.dart';
-import 'package:library_ui/views/profile.dart';
+
 import 'package:library_ui/views/register.dart';
 import 'package:sizer/sizer.dart';
 

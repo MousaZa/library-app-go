@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/controllers/auth.dart';
-import 'package:library_ui/functions.dart';
 import 'package:sizer/sizer.dart';
 
 class RegisterPage extends StatelessWidget {

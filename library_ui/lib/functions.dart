@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:library_ui/globals.dart';
-import 'package:library_ui/models/user.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -112,7 +109,7 @@ Future<bool> getLike(int bookId) async {
 }
 
 Future<String> login(String username, String password) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  // final SharedPreferences preferences = await SharedPreferences.getInstance();
   try{
     
     http.Response response = await http.post(

@@ -1,23 +1,12 @@
-import 'dart:async';
-import 'dart:convert';
 
 import 'package:animated_search_bar/animated_search_bar.dart';
-import 'package:choice/inline.dart';
-import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
-import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/add_book_page.dart';
-import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/books_view.dart';
-import 'package:library_ui/views/login.dart';
 import 'package:library_ui/views/profile.dart';
-import 'package:library_ui/views/register.dart';
 
 class MyHomePage extends StatefulWidget {
   factory MyHomePage.withAuth(String paseto) {
