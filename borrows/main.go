@@ -4,10 +4,12 @@ import (
 	"net"
 	"os"
 
+	"github.com/MousaZa/library-app-go/borrows/clients"
 	"github.com/MousaZa/library-app-go/borrows/models"
 	protos "github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/MousaZa/library-app-go/borrows/server"
 	"github.com/MousaZa/library-app-go/borrows/storage"
+	"github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -47,8 +49,20 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Notifications client
+	notificationsconn, err := grpc.NewClient("localhost:9096", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	defer notificationsconn.Close()
+
+	notificationsClient := notifications.NewNotificationsClient(notificationsconn)
+
+	nc := clients.NewNotificationsClient(notificationsClient)
+
 	gs := grpc.NewServer()
-	cs := server.NewBorrowsServer(log, db)
+	cs := server.NewBorrowsServer(log, db, nc)
 
 	protos.RegisterBorrowsServer(gs, cs)
 

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/MousaZa/library-app-go/notifications/models"
+	protos "github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/gorm"
 )
@@ -30,10 +31,22 @@ func (s *Server) GetUserNotifications(ctx context.Context, req *protos.GetUserNo
 		return nil, err
 	}
 
-	return &protos.GetUserNotificationsResponse{}, nil
+	resp := &protos.GetUserNotificationsResponse{}
+
+	for _, notification := range notifications {
+		s.log.Debug("Notification", "notification", notification)
+		resp.Notifications = append(resp.Notifications, &protos.Notification{
+			Id:      notification.ID,
+			UserId:  notification.UserID,
+			Type:    notification.Type,
+			Message: notification.Message,
+		})
+	}
+
+	return resp, nil
 }
 
-func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificationRequest) (*protos.MessageResponse, error) {
+func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificationRequest) (*protos.NMessageResponse, error) {
 
 	notification := models.NewNotification(req.UserId, req.Type, req.Message)
 
@@ -43,5 +56,5 @@ func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificat
 		return nil, err
 	}
 
-	return &protos.{Message: "Notification pushed successfully"}, nil
+	return &protos.NMessageResponse{Message: "Notification pushed successfully"}, nil
 }

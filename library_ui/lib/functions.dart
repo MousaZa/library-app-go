@@ -7,6 +7,22 @@ import 'dart:async';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 
+Future getNotifications() async {
+  try {
+    final token = await storage.read(key: "paseto");
+    http.Response response = await http.get(
+      Uri.parse('http://localhost:8080/notifications'),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get notifications');
+    }
+    return jsonDecode(response.body);
+  } catch (e) {
+    print("error: " +e.toString());
+  }
+}
+
 Future getBook(int id)async{
   try{
     http.Response response = await http.get(

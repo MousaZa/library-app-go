@@ -1,5 +1,7 @@
 github.com/MousaZa/library-app-go/notifications v0.0.0-20241005095254-4f39ce337646 h1:BmBnNTaUBR4fgVMQBD37L1taf8YpH80lBN8FX/3AU94=
 github.com/MousaZa/library-app-go/notifications v0.0.0-20241005095254-4f39ce337646/go.mod h1:cxFEcFbt7CGUhfmOuv6P90Z8DpPujtBSJP/x78p5xe0=
+github.com/MousaZa/library-app-go/notifications v0.0.0-20241005174946-18d808515931 h1:BBo15cq9K6BLKT26DzXfm+DpdUml2v1hYsSa+BJwEUc=
+github.com/MousaZa/library-app-go/notifications v0.0.0-20241005174946-18d808515931/go.mod h1:kj6asgxs7tA2hSRg7G5qWY4ZAXvy+5MPlAsQs1mnCNs=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

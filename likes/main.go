@@ -18,7 +18,7 @@ import (
 func main() {
 	log := hclog.Default()
 
-	log.Info("Starting borrows server" + os.Getenv("DB_HOST"))
+	log.Info("Starting likes server" + os.Getenv("DB_HOST"))
 
 	err := godotenv.Load(".env")
 	if err != nil {

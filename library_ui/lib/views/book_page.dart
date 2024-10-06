@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:library_ui/controllers/borrows.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';

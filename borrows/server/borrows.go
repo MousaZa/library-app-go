@@ -88,6 +88,10 @@ func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserB
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
+		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
+			s.l.Info("Sending notification")
+			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
+		}
 		// sd := &timestamppb.Timestamp{}
 		// // err = proto.Unmarshal(borrow.StartDate, sd)
 		// if err != nil {
@@ -145,6 +149,10 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	resp := &protos.GetBorrowsResponse{}
 
 	for _, borrow := range borrows {
+		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
+			s.l.Info("Sending notification")
+			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
+		}
 
 		resp.Borrows = append(resp.Borrows, &protos.Borrow{
 			Id:         borrow.ID,

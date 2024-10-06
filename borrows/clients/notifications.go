@@ -23,7 +23,7 @@ type NotificationRequest struct {
 	Type    string `json:"type"`
 }
 
-func (c *NotificationsClient) PushNotification(userId int64, message string, notificationType string) (*notifications.MessageResponse, error) {
+func (c *NotificationsClient) PushNotification(userId int64, message string, notificationType string) (*notifications.NMessageResponse, error) {
 
 	resp, err := c.client.PushNotification(context.Background(), &notifications.PushNotificationRequest{UserId: userId, Message: message, Type: notificationType})
 	if err != nil {
@@ -32,7 +32,3 @@ func (c *NotificationsClient) PushNotification(userId int64, message string, not
 	}
 	return resp, nil
 }
-
-// func (c *NotificationsClient) GetUserNotifications() {
-
-// }

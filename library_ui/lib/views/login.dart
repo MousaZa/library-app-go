@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/controllers/auth.dart';
+import 'package:library_ui/functions.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/globals.dart';
 
@@ -51,7 +52,18 @@ class LoginPage extends StatelessWidget {
                   onPressed: () async{
                     dynamic paseto = await controller.login(_usernameController.text, _passwordController.text);
                      if(paseto != null && paseto != 'error')  {
-                    storage.write(key: "paseto", value: paseto);
+                    await storage.write(key: "paseto", value: paseto);
+                    final notifications = await getNotifications();
+                  for (var notification in notifications) {
+                    Get.snackbar(
+                      notification['type'],
+                      notification['message'],
+                      icon: notification['type'] == 'warning' ? Icon(Icons.warning,color: Colors.white,) : Icon(Icons.info),
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      colorText: Theme.of(context).colorScheme.onSecondary,
+                    );
+                  }
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -65,6 +77,7 @@ class LoginPage extends StatelessWidget {
               ), 
               TextButton(
                 onPressed: () {
+                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(
