@@ -62,3 +62,19 @@ func (c *NotificationsClient) GetUserNotifications(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, resp.Notifications)
 }
+
+func (c *NotificationsClient) MarkNotificationAsRead(ctx *gin.Context) {
+	notificationId, err := strconv.Atoi(ctx.Param("notificationId"))
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	resp, err := c.client.MarkNotificationAsRead(context.Background(), &notifications.MarkNotificationAsReadRequest{NotificationId: int64(notificationId)})
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, resp.Message)
+}

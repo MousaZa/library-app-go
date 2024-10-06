@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/MousaZa/library-app-go/notifications/models"
 	protos "github.com/MousaZa/library-app-go/notifications/protos/notifications"
@@ -48,6 +49,15 @@ func (s *Server) GetUserNotifications(ctx context.Context, req *protos.GetUserNo
 
 func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificationRequest) (*protos.NMessageResponse, error) {
 
+	n := models.Notification{}
+
+	if err := s.DB.Where("user_id = ? AND type = ?", req.UserId, req.Type).First(&n).Error; err == nil {
+		s.log.Info("Notification already exists", "notification", n)
+		return nil, nil
+	}
+
+	fmt.Printf("Pushing notification for user %v\n", req.UserId)
+
 	notification := models.NewNotification(req.UserId, req.Type, req.Message)
 
 	err := s.DB.Create(&notification).Error
@@ -57,4 +67,27 @@ func (s *Server) PushNotification(ctx context.Context, req *protos.PushNotificat
 	}
 
 	return &protos.NMessageResponse{Message: "Notification pushed successfully"}, nil
+}
+
+func (s *Server) MarkNotificationAsRead(ctx context.Context, req *protos.MarkNotificationAsReadRequest) (*protos.NMessageResponse, error) {
+
+	notification := models.Notification{}
+
+	err := s.DB.Where("id = ?", req.NotificationId).First(&notification).Error
+
+	if err != nil {
+		s.log.Error("Unable to get notification", "error", err)
+		return nil, err
+	}
+
+	notification.Status = "read"
+
+	err = s.DB.Save(&notification).Error
+
+	if err != nil {
+		s.log.Error("Unable to update notification", "error", err)
+		return nil, err
+	}
+
+	return &protos.NMessageResponse{Message: "Notification updated successfully"}, nil
 }

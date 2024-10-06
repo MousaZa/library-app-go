@@ -19,7 +19,7 @@ Future getNotifications() async {
     }
     return jsonDecode(response.body);
   } catch (e) {
-    print("error: " +e.toString());
+    print("error: " + e.toString());
   }
 }
 

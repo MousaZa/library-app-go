@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                       notification['type'],
                       notification['message'],
                       icon: notification['type'] == 'warning' ? Icon(Icons.warning,color: Colors.white,) : Icon(Icons.info),
-                      snackPosition: SnackPosition.BOTTOM,
+                      snackPosition: SnackPosition.TOP,
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       colorText: Theme.of(context).colorScheme.onSecondary,
                     );

@@ -5,8 +5,12 @@ import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/add_book_page.dart';
+import 'package:library_ui/views/book_card.dart';
 import 'package:library_ui/views/books_view.dart';
+import 'package:library_ui/views/notification_card.dart';
 import 'package:library_ui/views/profile.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:sizer/sizer.dart';
 
 class MyHomePage extends StatefulWidget {
   factory MyHomePage.withAuth(String paseto) {
@@ -51,6 +55,37 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           actions: [
+            FutureBuilder(future: getNotifications(), builder: (context, snapshot){
+              if (snapshot.hasData) {
+                return badges.Badge(
+                  badgeContent: Text(snapshot.data.length.toString(), style: TextStyle(color:Colors.white),),
+                  child: IconButton(
+                    onPressed: () {
+                      Get.defaultDialog(
+                        title: "Notifications",
+                        content: Container(
+                          height: 50.h,
+                          width: 50.w,
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return NotificationCard(message: snapshot.data[index]["message"], type: snapshot.data[index]["type"]);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.notifications),
+                  ),
+                );
+              } else { 
+                return IconButton(
+                  onPressed: () {
+                    Get.snackbar("Notifications", "No notifications");
+                  },
+                  icon: Icon(Icons.notifications),
+                );
+              }}),
              IconButton(
                 onPressed: ()async {
                   await getUser(widget.paseto).then((value) {

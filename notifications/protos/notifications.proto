@@ -5,6 +5,8 @@ service Notifications {
   rpc pushNotification(PushNotificationRequest) returns (NMessageResponse);
   // GET
   rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse);
+  // UPDATE
+  rpc MarkNotificationAsRead(MarkNotificationAsReadRequest) returns (NMessageResponse);
 }
 
 message Notification{
@@ -27,6 +29,10 @@ message PushNotificationRequest{
     int64 UserId = 1 ;
     string message = 2 ;
     string type = 3 ;
+}
+
+message MarkNotificationAsReadRequest{
+    int64 NotificationId = 2 ;
 }
 
 message NMessageResponse{
