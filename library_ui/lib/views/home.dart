@@ -1,4 +1,3 @@
-
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,9 +26,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-
   final List<String> languages = ["English", "Arabic", "Turkish"];
   final List<String> categories = [
     "Science",
@@ -55,49 +51,86 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           actions: [
-            FutureBuilder(future: getNotifications(), builder: (context, snapshot){
-              if (snapshot.hasData) {
-                return badges.Badge(
-                  badgeContent: Text(snapshot.data.length.toString(), style: TextStyle(color:Colors.white),),
-                  child: IconButton(
-                    onPressed: () {
-                      Get.defaultDialog(
-                        title: "Notifications",
-                        content: Container(
-                          height: 50.h,
-                          width: 50.w,
-                          child: ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (context, index) {
-                              return NotificationCard(message: snapshot.data[index]["message"], type: snapshot.data[index]["type"]);
-                            },
-                          ),
+            FutureBuilder(
+                future: getNotifications(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    int length = 0;
+                    for (var notification in snapshot.data) {
+                      if (notification["status"] == "unread") {
+                        length++;
+                      }
+                    }
+                    if (length > 0) {
+                      return badges.Badge(
+                        badgeContent: Text(
+                          length.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "Notifications",
+                              content: Container(
+                                height: 50.h,
+                                width: 50.w,
+                                child: ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    markAsRead(snapshot.data[index]["Id"]);
+                                    return NotificationCard(
+                                        message: snapshot.data[index]
+                                            ["message"],
+                                        type: snapshot.data[index]["type"]);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.notifications),
                         ),
                       );
+                    }
+                  }
+                  return IconButton(
+                    onPressed: () {
+                      Get.defaultDialog(
+                              title: "Notifications",
+                              content: Container(
+                                height: 50.h,
+                                width: 50.w,
+                                child: snapshot.data.length == 0 ? Text("You don't have any notifications!") : ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    markAsRead(snapshot.data[index]["Id"]);
+                                    return NotificationCard(
+                                        message: snapshot.data[index]
+                                            ["message"],
+                                        type: snapshot.data[index]["type"]);
+                                  },
+                                ),
+                              ),
+                            );
                     },
                     icon: Icon(Icons.notifications),
-                  ),
-                );
-              } else { 
-                return IconButton(
-                  onPressed: () {
-                    Get.snackbar("Notifications", "No notifications");
-                  },
-                  icon: Icon(Icons.notifications),
-                );
-              }}),
-             IconButton(
-                onPressed: ()async {
+                  );
+                }),
+            IconButton(
+                onPressed: () async {
                   await getUser(widget.paseto).then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile(userData: value)));
-                  }); 
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Profile(userData: value)));
+                  });
                 },
-                icon: Icon(Icons.person)) ,
-                IconButton(onPressed: (){
+                icon: Icon(Icons.person)),
+            IconButton(
+                onPressed: () {
                   storage.delete(key: "paseto");
                   Get.offAllNamed('/login');
-                }, icon: Icon(Icons.logout))
+                },
+                icon: Icon(Icons.logout))
           ],
           title: AnimatedSearchBar(
             label: "Library UI",
@@ -136,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //           }
                 //           setState(() {
                 //             language = value!;
-                //           }); 
+                //           });
                 //         },
                 //         itemCount: languages.length,
                 //         itemBuilder: (state, i) {
@@ -201,9 +234,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 //   ),
                 // ),
                 Expanded(
-                  child: BookFetcher(category: category,language: language,search: searchText,)
-                ),
+                    child: BookFetcher(
+                  category: category,
+                  language: language,
+                  search: searchText,
+                )),
               ],
             )));
-  } 
+  }
 }

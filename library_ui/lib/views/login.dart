@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 child: MaterialButton(
                   onPressed: () async{
                     dynamic paseto = await controller.login(_usernameController.text, _passwordController.text);
-                     if(paseto != null && paseto != 'error')  {
+                    if ( paseto != null && paseto != 'error' ){
                     await storage.write(key: "paseto", value: paseto);
                     final notifications = await getNotifications();
                   for (var notification in notifications) {

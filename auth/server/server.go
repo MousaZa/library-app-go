@@ -59,6 +59,7 @@ func (server *Server) setRoutes() {
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
 	auth.GET("/notifications", server.notificationsClient.GetUserNotifications)
+	auth.PUT("/notifications/:id", server.notificationsClient.MarkNotificationAsRead)
 	auth.POST("/borrows", server.borrowsClient.AddBorrow)
 	auth.POST("/like/:id", server.likesClient.AddLike)
 	auth.DELETE("/like/:id", server.likesClient.DeleteLike)

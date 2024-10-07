@@ -26,7 +26,7 @@ require (
 require (
 	aidanwoods.dev/go-paseto v1.5.2
 	github.com/MousaZa/library-app-go/likes v0.0.0-20241004174956-0ae7138acdb6
-	github.com/MousaZa/library-app-go/notifications v0.0.0-20241005174946-18d808515931
+	github.com/MousaZa/library-app-go/notifications v0.0.0-20241006133758-e15b20f2c235
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
