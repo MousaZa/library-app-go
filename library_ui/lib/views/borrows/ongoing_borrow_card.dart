@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:intl/intl.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,7 +33,7 @@ class OngoingBorrowCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: FutureBuilder(
-          future: getBook(borrowData.bookId),
+          future: Book.getBook(borrowData.bookId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             return Row(
@@ -48,7 +49,7 @@ class OngoingBorrowCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            snapshot.data["title"],
+                            snapshot.data!.title,
                             style: TextStyle(
                                 fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),

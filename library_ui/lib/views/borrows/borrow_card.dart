@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,7 +31,7 @@ class BorrowCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: FutureBuilder(
-          future: getBook(borrowData.bookId),
+          future: Book.getBook(borrowData.bookId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             return Padding(
@@ -40,7 +41,7 @@ class BorrowCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    snapshot.data["title"],
+                    snapshot.data!.title,
                     style:
                         TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                   ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
-import 'package:library_ui/views/book_page.dart';
+import 'package:library_ui/views/books/book_page.dart';
 import 'package:sizer/sizer.dart';
 
 class BookCard extends StatefulWidget {

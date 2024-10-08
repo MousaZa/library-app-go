@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Book {
 
@@ -42,6 +43,27 @@ class Book {
       likes: json['likes'],
       borrows: json['borrows'],
     );
+  }
+
+  factory Book.empty(){
+    return Book(id: 0, available: false, title: '', author: '', coverURL: '', category: '', language: '', summary: 
+  '', likes: 0, borrows: 0);
+  }
+
+  static Future<Book> getBook(int id) async {
+  try{
+    http.Response response = await http.get(
+    Uri.parse('http://localhost:9090/books/$id'),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to get book');
+  }
+  return Book.fromJson(jsonDecode(response.body));
+  }catch(e){
+    
+    print(e);
+    return Book.empty();
+  }
   }
 
   Map<String, dynamic> toJson() {
@@ -101,4 +123,5 @@ class Book {
     print(e);
   }
 } 
+
 }

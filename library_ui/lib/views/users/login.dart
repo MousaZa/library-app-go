@@ -5,7 +5,7 @@ import 'package:library_ui/functions.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/globals.dart';
 
-import 'package:library_ui/views/register.dart';
+import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatelessWidget {

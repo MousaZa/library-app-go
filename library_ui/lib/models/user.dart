@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:http/http.dart' as http;
+
 class User {
 
   final String token;
@@ -8,7 +13,9 @@ class User {
   final String password;
 
   User({required this.token,required this.id,required this.name,required this.email,required this.password});
+
   const User.empty() : token = '', id = 0, name = '', email = '', password = '';
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       name: json['user']['username'],
@@ -25,4 +32,15 @@ class User {
     'password': password,
   };
 
+  Future delete() async {
+  try{
+    http.Response response = await http.delete(
+    Uri.parse('http://localhost:8080/delete/$id'),
+    headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+  );
+  return response.statusCode;
+  }catch(e){
+    print(e);
+  }
+}
 }

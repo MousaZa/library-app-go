@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
-import 'package:library_ui/views/add_book_page.dart';
-import 'package:library_ui/views/edit_book_page.dart';
+import 'package:library_ui/views/books/add_book_page.dart';
+import 'package:library_ui/views/books/edit_book_page.dart';
 import 'package:library_ui/views/home.dart';
-import 'package:library_ui/views/login.dart';
-import 'package:library_ui/views/register.dart';
+import 'package:library_ui/views/users/login.dart';
+import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {

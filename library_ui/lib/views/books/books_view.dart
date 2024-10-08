@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:library_ui/models/book.dart';
-import 'package:library_ui/views/book_card.dart';
+import 'package:library_ui/views/books/book_card.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BookFetcher extends StatefulWidget {
