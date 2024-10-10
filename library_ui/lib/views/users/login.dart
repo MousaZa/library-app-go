@@ -54,6 +54,7 @@ class LoginPage extends StatelessWidget {
                     if ( paseto != null && paseto != 'error' ){
                     await storage.write(key: "paseto", value: paseto);
                     final notifications = await getNotifications();
+                    if(notifications.isNotEmpty){
                   for (var notification in notifications) {
                     Get.snackbar(
                       notification['type'],
@@ -62,7 +63,8 @@ class LoginPage extends StatelessWidget {
                       snackPosition: SnackPosition.TOP,
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       colorText: Theme.of(context).colorScheme.onSecondary,
-                    );
+                    );}
+
                   }
                     Navigator.pushReplacement(
                       context,

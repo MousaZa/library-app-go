@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     getPages: [
       GetPage(name: '/login', page: () => LoginPage()), 
       GetPage(name: '/register', page: () => RegisterPage()),
-      GetPage(name: '/addbook', page: () => AddBookPage()),
+      GetPage(name: '/addbook', page: () => const AddBookPage()),
       GetPage(name: '/edit_book', page: () => EditBookPage()),
       GetPage(name: '/', page: () => MyHomePage(paseto: pasetoOrEmpty.toString())),
     ],

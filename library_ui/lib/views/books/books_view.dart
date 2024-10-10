@@ -6,11 +6,12 @@ import 'package:library_ui/views/books/book_card.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BookFetcher extends StatefulWidget {
-  final String search  ;
-  final String language ;
-  final String category ;
+  final String search;
+  final String language;
+  final String category;
 
   const BookFetcher({super.key, required this.search, required this.language, required this.category});
+
   @override
   _BookFetcherState createState() => _BookFetcherState();
 }
@@ -19,23 +20,38 @@ class _BookFetcherState extends State<BookFetcher> {
   late WebSocketChannel channel;
   List books = [];
 
-
   @override
   void initState() {
     super.initState();
     connectToWebSocket();
   }
 
+  @override
+  void didUpdateWidget(covariant BookFetcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.search != oldWidget.search ||
+        widget.language != oldWidget.language ||
+        widget.category != oldWidget.category) {
+      
+      channel.sink.close(); 
+      connectToWebSocket(); 
+    }
+  }
+
   void connectToWebSocket() {
     channel = WebSocketChannel.connect(
-      Uri.parse('ws://localhost:9090/books?search=${widget.search}&language=${widget.language}&category=${widget.category}'),
+      Uri.parse(
+          'ws://localhost:9090/books?search=${widget.search}&language=${widget.language}&category=${widget.category}'),
     );
-
     channel.stream.listen(
       (message) {
-        setState(() { 
+        setState(() {
           books.clear();
-          books.addAll(jsonDecode(message));
+          if(message.toString() != '[]'){
+              books.addAll(json.decode(message));
+          }
+          
         });
       },
       onError: (error) {
@@ -56,13 +72,15 @@ class _BookFetcherState extends State<BookFetcher> {
   @override
   Widget build(BuildContext context) {
     return DynamicHeightGridView(
-        builder: (context, index) {
-          final book = Book.fromJson(books[index]);
-          return BookCard(bookData: book);
-        },
-        itemCount: books.length,
-        crossAxisCount: 2,
-      );
+      builder: (context, index) {
+        if(books.isEmpty)
+          return Center(child: CircularProgressIndicator(),);
+
+         final book = Book.fromJson(books[index]);
+         return BookCard(bookData: book);
+      },
+      itemCount: books.length,
+      crossAxisCount: 2,
+    );
   }
 }
-  

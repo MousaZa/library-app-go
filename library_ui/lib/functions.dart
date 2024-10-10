@@ -20,7 +20,7 @@ Future markAsRead(int id) async {
   }
 }
 
-Future getNotifications() async {
+Future<List> getNotifications() async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
@@ -33,40 +33,7 @@ Future getNotifications() async {
     return jsonDecode(response.body);
   } catch (e) {
     print("error: " + e.toString());
-  }
-}
-
-// Future getBorrowedBooks() async {
-//     try {
-//     final token = await storage.read(key: "paseto");
-//     http.Response response = await http.get(
-//       Uri.parse('http://localhost:8080/borrows/user'),
-//       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
-//     );
-//     if (response.statusCode != 200) {
-//       throw Exception('Failed to like book');
-//     }
-//     print (jsonDecode(response.body));
-//     return jsonDecode(response.body); 
-//   } catch (e) {
-//     print(e);
-//   }
-// }
-
-Future getOnGoingBorrowedBooks() async {
-    try {
-    final token = await storage.read(key: "paseto");
-    http.Response response = await http.get(
-      Uri.parse('http://localhost:8080/borrows/o/user'),
-      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to like book');
-    }
-    print (jsonDecode(response.body));
-    return jsonDecode(response.body); 
-  } catch (e) {
-    print(e);
+    return [];
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
+import 'package:choice/inline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
@@ -56,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     int length = 0;
-                    for (var notification in snapshot.data) {
+                    for (var notification in snapshot.data!) {
                       if (notification["status"] == "unread") {
                         length++;
                       }
@@ -75,13 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 50.h,
                                 width: 50.w,
                                 child: ListView.builder(
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
-                                    markAsRead(snapshot.data[index]["Id"]);
+                                    markAsRead(snapshot.data![index]["Id"]);
                                     return NotificationCard(
-                                        message: snapshot.data[index]
+                                        message: snapshot.data![index]
                                             ["message"],
-                                        type: snapshot.data[index]["type"]);
+                                        type: snapshot.data![index]["type"]);
                                   },
                                 ),
                               ),
@@ -99,14 +100,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               content: Container(
                                 height: 50.h,
                                 width: 50.w,
-                                child: snapshot.data.length == 0 ? Text("You don't have any notifications!") : ListView.builder(
-                                  itemCount: snapshot.data.length,
+                                child: snapshot.data!.length == 0 ? Center(child: Text("You don't have any notifications!"),) : ListView.builder(
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
-                                    markAsRead(snapshot.data[index]["Id"]);
+                                    markAsRead(snapshot.data![index]["Id"]);
                                     return NotificationCard(
-                                        message: snapshot.data[index]
+                                        message: snapshot.data![index]
                                             ["message"],
-                                        type: snapshot.data[index]["type"]);
+                                        type: snapshot.data![index]["type"]);
                                   },
                                 ),
                               ),
@@ -153,86 +154,86 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.all(20),
             child: Column(
               children: [
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     children: [
-                //       InlineChoice<String>.single(
-                //         clearable: true,
-                //         value: language,
-                //         onChanged: (value) {
-                //           if (value == null) {
-                //             value = "";
-                //           }
-                //           if (value == language) {
-                //             value = "";
-                //           }
-                //           setState(() {
-                //             language = value!;
-                //           });
-                //         },
-                //         itemCount: languages.length,
-                //         itemBuilder: (state, i) {
-                //           return ChoiceChip(
-                //             selected: state.selected(languages[i]),
-                //             onSelected: state.onSelected(languages[i]),
-                //             label: Padding(
-                //                 padding:
-                //                     EdgeInsets.symmetric(horizontal: 10),
-                //                 child: Text(languages[i])),
-                //           );
-                //         },
-                //         listBuilder: ChoiceList.createScrollable(
-                //           spacing: 20,
-                //           // runSpacing: 10,
-                //           padding: const EdgeInsets.symmetric(
-                //             horizontal: 20,
-                //             vertical: 25,
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(
-                //         height: 30,
-                //         child: VerticalDivider(
-                //           color: Colors.black,
-                //           thickness: 1,
-                //         ),
-                //       ),
-                //       InlineChoice<String>.single(
-                //         clearable: true,
-                //         value: category,
-                //         onChanged: (value) {
-                //           if (value == null) {
-                //             value = "";
-                //           }
-                //           if (value == category) {
-                //             value = "";
-                //           }
-                //           setState(() {
-                //             category = value!;
-                //           });
-                //         },
-                //         itemCount: categories.length,
-                //         itemBuilder: (state, i) {
-                //           return ChoiceChip(
-                //             selected: state.selected(categories[i]),
-                //             onSelected: state.onSelected(categories[i]),
-                //             label: Text(categories[i]),
-                //           );
-                //         },
-                //         listBuilder: ChoiceList.createScrollable(
-                //           direction: Axis.horizontal,
-                //           spacing: 20,
-                //           // runSpacing: 10,
-                //           padding: const EdgeInsets.symmetric(
-                //             horizontal: 20,
-                //             vertical: 25,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      InlineChoice<String>.single(
+                        clearable: true,
+                        value: language,
+                        onChanged: (value) {
+                          if (value == null) {
+                            value = "";
+                          }
+                          if (value == language) {
+                            value = "";
+                          }
+                          setState(() {
+                            language = value!;
+                          });
+                        },
+                        itemCount: languages.length,
+                        itemBuilder: (state, i) {
+                          return ChoiceChip(
+                            selected: state.selected(languages[i]),
+                            onSelected: state.onSelected(languages[i]),
+                            label: Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(languages[i])),
+                          );
+                        },
+                        listBuilder: ChoiceList.createScrollable(
+                          spacing: 20,
+                          // runSpacing: 10,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 25,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                        child: VerticalDivider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                      ),
+                      InlineChoice<String>.single(
+                        clearable: true,
+                        value: category,
+                        onChanged: (value) {
+                          if (value == null) {
+                            value = "";
+                          }
+                          if (value == category) {
+                            value = "";
+                          }
+                          setState(() {
+                            category = value!;
+                          });
+                        },
+                        itemCount: categories.length,
+                        itemBuilder: (state, i) {
+                          return ChoiceChip(
+                            selected: state.selected(categories[i]),
+                            onSelected: state.onSelected(categories[i]),
+                            label: Text(categories[i]),
+                          );
+                        },
+                        listBuilder: ChoiceList.createScrollable(
+                          direction: Axis.horizontal,
+                          spacing: 20,
+                          // runSpacing: 10,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 25,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                     child: BookFetcher(
                   category: category,
