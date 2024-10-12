@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/MousaZa/library-app-go/notifications/models"
 	"github.com/hashicorp/go-hclog"
@@ -19,9 +20,19 @@ type Config struct {
 }
 
 func NewConnection(cfg *Config) (*gorm.DB, error) {
-	dsn := "user=" + cfg.User + " password=" + cfg.Password + " dbname=" + cfg.DBName + " port=" + cfg.Port + " sslmode=" + cfg.SSLMode + " TimeZone=Asia/Shanghai"
-	fmt.Printf("dsn: %s\n", dsn)
-	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	bin, err := ioutil.ReadFile("/run/secrets/db-password")
+	if err != nil {
+		return nil, fmt.Errorf("failed to read database password: %w", err)
+	}
+
+	// Build connection string with SSL mode disabled
+	dsn := fmt.Sprintf("host=db user=postgres password=%s dbname=library port=5432 sslmode=disable TimeZone=Asia/Shanghai", string(bin)) // Adjust TimeZone as needed
+
+	// Open connection using GORM
+	config := &gorm.Config{}
+	return gorm.Open(postgres.Open(dsn), config)
+
 }
 
 type Database struct {

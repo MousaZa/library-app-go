@@ -5,7 +5,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Book {
 
-  static const String url = 'http://localhost:9090/books';
+  static const String url = 'http://localhost/books';
 
   int id;
   String title;
@@ -53,7 +53,7 @@ class Book {
   static Future<Book> getBook(int id) async {
   try{
     http.Response response = await http.get(
-    Uri.parse('http://localhost:9090/books/$id'),
+    Uri.parse('http://localhost/books/$id'),
   );
   if (response.statusCode != 200) {
     throw Exception('Failed to get book');

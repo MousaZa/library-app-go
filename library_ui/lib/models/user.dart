@@ -35,7 +35,7 @@ class User {
   Future delete() async {
   try{
     http.Response response = await http.delete(
-    Uri.parse('http://localhost:8080/delete/$id'),
+    Uri.parse('http://localhost/auth/delete/$id'),
     headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
   );
   return response.statusCode;

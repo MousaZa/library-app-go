@@ -9,7 +9,7 @@ class Auth extends GetxController {
   Future<String> login(String username, String password) async {
     try {
       http.Response response = await http.post(
-        Uri.parse('http://localhost:8080/login'),
+        Uri.parse('http://localhost/auth/login'),
         body: '{ "username": "$username", "password": "$password" }',
       );
       print(response.statusCode);
@@ -41,7 +41,7 @@ class Auth extends GetxController {
       String email, String username, String password) async {
     try {
       http.Response response = await http.post(
-        Uri.http('localhost:8080', '/create'),
+        Uri.http('localhost', '/auth/create'),
         body:
             '{ "id" : 1 , "username" : "$username" , "email" :"$email" , "password" : "$password" }',
       );

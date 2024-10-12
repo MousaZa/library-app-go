@@ -28,6 +28,26 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  likes:
+    build:
+      context: likes
+      target: builder
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+
+  notifications:
+    build:
+      context: notifications
+      target: builder
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
   
   db:
     image: postgres
