@@ -9,6 +9,26 @@ services:
       db:
         condition: service_healthy
 
+  auth:
+    build:
+      context: auth
+      target: builder
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  borrows:
+    build:
+      context: borrows
+      target: builder
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+  
   db:
     image: postgres
     restart: always

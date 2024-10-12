@@ -32,11 +32,7 @@ func NewConnection(cfg *Config) (*gorm.DB, error) {
 	// Open connection using GORM
 	config := &gorm.Config{}
 	return gorm.Open(postgres.Open(dsn), config)
-	// dsn := "host=localhost user=bazos password=<YOUR PASSWORD> dbname=bazos port=5420 sslmode=disable"
 
-	// dbOpen, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	// dsn := "host=" + cfg.Host + " user=" + cfg.User + " password=" + cfg.Password + " dbname=" + cfg.DBName + " port=" + cfg.Port + " sslmode=" + cfg.SSLMode + " TimeZone=Asia/Shanghai"
-	// return gorm.Open(postgres.Open(dsn), &gorm.Config{})
 }
 
 type Database struct {
