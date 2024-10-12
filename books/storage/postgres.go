@@ -1,6 +1,9 @@
 package storage
 
 import (
+	"fmt"
+	"io/ioutil"
+
 	"github.com/MousaZa/library-app-go/books/models"
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/driver/postgres"
@@ -17,8 +20,23 @@ type Config struct {
 }
 
 func NewConnection(cfg *Config) (*gorm.DB, error) {
-	dsn := "user=" + cfg.User + " password=" + cfg.Password + " dbname=" + cfg.DBName + " port=" + cfg.Port + " sslmode=" + cfg.SSLMode + " TimeZone=Asia/Shanghai"
-	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	bin, err := ioutil.ReadFile("/run/secrets/db-password")
+	if err != nil {
+		return nil, fmt.Errorf("failed to read database password: %w", err)
+	}
+
+	// Build connection string with SSL mode disabled
+	dsn := fmt.Sprintf("host=db user=postgres password=%s dbname=library port=5432 sslmode=disable TimeZone=Asia/Shanghai", string(bin)) // Adjust TimeZone as needed
+
+	// Open connection using GORM
+	config := &gorm.Config{}
+	return gorm.Open(postgres.Open(dsn), config)
+	// dsn := "host=localhost user=bazos password=<YOUR PASSWORD> dbname=bazos port=5420 sslmode=disable"
+
+	// dbOpen, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// dsn := "host=" + cfg.Host + " user=" + cfg.User + " password=" + cfg.Password + " dbname=" + cfg.DBName + " port=" + cfg.Port + " sslmode=" + cfg.SSLMode + " TimeZone=Asia/Shanghai"
+	// return gorm.Open(postgres.Open(dsn), &gorm.Config{})
 }
 
 type Database struct {

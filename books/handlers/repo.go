@@ -305,6 +305,10 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 	cors.POST("/books/like/:id", r.LikeBook)
 	cors.POST("/books/remove_like/:id", r.RemoveLike)
 
+	cors.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "Welcome to the Book API"})
+	})
+
 	doc := redoc.Redoc{
 		Title:       "Api Documentation",
 		Description: "Documentation for Book API",
