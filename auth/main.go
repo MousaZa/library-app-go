@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/tls"
+	"fmt"
 	"log"
 	"os"
 
@@ -14,6 +16,7 @@ import (
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -44,16 +47,23 @@ func main() {
 		l.Error("Unable to migrate books", "error", err)
 	}
 
-	// Likes client
-	likesConn, err := grpc.NewClient("localhost:9094", grpc.WithInsecure())
-	if err != nil {
-		panic(err)
-	}
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
 
+	// remember to update address to use the new NGINX listen port
+
+	// Likes client
+	likesConn, err := grpc.Dial("localhost:80", grpc.WithTransportCredentials(creds))
+	if err != nil {
+		fmt.Printf("Failed to connect to Likes service: %v", err)
+		// log.Fatalf("Failed to connect to Likes service: %v", err)
+	}
 	defer likesConn.Close()
+	fmt.Printf("Starting likes server, conn: %v", likesConn.Target())
+	// l.Info("Starting likes server", likesConn.Target())
 
 	// Borrows client
-	borrowsConn, err := grpc.NewClient("localhost:9092", grpc.WithInsecure())
+	borrowsConn, err := grpc.NewClient("localhost/Borrows", grpc.WithInsecure())
+	l.Info("Starting borrows server", borrowsConn.CanonicalTarget())
 	if err != nil {
 		panic(err)
 	}
@@ -61,7 +71,7 @@ func main() {
 	defer borrowsConn.Close()
 
 	// Notifications client
-	notificationsconn, err := grpc.NewClient("localhost:9096", grpc.WithInsecure())
+	notificationsconn, err := grpc.NewClient("localhost/Notifications", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}

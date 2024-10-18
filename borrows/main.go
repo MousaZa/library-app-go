@@ -50,7 +50,7 @@ func main() {
 	}
 
 	// Notifications client
-	notificationsconn, err := grpc.NewClient("localhost:9096", grpc.WithInsecure())
+	notificationsconn, err := grpc.NewClient("localhost", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}

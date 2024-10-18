@@ -33,7 +33,7 @@ func (c *LikesClient) AddLike(ctx *gin.Context) {
 	userId := ctx.MustGet("userId").(int64)
 	resp, err := c.client.AddLike(context.Background(), &likes.LikeRequest{BookId: bookId, UserId: userId})
 	if err != nil {
-		fmt.Printf("Failed to bind JSON: %v\n", err)
+		fmt.Printf("Error connecting: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

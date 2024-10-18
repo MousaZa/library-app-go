@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package library;
+
 service Likes {
     rpc AddLike(LikeRequest) returns (BoolResponse);
     rpc DeleteLike(LikeRequest) returns (BoolResponse);
