@@ -17,6 +17,8 @@ github.com/MousaZa/library-app-go/likes v0.0.0-20241004174956-0ae7138acdb6 h1:Xa
 github.com/MousaZa/library-app-go/likes v0.0.0-20241004174956-0ae7138acdb6/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
 github.com/MousaZa/library-app-go/likes v0.0.0-20241012190648-e0cd4b7f3547 h1:6kJSLh7kmDNnh/xBwrtr0qSiCLEkwNv4+F2zoE34ndE=
 github.com/MousaZa/library-app-go/likes v0.0.0-20241012190648-e0cd4b7f3547/go.mod h1:XQyPrRw3lxCPW2VmzNgm9Cm9ExPEb6JgdlruFcgnqKA=
+github.com/MousaZa/library-app-go/likes v0.0.0-20241018180005-719a4154c01d h1:4vgbfTh4EndqlCwEddVvo/v79BdIfjmik/tPvgNh5/I=
+github.com/MousaZa/library-app-go/likes v0.0.0-20241018180005-719a4154c01d/go.mod h1:FsAqNzrOHADkoiRqrBnSfg7RaGeBw96Zio48Ey5eF40=
 github.com/MousaZa/library-app-go/notifications v0.0.0-20241004174956-0ae7138acdb6 h1:oyD6X92IUKMyX6XGIO7rGisF1kqyiZpkV5tdJnpYteQ=
 github.com/MousaZa/library-app-go/notifications v0.0.0-20241004174956-0ae7138acdb6/go.mod h1:2RsfClrANoTfbptSQhmAQKXB58jZFcpfVQvocFk11NY=
 github.com/MousaZa/library-app-go/notifications v0.0.0-20241005110707-a41bde9f1aec h1:qidgLbVbdLHqJgKvDxw9Ss9E4vakOZKO1P9uABSTi2k=

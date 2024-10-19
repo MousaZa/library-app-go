@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 	"os"
@@ -11,12 +10,11 @@ import (
 	"github.com/MousaZa/library-app-go/auth/server"
 	"github.com/MousaZa/library-app-go/auth/storage"
 	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
-	"github.com/MousaZa/library-app-go/likes/protos/likes"
+	library "github.com/MousaZa/library-app-go/likes/protos/likes"
 	"github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -47,12 +45,12 @@ func main() {
 		l.Error("Unable to migrate books", "error", err)
 	}
 
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	// creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
 
 	// remember to update address to use the new NGINX listen port
 
 	// Likes client
-	likesConn, err := grpc.Dial("localhost:80", grpc.WithTransportCredentials(creds))
+	likesConn, err := grpc.Dial("proxy:80", grpc.WithInsecure())
 	if err != nil {
 		fmt.Printf("Failed to connect to Likes service: %v", err)
 		// log.Fatalf("Failed to connect to Likes service: %v", err)
@@ -80,7 +78,7 @@ func main() {
 
 	// create client
 	borrowsClient := borrows.NewBorrowsClient(borrowsConn)
-	likesClient := likes.NewLikesClient(likesConn)
+	likesClient := library.NewLikesClient(likesConn)
 	notificationsClient := notifications.NewNotificationsClient(notificationsconn)
 
 	bc := clients.NewBorrowsClient(borrowsClient)
