@@ -9,7 +9,7 @@ import (
 	protos "github.com/MousaZa/library-app-go/borrows/protos/borrows"
 	"github.com/MousaZa/library-app-go/borrows/server"
 	"github.com/MousaZa/library-app-go/borrows/storage"
-	"github.com/MousaZa/library-app-go/notifications/protos/notifications"
+	library "github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -50,14 +50,14 @@ func main() {
 	}
 
 	// Notifications client
-	notificationsconn, err := grpc.NewClient("localhost", grpc.WithInsecure())
+	notificationsconn, err := grpc.NewClient("proxy:80", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
 
 	defer notificationsconn.Close()
 
-	notificationsClient := notifications.NewNotificationsClient(notificationsconn)
+	notificationsClient := library.NewNotificationsClient(notificationsconn)
 
 	nc := clients.NewNotificationsClient(notificationsClient)
 

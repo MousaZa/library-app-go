@@ -49,7 +49,7 @@ class Borrow {
     try {
     final token = await storage.read(key: "paseto");
     http.Response doneResponse = await http.get(
-      Uri.parse('http://localhost:8080/borrows/user'),
+      Uri.parse('http://localhost/auth/borrows/user'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (doneResponse.statusCode != 200) {
@@ -57,7 +57,7 @@ class Borrow {
     }
 
     http.Response ongoingResponse = await http.get(
-      Uri.parse('http://localhost:8080/borrows/o/user'),
+      Uri.parse('http://localhost/auth/borrows/o/user'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (ongoingResponse.statusCode != 200) {

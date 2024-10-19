@@ -3,7 +3,7 @@ module github.com/MousaZa/library-app-go/auth
 go 1.22.2
 
 require (
-	github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f
+	github.com/MousaZa/library-app-go/borrows v0.0.0-20241019163729-8c1fa4b70035
 	github.com/gin-contrib/cors v1.7.2
 	github.com/hashicorp/go-hclog v1.6.3
 	google.golang.org/grpc v1.67.1
@@ -26,7 +26,7 @@ require (
 require (
 	aidanwoods.dev/go-paseto v1.5.2
 	github.com/MousaZa/library-app-go/likes v0.0.0-20241018180005-719a4154c01d
-	github.com/MousaZa/library-app-go/notifications v0.0.0-20241006133758-e15b20f2c235
+	github.com/MousaZa/library-app-go/notifications v0.0.0-20241019163729-8c1fa4b70035
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

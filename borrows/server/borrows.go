@@ -35,7 +35,7 @@ func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequ
 		return nil, err
 	}
 
-	link := fmt.Sprintf("http://localhost:9090/books/borrow/%v", req.BookId)
+	link := fmt.Sprintf("http://proxy/books/borrow/%v", req.BookId)
 
 	resp, err := http.Post(link, "application/json", nil)
 

@@ -32,7 +32,7 @@ class BorrowsController extends GetxController{
   Future<String> add(String token, Book bookData, int userId) async {
     try {
       var response = await http.post(
-        Uri.parse('http://localhost:8080/borrows'),
+        Uri.parse('http://localhost/auth/borrows'),
         body: jsonEncode({'BookId': bookData.id, 'UserId': userId}),
        headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );

@@ -16,7 +16,7 @@ require (
 )
 
 require (
-	github.com/MousaZa/library-app-go/notifications v0.0.0-20241005174946-18d808515931
+	github.com/MousaZa/library-app-go/notifications v0.0.0-20241019163729-8c1fa4b70035
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/golang/protobuf v1.5.4
 	github.com/joho/godotenv v1.5.1

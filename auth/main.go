@@ -9,9 +9,9 @@ import (
 	"github.com/MousaZa/library-app-go/auth/models"
 	"github.com/MousaZa/library-app-go/auth/server"
 	"github.com/MousaZa/library-app-go/auth/storage"
-	"github.com/MousaZa/library-app-go/borrows/protos/borrows"
-	library "github.com/MousaZa/library-app-go/likes/protos/likes"
-	"github.com/MousaZa/library-app-go/notifications/protos/notifications"
+	borrows "github.com/MousaZa/library-app-go/borrows/protos/borrows"
+	likes "github.com/MousaZa/library-app-go/likes/protos/likes"
+	notifications "github.com/MousaZa/library-app-go/notifications/protos/notifications"
 	"github.com/hashicorp/go-hclog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -50,36 +50,36 @@ func main() {
 	// remember to update address to use the new NGINX listen port
 
 	// Likes client
-	likesConn, err := grpc.Dial("proxy:80", grpc.WithInsecure())
+	conn, err := grpc.Dial("proxy:80", grpc.WithInsecure())
 	if err != nil {
 		fmt.Printf("Failed to connect to Likes service: %v", err)
 		// log.Fatalf("Failed to connect to Likes service: %v", err)
 	}
-	defer likesConn.Close()
-	fmt.Printf("Starting likes server, conn: %v", likesConn.Target())
+	defer conn.Close()
+	fmt.Printf("Starting likes server, conn: %v", conn.Target())
 	// l.Info("Starting likes server", likesConn.Target())
 
-	// Borrows client
-	borrowsConn, err := grpc.NewClient("localhost/Borrows", grpc.WithInsecure())
-	l.Info("Starting borrows server", borrowsConn.CanonicalTarget())
-	if err != nil {
-		panic(err)
-	}
+	// // Borrows client
+	// borrowsConn, err := grpc.NewClient("proxy:80", grpc.WithInsecure())
+	// l.Info("Starting borrows server", borrowsConn.CanonicalTarget())
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	defer borrowsConn.Close()
+	// defer borrowsConn.Close()
 
-	// Notifications client
-	notificationsconn, err := grpc.NewClient("localhost/Notifications", grpc.WithInsecure())
-	if err != nil {
-		panic(err)
-	}
+	// // Notifications client
+	// notificationsconn, err := grpc.NewClient("proxy:80", grpc.WithInsecure())
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	defer notificationsconn.Close()
+	// defer notificationsconn.Close()
 
 	// create client
-	borrowsClient := borrows.NewBorrowsClient(borrowsConn)
-	likesClient := library.NewLikesClient(likesConn)
-	notificationsClient := notifications.NewNotificationsClient(notificationsconn)
+	borrowsClient := borrows.NewBorrowsClient(conn)
+	likesClient := likes.NewLikesClient(conn)
+	notificationsClient := notifications.NewNotificationsClient(conn)
 
 	bc := clients.NewBorrowsClient(borrowsClient)
 	lc := clients.NewLikesClient(likesClient)
