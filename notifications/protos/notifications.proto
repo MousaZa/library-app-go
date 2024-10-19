@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package library;
+
 service Notifications {
   // ADD
   rpc pushNotification(PushNotificationRequest) returns (NMessageResponse);

@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package library;
+
 import "google/protobuf/timestamp.proto";
 
 service Borrows {
