@@ -37,12 +37,14 @@ func main() {
 
 	if err != nil {
 		l.Error("Unable to connect to database", "error", err)
+		os.Exit(1)
 	}
 
 	err = models.MigrateUsers(db)
 
 	if err != nil {
 		l.Error("Unable to migrate books", "error", err)
+		os.Exit(1)
 	}
 
 	// creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})

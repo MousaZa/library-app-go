@@ -45,7 +45,8 @@ class _BookCardState extends State<BookCard> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
+          StatefulBuilder(builder: (context,setstate){
+            return Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Stack(
               children: [
@@ -57,12 +58,12 @@ class _BookCardState extends State<BookCard> {
                 ),
                 MouseRegion(
                   onEnter: (event) {
-                    setState(() {
+                    setstate(() {
                       _coverHover = true;
                     });
                   },
                   onExit: (event) {
-                    setState(() {
+                    setstate(() {
                       _coverHover = false;
                     });
                   },
@@ -97,7 +98,8 @@ class _BookCardState extends State<BookCard> {
                 ),
               ],
             ),
-          ),
+          );
+          }),
           const SizedBox(width: 20),
           Expanded(
             child: Column(
@@ -131,10 +133,19 @@ class _BookCardState extends State<BookCard> {
                 Row(
                   children: [
                     // todo: fix 
-                   Icon(
-                      Icons.thumb_up_alt_outlined,
-                      size: 2.w,
-                    ),
+                   FutureBuilder(future: getLike(widget.bookData.id), builder: (context,snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Icon(
+                          Icons.favorite_border,
+                          color: Colors.black,
+                          size: 2.w,
+                        );
+                      }
+                      return Icon(
+                          snapshot.data! ? Icons.favorite :Icons.favorite_border,
+                          color: snapshot.data! ? Colors.red : Colors.black,
+                          size: 2.w,
+                        );}),
                     SizedBox(
                       width: 1.w,
                     ),
@@ -169,7 +180,8 @@ class _BookCardState extends State<BookCard> {
               ],
             ),
           ),
-          SizedBox(
+         StatefulBuilder(builder: (context,setstate){
+          return  SizedBox(
             width: 100,
             child: Column(
               children: [
@@ -193,12 +205,12 @@ class _BookCardState extends State<BookCard> {
                       },
                       child: MouseRegion(
                         onEnter: (event) {
-                          setState(() {
+                          setstate(() {
                             _deleteHover = true;
                           });
                         },
                         onExit: (event) {
-                          setState(() {
+                          setstate(() {
                             _deleteHover = false;
                           });
                         },
@@ -217,7 +229,7 @@ class _BookCardState extends State<BookCard> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: _editHover
-                          ? Colors.blue.withOpacity(0.5)
+                          ? MyColors.lightGreen
                           : Colors.white,
                     ),
                     child: GestureDetector(
@@ -227,12 +239,12 @@ class _BookCardState extends State<BookCard> {
                       },
                       child: MouseRegion(
                         onEnter: (event) {
-                          setState(() {
+                          setstate(() {
                             _editHover = true;
                           });
                         },
                         onExit: (event) {
-                          setState(() {
+                          setstate(() {
                             _editHover = false;
                           });
                         },
@@ -249,8 +261,9 @@ class _BookCardState extends State<BookCard> {
                 ),
               ],
             ),
-          ),
-        ],
+          );
+         })
+         ],
       ),
     );
   }

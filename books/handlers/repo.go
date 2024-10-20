@@ -190,18 +190,40 @@ func (r *Repository) GetBooks(ctx *gin.Context) {
 		return
 	}
 	defer conn.Close()
+	initialBooks := &[]models.Book{}
+	err = r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&initialBooks).Error
+	if err != nil {
+		conn.WriteMessage(websocket.TextMessage, []byte("Unable to get books"))
+		return
+	}
+	conn.WriteJSON(initialBooks)
+
 	for {
+		time.Sleep(time.Second)
 		books := &[]models.Book{}
 		err := r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&books).Error
 		if err != nil {
 			conn.WriteMessage(websocket.TextMessage, []byte("Unable to get books"))
 			return
 		}
-		// conn.WriteMessage(websocket.TextMessage, []byte("Hello, WebSocket!"))
-		conn.WriteJSON(books)
-		time.Sleep(time.Second)
-	}
 
+		if !equalBooks(initialBooks, books) {
+			conn.WriteJSON(books)
+			initialBooks = books
+		}
+	}
+}
+
+func equalBooks(a, b *[]models.Book) bool {
+	if len(*a) != len(*b) {
+		return false
+	}
+	for i := range *a {
+		if (*a)[i] != (*b)[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // swagger:route GET /books/{id} books getBook

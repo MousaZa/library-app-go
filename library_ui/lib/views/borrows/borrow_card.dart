@@ -14,6 +14,7 @@ class BorrowCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       clipBehavior: Clip.antiAlias,
       height: 10.w,
       width: 40.w,

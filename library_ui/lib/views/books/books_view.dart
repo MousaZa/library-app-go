@@ -49,6 +49,7 @@ class _BookFetcherState extends State<BookFetcher> {
         setState(() {
           books.clear();
           if(message.toString() != '[]'){
+              print("updated");
               books.addAll(json.decode(message));
           }
           

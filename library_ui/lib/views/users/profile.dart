@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/views/borrows/borrow_card.dart';
 import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
@@ -24,6 +25,8 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
+                  backgroundColor: MyColors.lightGreen,
+                  foregroundColor: MyColors.brown,
                   radius: 5.w,
                   child: Icon(
                     Icons.person,

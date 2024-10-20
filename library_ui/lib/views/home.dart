@@ -51,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColors.green,
+          foregroundColor: Colors.black,
           actions: [
             FutureBuilder(
                 future: getNotifications(),
@@ -175,6 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemCount: languages.length,
                         itemBuilder: (state, i) {
                           return ChoiceChip(
+                            selectedColor: MyColors.lightGreen,
                             selected: state.selected(languages[i]),
                             onSelected: state.onSelected(languages[i]),
                             label: Padding(
@@ -216,6 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemCount: categories.length,
                         itemBuilder: (state, i) {
                           return ChoiceChip(
+                            selectedColor: MyColors.lightGreen,
                             selected: state.selected(categories[i]),
                             onSelected: state.onSelected(categories[i]),
                             label: Text(categories[i]),

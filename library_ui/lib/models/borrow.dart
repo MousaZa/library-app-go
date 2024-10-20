@@ -67,7 +67,7 @@ class Borrow {
     if (ongoingResponse.body.isNotEmpty){
       list.add(OngoingBorrowCard(borrowData: Borrow.fromJson(jsonDecode(ongoingResponse.body)[0])));
     }
-    if (jsonDecode(doneResponse.body).toString() == "[]"){
+    if (jsonDecode(doneResponse.body).toString() != "[]"){
     for (var borrow in jsonDecode(doneResponse.body)){
       list.add(BorrowCard(borrowData: Borrow.fromJson(borrow)));
     }

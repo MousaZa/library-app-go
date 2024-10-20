@@ -118,7 +118,7 @@ class _BookPageState extends State<BookPage> {
                     FutureBuilder(future: getLike(widget.bookData.id), builder: (context,snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Icon(
-                          Icons.thumb_up_alt_outlined,
+                          Icons.favorite_border,
                           color: Colors.black,
                           size: 3.w,
                         );
@@ -141,8 +141,8 @@ class _BookPageState extends State<BookPage> {
                         
                       },
                         icon: Icon(
-                          snapshot.data! ? Icons.thumb_up :Icons.thumb_up_alt_outlined,
-                          color: snapshot.data! ? Colors.blue : Colors.black,
+                          snapshot.data! ? Icons.favorite :Icons.favorite_border,
+                          color: snapshot.data! ? Colors.red : Colors.black,
                           size: 3.w,
                         ));}),
                     

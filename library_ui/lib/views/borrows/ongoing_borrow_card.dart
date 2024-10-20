@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:intl/intl.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
@@ -16,12 +17,13 @@ class OngoingBorrowCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       clipBehavior: Clip.antiAlias,
       height: 20.w,
       width: double.infinity,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
-        color: Colors.white,
+        color: MyColors.lightGreen,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -38,7 +40,7 @@ class OngoingBorrowCard extends StatelessWidget {
             if (!snapshot.hasData) return CircularProgressIndicator();
             return Row(
               // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
@@ -76,15 +78,15 @@ class OngoingBorrowCard extends StatelessWidget {
                               children: stages.map((e) => Text(
                                   e.toUpperCase(),
                                   style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                      color: MyColors.brown,
                                       fontWeight: FontWeight.bold),
                                 ), ).toList(),
                             ),
                             SizedBox(height: 20),
                             FlutterStepIndicator(
-                              negativeColor: Theme.of(context).colorScheme.primaryContainer,
-                              positiveColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                              progressColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                              negativeColor: MyColors.lightBrown.withOpacity(0.1),
+                              positiveColor: MyColors.brown,
+                              progressColor: MyColors.brown,
                               durationCheckBulb: Duration(milliseconds: 500),
                               durationScroller: Duration(milliseconds: 800),
                               onChange: (i){
