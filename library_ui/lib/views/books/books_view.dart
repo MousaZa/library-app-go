@@ -57,7 +57,7 @@ class _BookFetcherState extends State<BookFetcher> {
       },
       onError: (error) {
         print('WebSocket error: $error');
-      },
+      },  
       onDone: () {
         print('WebSocket connection closed');
       },
