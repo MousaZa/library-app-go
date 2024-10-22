@@ -25,7 +25,7 @@ class _BookCardState extends State<BookCard> {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      height: 20.w,
+      height: 18.w,
       width: 40.w,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
@@ -38,7 +38,7 @@ class _BookCardState extends State<BookCard> {
             offset: Offset(0, 3),
           ),
         ],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
       ),
       // padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(20),
@@ -47,56 +47,64 @@ class _BookCardState extends State<BookCard> {
         children: [
           StatefulBuilder(builder: (context,setstate){
             return Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Stack(
-              children: [
-                Image.network(
-                  widget.bookData.coverURL,
-                  height: 16.w,
-                  width: 10.w,
-                  fit: BoxFit.cover,
-                ),
-                MouseRegion(
-                  onEnter: (event) {
-                    setstate(() {
-                      _coverHover = true;
-                    });
-                  },
-                  onExit: (event) {
-                    setstate(() {
-                      _coverHover = false;
-                    });
-                  },
-                  child: Container(
+            padding: const EdgeInsets.only(left: 18),
+            child: Container(
+              
+              height: 16.w,
+                    width: 10.w,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+              child: Stack(
+                children: [
+                  Image.network(
+                    widget.bookData.coverURL,
                     height: 16.w,
                     width: 10.w,
-                    child: MaterialButton(
-                      hoverColor: Colors.black.withOpacity(0.5),
-                      child: Center(
-                        child: _coverHover
-                            ? Icon(
-                                Icons.info_outline,
-                                color: Colors.white,
-                                size: 3.w,
-                              )
-                            : null,
+                    fit: BoxFit.cover,
+                  ),
+                  MouseRegion(
+                    onEnter: (event) {
+                      setstate(() {
+                        _coverHover = true;
+                      });
+                    },
+                    onExit: (event) {
+                      setstate(() {
+                        _coverHover = false;
+                      });
+                    },
+                    child: Container(
+                      height: 16.w,
+                      width: 10.w,
+                      child: MaterialButton(
+                        hoverColor: Colors.black.withOpacity(0.5),
+                        child: Center(
+                          child: _coverHover
+                              ? Icon(
+                                  Icons.info_outline,
+                                  color: Colors.white,
+                                  size: 3.w,
+                                )
+                              : null,
+                        ),
+                        onPressed: () async {
+                          final paseto = await storage.read(key: 'paseto');
+                          await getUser(paseto!).then((value) {
+                            Get.dialog(
+                             BookPage(
+                                  bookData: widget.bookData,
+                                  userId: int.parse(value["user_id"])),
+                              
+                            );
+                          });
+                        },
                       ),
-                      onPressed: () async {
-                        final paseto = await storage.read(key: 'paseto');
-                        await getUser(paseto!).then((value) {
-                          Get.defaultDialog(
-                            content: BookPage(
-                                bookData: widget.bookData,
-                                userId: int.parse(value["user_id"])),
-                            backgroundColor: Colors.white,
-                            title: 'book details',
-                          );
-                        });
-                      },
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
           }),

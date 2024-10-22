@@ -146,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: MyColors.green,
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddBookPage()));
