@@ -1,6 +1,7 @@
 package server
 
 import (
+	// "fmt"
 	"fmt"
 	"time"
 
@@ -25,7 +26,7 @@ type Server struct {
 func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clients.LikesClient, nc *clients.NotificationsClient) (*Server, error) {
 
 	// Initialize Paseto token maker
-	tokenMaker, err := token.NewPaseto("abcdefghijkl12345678901234567890")
+	tokenMaker, err := token.NewPaseto()
 	if err != nil {
 		return nil, fmt.Errorf("couldn't create token maker: %w", err)
 	}

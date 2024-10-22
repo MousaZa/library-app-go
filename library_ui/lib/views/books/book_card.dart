@@ -103,6 +103,21 @@ class _BookCardState extends State<BookCard> {
                       ),
                     ),
                   ),
+                  Visibility(
+                    visible: !widget.bookData.available,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red
+                      ),
+                      height: 1.5.w,
+                      child: Center(child: Text("NOT AVAILABLE", style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 9.sp,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                      ),)),
+                    ),
+                  ),
                 ],
               ),
             ),

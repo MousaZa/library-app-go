@@ -12,7 +12,7 @@ type PasetoMaker struct {
 	secretKey paseto.V4AsymmetricSecretKey
 }
 
-func NewPaseto(symmetricKey string) (*PasetoMaker, error) {
+func NewPaseto() (*PasetoMaker, error) {
 	secretKey := paseto.NewV4AsymmetricSecretKey()
 	publicKey := secretKey.Public()
 
