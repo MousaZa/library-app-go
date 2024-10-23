@@ -197,89 +197,98 @@ class _BookCardState extends State<BookCard> {
                     ],
                   ),
                 ),
-               StatefulBuilder(builder: (context,setstate){
-                return  SizedBox(
-                  width: 100,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: _deleteHover
-                                ? Colors.red.withOpacity(0.5)
-                                : Colors.white,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.snackbar('Warning', 'Double tap to delete',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                  duration: Duration(seconds: 2));
-                            },
-                            onDoubleTap: () {
-                              widget.bookData.delete();
-                            },
-                            child: MouseRegion(
-                              onEnter: (event) {
-                                setstate(() {
-                                  _deleteHover = true;
-                                });
+                FutureBuilder(future: storage.read(key: "role"), builder: (context, snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return SizedBox();
+                  }
+                  return Visibility(
+                    visible: snapshot.data.toString() != "user",
+                    child: StatefulBuilder(builder: (context,setstate){
+                                    return  SizedBox(
+                    width: 100,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: _deleteHover
+                                  ? Colors.red.withOpacity(0.5)
+                                  : Colors.white,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.snackbar('Warning', 'Double tap to delete',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                    duration: Duration(seconds: 2));
                               },
-                              onExit: (event) {
-                                setstate(() {
-                                  _deleteHover = false;
-                                });
+                              onDoubleTap: () {
+                                widget.bookData.delete();
                               },
-                              child: Center(
-                                child: Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.black,
-                                  size: 2.w,
+                              child: MouseRegion(
+                                onEnter: (event) {
+                                  setstate(() {
+                                    _deleteHover = true;
+                                  });
+                                },
+                                onExit: (event) {
+                                  setstate(() {
+                                    _deleteHover = false;
+                                  });
+                                },
+                                child: Center(
+                                  child: Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.black,
+                                    size: 2.w,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: _editHover
-                                ? MyColors.lightGreen
-                                : Colors.white,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/edit_book',
-                                  arguments: widget.bookData);
-                            },
-                            child: MouseRegion(
-                              onEnter: (event) {
-                                setstate(() {
-                                  _editHover = true;
-                                });
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: _editHover
+                                  ? MyColors.lightGreen
+                                  : Colors.white,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/edit_book',
+                                    arguments: widget.bookData);
                               },
-                              onExit: (event) {
-                                setstate(() {
-                                  _editHover = false;
-                                });
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined,
-                                  color: Colors.black,
-                                  size: 2.w,
+                              child: MouseRegion(
+                                onEnter: (event) {
+                                  setstate(() {
+                                    _editHover = true;
+                                  });
+                                },
+                                onExit: (event) {
+                                  setstate(() {
+                                    _editHover = false;
+                                  });
+                                },
+                                child: Center(
+                                  child: Icon(
+                                    Icons.edit_outlined,
+                                    color: Colors.black,
+                                    size: 2.w,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-               })
+                      ],
+                    ),
+                                    );
+                                   }),
+                  )
+               ;
+                })
                ],
             ),
           ),

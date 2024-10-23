@@ -30,6 +30,7 @@ type UserResponse struct {
 	ID       string `json:"user_id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	Role     string `json:"role"`
 }
 
 func (server *Server) getUserData(ctx *gin.Context) {
@@ -70,7 +71,7 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 
-	payload, err := token.NewPayload(user.Username, user.Email, user.ID, time.Hour*2)
+	payload, err := token.NewPayload(user.Username, user.Role, user.Email, user.ID, time.Hour*2)
 	if err != nil {
 		// server.l.Error("Failed to create payload", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create payload\n"})
@@ -99,7 +100,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error() + "\n"})
 		return
 	}
-
+	user.Role = "user"
 	// Check if username already exists
 	var existingUser models.User
 	if err := server.db.Where("username = ?", user.Username).First(&existingUser).Error; err == nil {

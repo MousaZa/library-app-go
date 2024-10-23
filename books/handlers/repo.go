@@ -190,6 +190,7 @@ func (r *Repository) GetBooks(ctx *gin.Context) {
 		return
 	}
 	defer conn.Close()
+
 	initialBooks := &[]models.Book{}
 	err = r.DB.Where("title LIKE ?", "%"+search+"%").Where("language LIKE ?", "%"+language+"%").Where("category LIKE ?", "%"+category+"%").Order("borrows DESC").Find(&initialBooks).Error
 	if err != nil {

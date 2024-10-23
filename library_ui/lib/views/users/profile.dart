@@ -115,7 +115,7 @@ class Profile extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting)
                             return CircularProgressIndicator();
-                          if (!snapshot.hasData)
+                          if (snapshot.data!.length == 0)
                             return Center(
                               child: Text('No books borrowed yet'),
                             );

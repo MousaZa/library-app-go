@@ -35,6 +35,7 @@ func (maker *PasetoMaker) CreateToken(payload *Payload) (string, error) {
 	token.SetString("user_id", fmt.Sprintf("%d", payload.UserId))
 	token.SetString("username", payload.Username)
 	token.SetString("email", payload.Email)
+	token.SetString("role", payload.Role)
 
 	signed := token.V4Sign(maker.secretKey, nil)
 

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
-import 'package:library_ui/views/books/book_card.dart';
 import 'package:library_ui/views/books/books_view.dart';
 import 'package:library_ui/views/notifications/notification_card.dart';
 import 'package:library_ui/views/users/profile.dart';
@@ -49,7 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
   String category = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FutureBuilder(future: storage.read(key: "role"), builder: (context,snapshot1){
+      if(snapshot1.connectionState == ConnectionState.waiting){
+        return Center(child: CircularProgressIndicator(),);
+      }
+      else{
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: MyColors.green,
           foregroundColor: Colors.black,
@@ -145,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton:snapshot1.data == "user" ? null :FloatingActionButton(
           backgroundColor: MyColors.green,
           onPressed: () {
             Navigator.push(context,
@@ -247,5 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
               ],
             )));
-  }
+      }
+    });
+    }
 }
