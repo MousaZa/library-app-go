@@ -115,10 +115,10 @@ class Profile extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting)
                             return CircularProgressIndicator();
-                          if (snapshot.data!.length == 0)
-                            return Center(
-                              child: Text('No books borrowed yet'),
-                            );
+                          // if (snapshot.data!.length == 0)
+                          //   return Center(
+                          //     child: Text('No books borrowed yet'),
+                          //   );
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
