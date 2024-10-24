@@ -193,8 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
                     ),
-                    iconTheme: IconThemeData(color: MyColors.lightBrown, size: 1.5.w),
-                    selectedIconTheme: IconThemeData(color: Colors.black, size: 1.5.w),
+      
                   ),
                         controller: SidebarXController(selectedIndex: 0),
                         items:  [
@@ -204,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 index = 0 ;
                               });
                             },
-                            iconBuilder:(selected,_){
+                            iconBuilder:(__,_){
                             return ext ? Row(
                               // mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -212,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               SizedBox(
                                 width: 4.w,
                                 child: Center(
-                                  child: Text("Library",style: TextStyle(
+                                  child: Text("Library", style: TextStyle(
                                 color: index == 0 ? Colors.black: MyColors.lightBrown,
                                 fontWeight: FontWeight.bold,
                                  fontSize: 10.sp,
@@ -254,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
               })),
             Expanded(
-              child: Padding(
+              child: index == 1 ? Profile() : Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [

@@ -7,16 +7,14 @@ import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
 import 'package:sizer/sizer.dart';
 
 class Profile extends StatelessWidget {
-  final Map<String, dynamic> userData;
-  Profile({super.key, required this.userData});
+  // final Map<String, dynamic> userData;
+  // Profile({super.key, required this.userData});
   // final controller = Get.find<AuthState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Padding(
+    return FutureBuilder(future: getUser(), builder: (context, snapshot){
+      if(snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+      return Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
@@ -41,16 +39,16 @@ class Profile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "#${userData["user_id"]}",
+                      "#${snapshot.data["user_id"]}",
                       style: TextStyle(fontSize: 12.sp),
                     ),
                     Text(
-                      userData["username"],
+                      snapshot.data["username"],
                       style: TextStyle(
                           fontSize: 20.sp, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      userData["email"],
+                      snapshot.data["email"],
                       style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
@@ -132,7 +130,9 @@ class Profile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
+    
+
+    });
+     }
 }

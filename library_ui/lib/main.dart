@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     Future<String> get pasetoOrEmpty async {
     var paseto = await storage.read(key: "paseto");
     if(paseto == null) return "";
-    await getUser(paseto) == false ? paseto = "" : paseto = paseto;
+    await getUser() == false ? paseto = "" : paseto = paseto;
     return paseto;
   }
   @override

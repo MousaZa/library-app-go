@@ -87,8 +87,9 @@ Future<bool> getLike(int bookId) async {
   }
 }
 
-Future getUser(String token) async {
+Future getUser() async {
   try{
+    final token = await storage.read(key: "paseto");
     
     http.Response response = await http.get(
     Uri.parse('http://localhost/auth/user'),

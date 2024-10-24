@@ -97,7 +97,7 @@ class _BookCardState extends State<BookCard> {
                               ),
                               onPressed: () async {
                                 final paseto = await storage.read(key: 'paseto');
-                                await getUser(paseto!).then((value) {
+                                await getUser().then((value) {
                                   Get.dialog(
                                    BookPage(
                                         bookData: widget.bookData,
