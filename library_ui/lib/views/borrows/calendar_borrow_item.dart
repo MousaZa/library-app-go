@@ -30,20 +30,24 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-          Text(
-            widget.date.day.toString(),
-            style: TextStyle(
-              color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              widget.date.day.toString(),
+              style: TextStyle(
+                color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          Text(
-            weekdays[widget.date.weekday - 1],
-            style: TextStyle(
-              color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              weekdays[widget.date.weekday - 1],
+              style: TextStyle(
+                color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
             ],

@@ -9,6 +9,7 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/books_view.dart';
 import 'package:library_ui/views/notifications/notification_card.dart';
+import 'package:library_ui/views/sidebar_item.dart';
 import 'package:library_ui/views/users/profile.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:sidebarx/sidebarx.dart';
@@ -167,7 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: StatefulBuilder(builder: (context,setstate){
-                return SizedBox(
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
                 width: ext ? 8.w : 4.w,
                 child: SidebarX(
                 
@@ -204,25 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                             },
                             iconBuilder:(__,_){
-                            return ext ? Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              Icon(Icons.book_outlined, size: 1.5.w,color: index == 0 ? Colors.black: MyColors.lightBrown,),
-                              SizedBox(
-                                width: 4.w,
-                                child: Center(
-                                  child: Text("Library", style: TextStyle(
-                                color: index == 0 ? Colors.black: MyColors.lightBrown,
-                                fontWeight: FontWeight.bold,
-                                 fontSize: 10.sp,
-
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              ),
-                                ),
-                              ),
-                            ],) : Center(child: Icon(Icons.book_outlined, size: 1.5.w,color:index == 0 ? Colors.black: MyColors.lightBrown,));
-                          } ),
+                            return SidebarItem(ext: ext,icon: Icons.book_outlined,title: "Library",isActive: index == 0,);} ),
                           SidebarXItem(
                             onTap: () {
                               setState(() {
@@ -231,23 +215,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             iconBuilder:(selected,_){
           
-                            return ext ? Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                              Icon(Icons.person_outline, size: 1.5.w,color: index == 1 ? Colors.black: MyColors.lightBrown,),
-                              SizedBox(
-                                width: 4.w,
-                                child: Center(
-                                  child: Text("Profile",style: TextStyle(
-                                color: index == 1 ? Colors.black: MyColors.lightBrown,
-                                fontWeight: FontWeight.bold,
-                                 fontSize: 10.sp
-                              ),
-                              overflow: TextOverflow.ellipsis,),
-                                ),
-                              ),
-                            ],) : Center(child: Icon(Icons.person_outline, size: 1.5.w,color: index == 1 ? Colors.black: MyColors.lightBrown,));
-                          } ),
+                            return SidebarItem(ext: ext,icon: Icons.person_outline,title: "Profile",isActive: index == 1,);
+                            } ),
                         ],
                       ),
               );

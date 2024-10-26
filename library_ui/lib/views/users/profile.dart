@@ -131,8 +131,6 @@ class Profile extends StatelessWidget {
           ],
         ),
       );
-    
-
     });
      }
 }
