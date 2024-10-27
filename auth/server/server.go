@@ -59,6 +59,14 @@ func (server *Server) setRoutes() {
 		MaxAge:           12 * time.Hour,
 	})).Use(AuthMiddleware(*server.tokenMaker))
 
+	admin := router.Group("/").Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	})).Use(AdminMiddleware(*server.tokenMaker))
+
+	admin.GET("/auth/list/users", server.ListUsers)
 	auth.GET("/auth/notifications", server.notificationsClient.GetUserNotifications)
 	auth.PUT("/auth/notifications/:id", server.notificationsClient.MarkNotificationAsRead)
 	auth.POST("/auth/borrows", server.borrowsClient.AddBorrow)

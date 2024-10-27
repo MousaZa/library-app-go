@@ -7,7 +7,6 @@ class SidebarItem extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.title,
-
     required this.ext,
     this.isActive = false,
   }) : super(key: key);
@@ -24,33 +23,63 @@ class SidebarItem extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Flexible(
-          child: isActive ? Container(
-            width: ext ? 5.5.w :1.7.w,
-            height: 1.w,
-            decoration: BoxDecoration(
-              color: MyColors.green.withOpacity(0.4),
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ) : Container(),
+          child: isActive
+              ? Container(
+                  width: ext ? 5.5.w : 1.7.w,
+                  height: 1.w,
+                  decoration: BoxDecoration(
+                    color: MyColors.green.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                )
+              : Container(),
         ),
-        ext ? Row(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                  Icon(icon, size: 1.5.w,color: isActive ? Colors.black: MyColors.lightBrown,),
-                                  SizedBox(
-                                    width: 4.w,
-                                    child: Center(
-                                      child: Text(title,style: TextStyle(
-                                    color: isActive ? Colors.black: MyColors.lightBrown,
-                                    fontWeight: FontWeight.bold,
-                                     fontSize: 10.sp
-                                  ),
-                                  overflow: TextOverflow.ellipsis,),
-                                    ),
-                                  ),
-                                ],) : Flexible(child: Center(child: Icon(icon, size: 1.5.w,color: isActive ? Colors.black: MyColors.lightBrown,))),
+        ext
+            ? Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    icon,
+                    size: 1.5.w,
+                    color: title == "Logout"
+                        ? Colors.red
+                        : isActive
+                            ? Colors.black
+                            : MyColors.lightBrown,
+                  ),
+                  SizedBox(
+                    width: 4.w,
+                    child: Center(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            color:
+                                title == "Logout"
+                        ? Colors.red
+                        : isActive
+                            ? Colors.black
+                            : MyColors.lightBrown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10.sp),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : Flexible(
+                child: Center(
+                    child: Icon(
+                icon,
+                size: 1.5.w,
+                color: title == "Logout"
+                        ? Colors.red
+                        : isActive
+                            ? Colors.black
+                            : MyColors.lightBrown,
+              ))),
       ],
     );
-                          ;
+    ;
   }
 }

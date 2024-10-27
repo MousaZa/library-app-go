@@ -33,6 +33,16 @@ type UserResponse struct {
 	Role     string `json:"role"`
 }
 
+func (server *Server) ListUsers(ctx *gin.Context) {
+	users := &[]models.User{}
+	err := server.db.Find(&users).Error
+	if err != nil {
+		// server.l.Error("Failed to list books", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to list users\n"})
+	}
+	ctx.JSON(http.StatusOK, users)
+}
+
 func (server *Server) getUserData(ctx *gin.Context) {
 	authHeader := ctx.GetHeader(authorizationHeaderKey)
 	token := strings.Fields(authHeader)[1]
