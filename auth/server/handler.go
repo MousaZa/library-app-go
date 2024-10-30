@@ -24,6 +24,10 @@ type loginRequest struct {
 
 type loginResponse struct {
 	AccessToken string `json:"access_token"`
+	Email       string `json:"email"`
+	Username    string `json:"username"`
+	Role        string `json:"role"`
+	ID          int64  `json:"user_id"`
 }
 
 type UserResponse struct {
@@ -96,6 +100,10 @@ func (server *Server) login(ctx *gin.Context) {
 
 	rsp := loginResponse{
 		AccessToken: accessToken,
+		Email:       user.Email,
+		Username:    user.Username,
+		Role:        user.Role,
+		ID:          user.ID,
 	}
 
 	ctx.JSON(http.StatusOK, rsp)
