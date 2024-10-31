@@ -24,6 +24,14 @@ class Borrow {
     required this.status,
   });
 
+  Borrow.empty()
+      : id = 0,
+        bookId = 0,
+        userId = 0,
+        startDate = DateTime.now(),
+        endDate = DateTime.now(),
+        status = '';
+
   factory Borrow.fromJson(Map<String, dynamic> json) {
     return Borrow(
       id: json['Id'],

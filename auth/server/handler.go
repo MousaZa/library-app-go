@@ -146,7 +146,30 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create user\n"})
 		return
 	}
-	ctx.JSON(http.StatusOK, users)
+
+	payload, err := token.NewPayload(user.Username, user.Role, user.Email, user.ID, time.Hour*2)
+	if err != nil {
+		// server.l.Error("Failed to create payload", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create payload\n"})
+		return
+	}
+	accessToken, err := server.tokenMaker.CreateToken(payload)
+	if err != nil {
+		// server.l.Error("Failed to create access token", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error() + "\n"})
+		return
+	}
+
+	rsp := loginResponse{
+		AccessToken: accessToken,
+		Email:       user.Email,
+		Username:    user.Username,
+		Role:        user.Role,
+		ID:          user.ID,
+	}
+
+	ctx.JSON(http.StatusOK, rsp)
+
 }
 
 func (server *Server) deleteUser(ctx *gin.Context) {
