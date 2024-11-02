@@ -51,13 +51,6 @@ class LoginPage extends StatelessWidget {
                           username: _usernameController.text,
                           password: _passwordController.text,
                         ));
-
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Home(), // todo
-                        ));
                   },
                   child: Text(
                     'Login',

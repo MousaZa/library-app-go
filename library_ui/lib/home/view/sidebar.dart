@@ -16,18 +16,19 @@ class Sidebar extends StatelessWidget {
     return BlocProvider<SidebarCubit>(
       child: BlocBuilder<SidebarCubit, bool>(builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: MyColors.lightGreen,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -40,19 +41,19 @@ class Sidebar extends StatelessWidget {
                   Column(
                     children: [
                       SidebarItem(
-                          icon: Icons.book,
+                          icon: Icons.book_outlined,
                           label: 'Books',
                           index: 0,
                           selected: selectedIndex == 0,
                           sidebarState: state),
                       SidebarItem(
-                          icon: Icons.person,
+                          icon: Icons.person_outline,
                           label: 'Profile',
                           index: 1,
                           selected: selectedIndex == 1,
                           sidebarState: state),
                       SidebarItem(
-                          icon: Icons.people,
+                          icon: Icons.people_outline,
                           label: 'Users',
                           index: 2,
                           selected: selectedIndex == 2,

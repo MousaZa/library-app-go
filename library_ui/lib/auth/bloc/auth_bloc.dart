@@ -29,6 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, User> {
 
     on<AuthEventLogin>((event, emit) async {
       final response = await login(event.username, event.password);
+      print (response);
       emit(response);
       if(response.token.isNotEmpty)
         Navigator.pushNamedAndRemoveUntil(event.context, '/home', (route) => false);

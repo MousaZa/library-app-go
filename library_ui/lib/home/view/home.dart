@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:library_ui/auth/view/profile.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/home/bloc/home_bloc.dart';
 import 'package:library_ui/home/view/sidebar.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/books_page.dart';
 import 'package:library_ui/views/sidebar_item.dart';
-import 'package:library_ui/views/users/profile.dart';
+import 'package:library_ui/auth/view/profile.dart';
 import 'package:library_ui/views/users_list.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,7 +18,7 @@ class Home extends StatefulWidget {
     Profile(),
     const UsersList(),
   ];
-
+ 
   Home({super.key});
 
   @override
@@ -28,7 +29,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: true
+        floatingActionButton: false
             ? null
             : FloatingActionButton(
                 backgroundColor: MyColors.green,
@@ -46,9 +47,9 @@ class _HomeState extends State<Home> {
             Sidebar(
               selectedIndex: state,
             ),
-            // Expanded(
-            //   child: widget.pages[index],
-            // ),
+            Expanded(
+              child: widget.pages[state],
+            ),
           ],
         );
           }),
