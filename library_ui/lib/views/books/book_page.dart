@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:library_ui/auth/bloc/auth_bloc.dart';
 import 'package:library_ui/controllers/borrows.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
@@ -38,7 +40,7 @@ class _BookPageState extends State<BookPage> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -138,8 +140,8 @@ class _BookPageState extends State<BookPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Row(
-                        children: [
-                          FutureBuilder(future: getLike(widget.bookData.id), builder: (context,snapshot) {
+                        children: [//getUser(context.read<AuthBloc>().state.token
+                          FutureBuilder(future: getLike((context.read<AuthBloc>().state as AuthStateAuthenticated).user.token, widget.bookData.id), builder: (context,snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Icon(
                                 Icons.favorite_border,
@@ -150,11 +152,11 @@ class _BookPageState extends State<BookPage> {
                             return IconButton(
                               onPressed: () async{
                               if (snapshot.data == true) {
-                                final delete = await deleteLike(widget.bookData.id);
+                                final delete = await deleteLike((context.read<AuthBloc>().state as AuthStateAuthenticated).user.token, widget.bookData.id);
                                 if(delete){
                                   widget.bookData.likes -= 1;
                                 }}else{
-                                  final add = await likeBook(widget.bookData.id);
+                                  final add = await likeBook((context.read<AuthBloc>().state as AuthStateAuthenticated).user.token, widget.bookData.id);
                                   if(add){
                                     widget.bookData.likes += 1;
                                   }
@@ -200,8 +202,7 @@ class _BookPageState extends State<BookPage> {
                                   textCancel: 'Cancel',
                                   textConfirm: 'Borrow',
                                   onConfirm: ()async {
-                                    final token = await storage.read(key: 'paseto');
-                                    borrowsController.add(token!,widget.bookData,widget.userId).then((_){
+                                    borrowsController.add((context.read<AuthBloc>().state as AuthStateAuthenticated).user.token, widget.bookData,widget.userId).then((_){
                                       sleep(Duration(seconds: 2));
                                       Navigator.pop(context);
                                       Navigator.pop(context);

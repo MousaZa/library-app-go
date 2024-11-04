@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_ui/auth/auth.dart';
 import 'package:library_ui/auth/bloc/auth_bloc.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
@@ -7,12 +8,28 @@ import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
 
 class Profile extends StatelessWidget {
-  // final Map<String, dynamic> userData;
-  // Profile({super.key, required this.userData});
-  // final controller = Get.find<AuthState>();
+  
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    
+    if (context.read<AuthBloc>().state is AuthStateUnauthenticated) {
+      return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Please login to view profile'),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+            },
+            child: Text('Login'),
+          ),
+        ],
+      ),
+    );
+    } else {
+      final state = context.read<AuthBloc>().state as AuthStateAuthenticated;
+      return Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
@@ -37,16 +54,16 @@ class Profile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "#${context.read<AuthBloc>().state.id}",
+                      "#${state.user.id}",
                       style: TextStyle(fontSize: 12.sp),
                     ),
                     Text(
-                      context.read<AuthBloc>().state.name,
+                      state.user.name,
                       style: TextStyle(
                           fontSize: 20.sp, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      context.read<AuthBloc>().state.email,
+                      state.user.email,
                       style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
@@ -106,7 +123,7 @@ class Profile extends StatelessWidget {
                   // ),
                   Expanded(
                     child: FutureBuilder(
-                        future: Borrow.getBorrows(),
+                        future: Borrow.getBorrows(state.user.token),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting)
@@ -129,6 +146,7 @@ class Profile extends StatelessWidget {
           ],
         ),
       );
+    }
   
      }
 }

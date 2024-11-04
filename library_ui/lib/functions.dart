@@ -4,9 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:library_ui/globals.dart';
 import 'dart:async';
 
-Future markAsRead(int id) async {
+Future markAsRead(String token, int id) async {
   try {
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.put(
       Uri.parse('http://localhost/auth/notifications/$id'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -20,9 +19,8 @@ Future markAsRead(int id) async {
   }
 }
 
-Future<List> getNotifications() async {
+Future<List> getNotifications(String token) async {
   try {
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
       Uri.parse('http://localhost/auth/notifications'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -37,9 +35,8 @@ Future<List> getNotifications() async {
   }
 }
 
-Future likeBook(int bookId) async {
+Future likeBook(String token, int bookId) async {
   try {
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
       Uri.parse('http://localhost/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -54,9 +51,8 @@ Future likeBook(int bookId) async {
   }
 }
 
-Future deleteLike(int bookId) async {
+Future deleteLike(String token, int bookId) async {
   try {
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.delete(
       Uri.parse('http://localhost/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -70,9 +66,8 @@ Future deleteLike(int bookId) async {
   }
 }
 
-Future<bool> getLike(int bookId) async {
+Future<bool> getLike(String token, int bookId) async {
   try {
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
       Uri.parse('http://localhost/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -87,9 +82,8 @@ Future<bool> getLike(int bookId) async {
   }
 }
 
-Future  getUser() async {
+Future  getUser(String token) async {
   try{
-    final token = await storage.read(key: "paseto");
     
     http.Response response = await http.get(
     Uri.parse('http://localhost/auth/user'),
@@ -109,9 +103,8 @@ Future  getUser() async {
   }
 }
 
-Future createBorrow(int bookId,userId) async {
+Future createBorrow(String token, int bookId,userId) async {
   try{
-    final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
     Uri.parse('http://localhost/auth/borrow'),
     // headers: '"Content-Type": "application/json"'

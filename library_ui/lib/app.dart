@@ -13,49 +13,28 @@ import 'package:sizer/sizer.dart';
 class LibraryApp extends StatelessWidget {
   const LibraryApp({super.key});
 
-  Future<String> get pasetoOrEmpty async {
-    var paseto = await storage.read(key: "paseto");
-    if (paseto == null) return "";
-    await getUser() == false ? paseto = "" : paseto = paseto;
-    return paseto;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
-      builder: (BuildContext , Orientation , ScreenType ) { 
+      builder: (BuildContext, Orientation, ScreenType) {
         return BlocProvider<AuthBloc>(
-          create: (context) { 
+          create: (context) {
             return AuthBloc();
-           },
-          child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          routes: {
-            '/login': (context) => LoginPage(),
-            '/regiser': (context) => RegisterPage(),
-            '/add_book': (context) => const AddBookPage(),
-            '/edit_book': (context) => EditBookPage(),
-            '/home': (context) => ResponsiveSizer(
-                builder: (context, orientation, screenType) => Home()),
-            '/': (context) => FutureBuilder(
-                  future: pasetoOrEmpty,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData)
-                      return Center(child: CircularProgressIndicator());
-                    if (snapshot.data != "") {
-                      var str = snapshot.data;
-                      return Home();
-                    } else {
-                      return LoginPage();
-                    }
-                  },
-                ),
           },
-                ),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            routes: {
+              '/register': (context) => RegisterPage(),
+              '/add_book': (context) => const AddBookPage(),
+              '/edit_book': (context) => EditBookPage(),
+              '/': (context) => context.read<AuthBloc>().state == AuthStateUnauthenticated()
+                  ? LoginPage()
+                  : Home(),
+            },
+          ),
         );
-       },
-      
+      },
     );
   }
 }

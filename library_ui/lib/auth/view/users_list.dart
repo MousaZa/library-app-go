@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_ui/auth/auth.dart';
 import 'package:library_ui/globals.dart';
 import 'package:http/http.dart' as http;
-import 'package:library_ui/views/users/user_card.dart';
+import 'package:library_ui/auth/view/widgets/user_card.dart';
 
-Future listUsers() async {
+Future listUsers(String token) async {
   try {
-    final token = await storage.read(key: "paseto");
 
     http.Response response = await http.get(
       Uri.parse('http://localhost/auth/list/users'),
@@ -35,10 +36,11 @@ class UsersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: listUsers(),
+        future: listUsers((context.read<AuthBloc>().state as AuthStateAuthenticated).user.token),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator());
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {

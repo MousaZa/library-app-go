@@ -54,9 +54,8 @@ class Borrow {
         'status': status,
       };
 
-  static Future<List<Widget>> getBorrows() async {
+  static Future<List<Widget>> getBorrows(String token) async {
     try {
-      final token = await storage.read(key: "paseto");
       http.Response doneResponse = await http.get(
         Uri.parse('http://localhost/auth/borrows/user'),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},

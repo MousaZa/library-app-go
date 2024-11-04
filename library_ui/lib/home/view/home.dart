@@ -9,7 +9,7 @@ import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/books_page.dart';
 import 'package:library_ui/views/sidebar_item.dart';
 import 'package:library_ui/auth/view/profile.dart';
-import 'package:library_ui/views/users_list.dart';
+import 'package:library_ui/auth/view/users_list.dart';
 import 'package:sizer/sizer.dart';
 
 class Home extends StatefulWidget {
