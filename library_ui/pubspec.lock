@@ -456,14 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
-  sidebarx:
-    dependency: "direct main"
-    description:
-      name: sidebarx
-      sha256: abe39d6db237fb8e25c600e8039ffab80fa7fe71acab03e9c378c31f912d2766
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.17.1"
   sizer:
     dependency: "direct main"
     description:
@@ -493,6 +485,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  star_menu:
+    dependency: "direct main"
+    description:
+      name: star_menu
+      sha256: f29c7d255677c49ec2412ec2d17220d967f54b72b9e6afc5688fe122ea4d1d78
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   stream_channel:
     dependency: transitive
     description:

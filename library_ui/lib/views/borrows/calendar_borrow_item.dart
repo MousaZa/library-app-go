@@ -20,7 +20,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
       padding: const EdgeInsets.all(8.0),
       child: widget.hover
         ? AnimatedContainer( 
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 150),
           width: 5.w,
           height: 7.w,
           decoration: BoxDecoration(
@@ -54,7 +54,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
           ),
         )
         : AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 150),
           width: 1.w,
           height: 1.w,
           decoration: BoxDecoration(

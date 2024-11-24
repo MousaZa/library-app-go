@@ -47,10 +47,10 @@ dependencies:
   paseto: ^1.0.0
   unixtime: ^1.0.0
   badges: ^3.1.2
-  sidebarx: ^0.17.1
   timelines: ^0.1.0
   intl: ^0.19.0
   flutter_secure_storage: ^9.2.2
+  star_menu: ^4.0.1
 
 dev_dependencies:
   flutter_test:

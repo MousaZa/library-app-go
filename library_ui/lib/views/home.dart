@@ -1,22 +1,13 @@
-import 'dart:math';
-
-import 'package:animated_search_bar/animated_search_bar.dart';
-import 'package:choice/inline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/controllers/sidebar.dart';
-import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/books_page.dart';
-import 'package:library_ui/views/books/books_view.dart';
-import 'package:library_ui/views/notifications/notification_card.dart';
 import 'package:library_ui/views/sidebar/sidebar.dart';
 import 'package:library_ui/views/users/profile.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:library_ui/views/users_list.dart';
-import 'package:sidebarx/sidebarx.dart';
-import 'package:sizer/sizer.dart';
 
 class MyHomePage extends StatefulWidget {
   factory MyHomePage.withAuth(String paseto) {

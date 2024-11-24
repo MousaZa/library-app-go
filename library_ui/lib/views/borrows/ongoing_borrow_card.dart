@@ -24,7 +24,7 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 150),
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10),
       clipBehavior: Clip.antiAlias,

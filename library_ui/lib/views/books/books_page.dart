@@ -63,7 +63,7 @@ class _BooksPageState extends State<BooksPage> {
                             itemCount: languages.length,
                             itemBuilder: (state, i) {
                               return ChoiceChip(
-                                selectedColor: MyColors.lightGreen,
+                                selectedColor: MyColors.lightBrown.withOpacity(.3),
                                 selected: state.selected(languages[i]),
                                 onSelected: state.onSelected(languages[i]),
                                 label: Padding(
@@ -105,7 +105,7 @@ class _BooksPageState extends State<BooksPage> {
                             itemCount: categories.length,
                             itemBuilder: (state, i) {
                               return ChoiceChip(
-                                selectedColor: MyColors.lightGreen,
+                                selectedColor: MyColors.lightBrown.withOpacity(.3),
                                 selected: state.selected(categories[i]),
                                 onSelected: state.onSelected(categories[i]),
                                 label: Text(categories[i]),

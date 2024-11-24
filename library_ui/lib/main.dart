@@ -24,8 +24,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(  
   builder: (context, orientation, screenType) {
-    return MaterialApp(
-      home: GetMaterialApp(
+    return GetMaterialApp(
+        theme: ThemeData(
+         scaffoldBackgroundColor: MyColors.lightBrown.withOpacity(0.1)
+        ),
       // home:  LoginPage(),
     home: FutureBuilder( 
         future: pasetoOrEmpty,            
@@ -52,7 +54,6 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       //   visualDensity: VisualDensity.adaptivePlatformDensity,
       // ),
-    )
     );
   },
 );
