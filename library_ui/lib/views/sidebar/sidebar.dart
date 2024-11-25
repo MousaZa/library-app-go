@@ -47,7 +47,12 @@ class Sidebar extends StatelessWidget {
                     ),
                     StarMenu(
                       params:
-                          StarMenuParameters.arc(ArcType.quarterBottomRight),
+                          StarMenuParameters.arc(ArcType.quarterBottomRight).copyWith(
+                            centerOffset: Offset(5.w, 0),
+                            backgroundParams: BackgroundParams(
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                            ),
+                          ),
                       child: CircleAvatar(
                         backgroundColor: MyColors.lightBrown.withOpacity(0.2),
                         foregroundColor: MyColors.brown,
@@ -113,7 +118,7 @@ class Sidebar extends StatelessWidget {
                                             ),
                                           );
                                         },
-                                        icon: Icon(Icons.notifications),
+                                        icon: Icon(Icons.notifications_outlined),
                                       ),
                                     );
                                   }
@@ -148,7 +153,7 @@ class Sidebar extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  icon: Icon(Icons.notifications),
+                                  icon: Icon(Icons.notifications_outlined),
                                 );
                               }),
                         ),
