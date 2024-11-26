@@ -200,12 +200,22 @@ class Sidebar extends StatelessWidget {
                         index: 1,
                         selected: controller.activeItem.value == 1,
                         sidebarState: controller.isExtended.value),
-                    SidebarItem(
-                        icon: Icons.people_outline,
-                        label: 'Users',
-                        index: 2,
-                        selected: controller.activeItem.value == 2,
-                        sidebarState: controller.isExtended.value),
+                    FutureBuilder(
+                      future: storage.read(key: "role"),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data == "admin") {
+                            return SidebarItem(
+                                icon: Icons.people_outline,
+                                label: 'Users',
+                                index: 2,
+                                selected: controller.activeItem.value == 2,
+                                sidebarState: controller.isExtended.value);
+                          }
+                        }
+                        return Container();
+                      }
+                    ),
                   ],
                 ),
                 SidebarToggle(sidebarState: controller.isExtended.value),

@@ -34,7 +34,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
             child: Text(
               widget.date.day.toString(),
               style: TextStyle(
-                color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
+                color: !widget.date.isAfter(DateTime.now()) ? Colors.white : Colors.black,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -44,7 +44,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
             child: Text(
               weekdays[widget.date.weekday - 1],
               style: TextStyle(
-                color: !widget.date.isAfter(DateTime.now()) ? MyColors.lightGreen : MyColors.brown,
+                color: !widget.date.isAfter(DateTime.now()) ? Colors.white : Colors.black,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
               ),

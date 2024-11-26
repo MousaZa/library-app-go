@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     home: FutureBuilder( 
         future: pasetoOrEmpty,            
         builder: (context, snapshot) {
-          if(!snapshot.hasData) return Center(child:CircularProgressIndicator());
+          if(!snapshot.hasData) return const Center(child:CircularProgressIndicator());
           if(snapshot.data != "") {
             var str = snapshot.data;
                 return MyHomePage.withAuth(str!);

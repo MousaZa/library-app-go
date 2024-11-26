@@ -32,7 +32,7 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
       width: double.infinity,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.grey),
-        color: MyColors.lightGreen,
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -66,7 +66,8 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
                         style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
-                            color: MyColors.brown),
+                            color: Colors.black,
+                            ),
                       ),
                       Center(
                         child: SizedBox(

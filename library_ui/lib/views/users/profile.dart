@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
-                  backgroundColor: MyColors.lightGreen,
+                  backgroundColor: MyColors.lightBrown.withOpacity(0.1),
                   foregroundColor: MyColors.brown,
                   radius: 5.w,
                   child: Icon(
