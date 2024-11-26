@@ -64,10 +64,10 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
                       Text(
                         snapshot.data!.title,
                         style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            ),
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                       Center(
                         child: SizedBox(
@@ -78,19 +78,18 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
                             theme: TimelineThemeData(
                               nodeItemOverlap: false,
                               direction: Axis.horizontal,
-                              color: MyColors.brown,                   
+                              color: MyColors.brown,
                               indicatorTheme: IndicatorThemeData(
-                                // position: IndicatorPosition.top,
-                                size: 40.0,
-                                position: 0
-                              ),           
+                                  // position: IndicatorPosition.top,
+                                  size: 40.0,
+                                  position: 0),
                               // nodePosition: 0,
                               connectorTheme: ConnectorThemeData(
                                 // indent: 3.w,
-                                color: MyColors.brown, 
+                                color: MyColors.brown,
                                 space: 100,
                                 thickness: 5.0,
-                              ), 
+                              ),
                             ),
                             builder: TimelineTileBuilder.fromStyle(
                               connectorStyle: ConnectorStyle.solidLine,

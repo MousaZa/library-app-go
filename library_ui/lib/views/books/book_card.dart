@@ -252,7 +252,7 @@ class _BookCardState extends State<BookCard> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: _editHover
-                                  ? MyColors.lightGreen
+                                  ? MyColors.lightBrown.withOpacity(0.5)
                                   : Colors.white,
                             ),
                             child: GestureDetector(

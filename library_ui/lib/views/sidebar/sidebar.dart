@@ -45,21 +45,89 @@ class Sidebar extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    StarMenu(
-                      params:
-                          StarMenuParameters.arc(ArcType.quarterBottomRight).copyWith(
-                            centerOffset: Offset(5.w, 0),
-                            backgroundParams: BackgroundParams(
-                              backgroundColor: Colors.black.withOpacity(0.3),
-                            ),
-                          ),
-                      child: CircleAvatar(
+                    CircleAvatar(
                         backgroundColor: MyColors.lightBrown.withOpacity(0.2),
                         foregroundColor: MyColors.brown,
                         radius: 1.w,
                         child: Icon(
                           Icons.person,
                           size: 1.w,
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    ),
+                    SidebarItem(
+                        icon: Icons.book_outlined,
+                        label: 'Books',
+                        index: 0,
+                        selected: controller.activeItem.value == 0,
+                        sidebarState: controller.isExtended.value),
+                    SidebarItem(
+                        icon: Icons.person_outline,
+                        label: 'Profile',
+                        index: 1,
+                        selected: controller.activeItem.value == 1,
+                        sidebarState: controller.isExtended.value),
+                    FutureBuilder(
+                        future: storage.read(key: "role"),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data == "admin") {
+                              return Column(
+                                children: [
+                                  SidebarItem(
+                                      icon: Icons.people_outline,
+                                      label: 'Users',
+                                      index: 2,
+                                      selected:
+                                          controller.activeItem.value == 2,
+                                      sidebarState:
+                                          controller.isExtended.value),
+                                  SidebarItem(
+                                      icon: Icons.book_online_outlined,
+                                      label: 'Ongoing',
+                                      index: 3,
+                                      selected:
+                                          controller.activeItem.value == 3,
+                                      sidebarState:
+                                          controller.isExtended.value),
+                                  SidebarItem(
+                                      icon: Icons.history_outlined,
+                                      label: 'History',
+                                      index: 4,
+                                      selected:
+                                          controller.activeItem.value == 4,
+                                      sidebarState:
+                                          controller.isExtended.value),
+                                ],
+                              );
+                            }
+                          }
+                          return Container();
+                        }),
+                  ],
+                ),
+                
+                Column(
+                  children: [
+                    StarMenu(
+                      params: StarMenuParameters(
+                        centerOffset: Offset(10.w, 0),
+                        backgroundParams: BackgroundParams(
+                          backgroundColor: Colors.black.withOpacity(0.3),
+                        ),
+                      )
+                          ,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Icon(
+                          Icons.more_horiz_outlined,
+                          color: Colors.black,
                         ),
                       ),
                       items: [
@@ -118,7 +186,8 @@ class Sidebar extends StatelessWidget {
                                             ),
                                           );
                                         },
-                                        icon: Icon(Icons.notifications_outlined),
+                                        icon:
+                                            Icon(Icons.notifications_outlined),
                                       ),
                                     );
                                   }
@@ -172,7 +241,10 @@ class Sidebar extends StatelessWidget {
                             ],
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.logout_outlined, color: Colors.redAccent,),
+                            icon: Icon(
+                              Icons.logout_outlined,
+                              color: Colors.redAccent,
+                            ),
                             onPressed: () async {
                               await storage.delete(key: "paseto");
                               Get.offAllNamed('/login');
@@ -181,44 +253,12 @@ class Sidebar extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 8.0),
-                      child: Divider(
-                        thickness: 1,
-                      ),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SidebarItem(
-                        icon: Icons.book_outlined,
-                        label: 'Books',
-                        index: 0,
-                        selected: controller.activeItem.value == 0,
-                        sidebarState: controller.isExtended.value),
-                    SidebarItem(
-                        icon: Icons.person_outline,
-                        label: 'Profile',
-                        index: 1,
-                        selected: controller.activeItem.value == 1,
-                        sidebarState: controller.isExtended.value),
-                    FutureBuilder(
-                      future: storage.read(key: "role"),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data == "admin") {
-                            return SidebarItem(
-                                icon: Icons.people_outline,
-                                label: 'Users',
-                                index: 2,
-                                selected: controller.activeItem.value == 2,
-                                sidebarState: controller.isExtended.value);
-                          }
-                        }
-                        return Container();
-                      }
-                    ),
+                    SidebarToggle(sidebarState: controller.isExtended.value),
                   ],
                 ),
-                SidebarToggle(sidebarState: controller.isExtended.value),
               ],
             ),
           ),

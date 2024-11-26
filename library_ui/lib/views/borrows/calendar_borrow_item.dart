@@ -24,7 +24,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
           width: 5.w,
           height: 7.w,
           decoration: BoxDecoration(
-          color: !widget.date.isAfter(DateTime.now()) ? MyColors.brown : MyColors.green,
+          color: !widget.date.isAfter(DateTime.now()) ? MyColors.brown : MyColors.lightBrown.withOpacity(.5),
           borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
@@ -58,7 +58,7 @@ class _CalendarBorrowItemState extends State<CalendarBorrowItem> {
           width: 1.w,
           height: 1.w,
           decoration: BoxDecoration(
-          color: !widget.date.isAfter(DateTime.now()) ? MyColors.brown : MyColors.green,
+          color: !widget.date.isAfter(DateTime.now()) ? MyColors.brown : MyColors.lightBrown.withOpacity(.5),
           borderRadius: BorderRadius.circular(5),
           ),
         ),

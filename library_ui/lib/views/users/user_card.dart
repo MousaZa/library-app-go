@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_ui/globals.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({super.key, required this.userName, required this.email, required this.role});
@@ -23,14 +24,15 @@ class UserCard extends StatelessWidget {
         ],
       ), 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children:  [
           CircleAvatar(
             radius: 30,
-            child: Icon(Icons.person_outline),
+            backgroundColor: MyColors.lightBrown.withOpacity(0.2),
+            child: Icon(Icons.person,color: MyColors.brown,),
           ),
-          SizedBox(width: 20),
-          Text(userName),
+          // SizedBox(width: 20),
+          Text(userName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Text(email),
           Text(role),
         ],

@@ -4,6 +4,8 @@ import 'package:library_ui/controllers/sidebar.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/books_page.dart';
+import 'package:library_ui/views/borrows/admin/all_ongoing_borrows_page.dart';
+import 'package:library_ui/views/borrows/admin/borrow_history_page.dart';
 import 'package:library_ui/views/sidebar/sidebar.dart';
 import 'package:library_ui/views/users/profile.dart';
 import 'package:badges/badges.dart' as badges;
@@ -22,6 +24,8 @@ class MyHomePage extends StatefulWidget {
     BooksPage(),
     Profile(),
     UsersList(),
+    AllOnGoingBorrowsPage(),
+    BorrowHistoryPage()
   ];
 
   MyHomePage({super.key, required this.paseto});
@@ -44,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
                floatingActionButton: snapshot1.data == "user"
                     ? null
                     : FloatingActionButton(
-                        backgroundColor: MyColors.green,
+                        backgroundColor: MyColors.brown,
+                        foregroundColor: Colors.white,
                         onPressed: () {
                           Navigator.push(
                               context,
