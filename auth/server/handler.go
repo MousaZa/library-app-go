@@ -1,3 +1,18 @@
+// Package classification of Auth API
+//
+// Documentation for Auth API
+//
+//	Schemes: http
+//	BasePath: /
+//	Version: 1.0.0
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+// swagger:meta
 package server
 
 import (
@@ -17,22 +32,56 @@ import (
 
 var users []models.User
 
+// The Login Requset
+// swagger:parameters login
 type loginRequest struct {
+	// username
+	// in: body
+	// required: true
 	Username string `json:"username" binding:"required"`
+	// password
+	// in: body
+	// required: true
 	Password string `json:"password" binding:"required"`
 }
 
+// A token is returned in the response
+// swagger:response loginResponse
 type loginResponse struct {
+	// access token
+	// in: body
 	AccessToken string `json:"access_token"`
 }
 
+// The user data is returned in the response
+// swagger:response usersResponse
 type UserResponse struct {
-	ID       string `json:"user_id"`
+	// user id
+	// in: body
+	ID string `json:"user_id"`
+	// username
+	// in: body
 	Username string `json:"username"`
-	Email    string `json:"email"`
-	Role     string `json:"role"`
+	// email
+	// in: body
+	Email string `json:"email"`
+	// role
+	// in: body
+	Role string `json:"role"`
 }
 
+// A list of user data is returned in the response
+// swagger:response usersResponse
+type UsersResponse struct {
+	body []UserResponse
+}
+
+// swagger:route GET /auth/list/users auth ListUsers
+// responses:
+//
+//	200: usersResponse
+
+// ListUsers lists all the users in the database
 func (server *Server) ListUsers(ctx *gin.Context) {
 	users := &[]models.User{}
 	err := server.db.Find(&users).Error
@@ -43,6 +92,12 @@ func (server *Server) ListUsers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users)
 }
 
+// swagger:route GET /auth/user auth getUserData
+// responses:
+//
+//	200: userResponse
+
+// Gets the data of a specific user
 func (server *Server) getUserData(ctx *gin.Context) {
 	authHeader := ctx.GetHeader(authorizationHeaderKey)
 	token := strings.Fields(authHeader)[1]
@@ -58,6 +113,12 @@ func (server *Server) getUserData(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, resp)
 }
 
+// swagger:route POST /auth/login auth login
+// responses:
+//
+//	200: loginResponse
+
+// Returns an Access Token if the credintials are true
 func (server *Server) login(ctx *gin.Context) {
 
 	var req loginRequest
@@ -102,6 +163,16 @@ func (server *Server) login(ctx *gin.Context) {
 
 }
 
+// swagger:response noContent
+type authNoContent struct {
+}
+
+// swagger:route POST /auth/create auth createUser
+// responses:
+//
+//	201: noContent
+
+// Creates a new user - doesn't return anything
 func (server *Server) createUser(ctx *gin.Context) {
 
 	var user models.User
@@ -141,6 +212,12 @@ func (server *Server) createUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users)
 }
 
+// swagger:route POST /auth/delete/{id} auth deleteUser
+// responses:
+//
+//	201: noContent
+
+// Deletes a user - doesn't return anything
 func (server *Server) deleteUser(ctx *gin.Context) {
 	// Request binding for user ID
 	id := ctx.Param("id")

@@ -41,22 +41,22 @@ var upgrader = websocket.Upgrader{
 
 // A list of books returns in the response
 // swagger:response booksResponse
-type bookResponse struct {
-	// All books in the system
-	// in: body
-	body models.Book
-}
-
-// A book returns in the response
-// swagger:response bookResponse
 type booksResponse struct {
-	// A single book in the system
+	// All books in the system
 	// in: body
 	body []models.Book
 }
 
+// A book returns in the response
+// swagger:response bookResponse
+type bookResponse struct {
+	// A single book in the system
+	// in: body
+	body models.Book
+}
+
 // swagger:response noContent
-type bookssNoContent struct {
+type booksNoContent struct {
 }
 
 // swagger:parameters deleteBook updateBook getBook
