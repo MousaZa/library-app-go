@@ -337,7 +337,7 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 		Description: "Documentation for Book API",
 		SpecFile:    "./swagger.yaml",
 		SpecPath:    "/swagger.yaml",
-		DocsPath:    "/docs",
+		DocsPath:    "/books/docs",
 	}
 
 	cors.Use(ginredoc.New(doc))

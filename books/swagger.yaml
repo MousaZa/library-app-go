@@ -10,6 +10,10 @@ definitions:
             available:
                 type: boolean
                 x-go-name: Available
+            borrows:
+                format: int64
+                type: integer
+                x-go-name: Borrows
             category:
                 type: string
                 x-go-name: Category
@@ -27,10 +31,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: Likes
-            loans:
-                format: int64
-                type: integer
-                x-go-name: Loans
             summary:
                 type: string
                 x-go-name: Summary
@@ -98,6 +98,76 @@ paths:
             responses:
                 "200":
                     $ref: '#/responses/bookResponse'
+            tags:
+                - books
+        put:
+            operationId: updateBook
+            parameters:
+                - description: the id of the target book
+                  format: int64
+                  in: path
+                  name: id
+                  required: true
+                  type: integer
+                  x-go-name: ID
+                - description: The Book data
+                  in: body
+                  name: book
+                  required: true
+                  schema:
+                    $ref: '#/definitions/Book'
+                  x-go-name: Product
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
+            tags:
+                - books
+    /books/borrow/{id}:
+        post:
+            operationId: addBorrow
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the book to remove the like
+                  type: integer
+                  format: int64
+                  x-go-name: ID
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
+            tags:
+                - books
+    /books/like/{id}:
+        post:
+            operationId: LikeBook
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the book to remove the like
+                  type: integer
+                  format: int64
+                  x-go-name: ID
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
+            tags:
+                - books
+    /books/remove_like/{id}:
+        post:
+            operationId: RemoveLike
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the book to remove the like
+                  type: integer
+                  format: int64
+                  x-go-name: ID
+            responses:
+                "201":
+                    $ref: '#/responses/noContent'
             tags:
                 - books
 produces:
