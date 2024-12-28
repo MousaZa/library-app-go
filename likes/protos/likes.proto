@@ -1,25 +1,32 @@
 syntax = "proto3";
 
 package library;
-
+/**
+ * The Likes Service
+ */
 service Likes {
+    // AddLike creates a like record
     rpc AddLike(LikeRequest) returns (BoolResponse);
+    // DeleteLike deletes a like record
     rpc DeleteLike(LikeRequest) returns (BoolResponse);
+    // GetLike gets the like data for a user on a specific book
     rpc GetLike(LikeRequest) returns (BoolResponse);
 }
 
-// like Model
+// Like model
 message Like {
     int64 Id = 1;
     int64 BookId = 2;
     int64 UserId = 3;
 }
 
+// LikeRequest model
 message LikeRequest {
     int64 BookId = 1;
     int64 UserId = 2;
 }
 
+// BoolResponse model
 message BoolResponse {
     bool Response = 1;
 }

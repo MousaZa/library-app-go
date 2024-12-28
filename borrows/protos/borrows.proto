@@ -4,17 +4,23 @@ package library;
 
 import "google/protobuf/timestamp.proto";
 
+/**
+ * The Borrows Service
+ */
 service Borrows {
-  // ADD
+  // AddBorrow creates a new borrow for the user logged in
   rpc AddBorrow(AddBorrowRequest) returns (MessageResponse);
-  // UPDATE
+  // UpdateBorrow is used to update the status of a borrow
   rpc UpdateBorrow(UpdateBorrowRequest) returns (MessageResponse);
-  // DELETE
+  // DeleteBorrow deletes a borrow with a specific ID
   rpc DeleteBorrow(DeleteBorrowRequest) returns (MessageResponse);
-  // GET
+  // GetBookBorrows lists the borrows history for a specific Book
   rpc GetBookBorrows(GetBookBorrowsRequest) returns (GetBorrowsResponse);
+  // GetUserBorrows lists the borrows history for a specific User
   rpc GetUserBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
+  // GetAllBorrows lists all the 'done' borrows
   rpc GetAllBorrows(GetAllBorrowsRequest) returns (GetBorrowsResponse);
+  // GetUserOnGoingBorrows lists all the borrows that are still active
   rpc GetUserOnGoingBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
 }
 
@@ -25,52 +31,55 @@ message Borrow {
     int64 UserId = 3;
     google.protobuf.Timestamp BorrowDate = 4;
     google.protobuf.Timestamp ReturnDate = 5;
+    // example: 'done', 'ongoing', ...
     string Status = 6;
 }
 
+// MessageResponse model
 message MessageResponse {
     string Message = 1;
 }
 
 
-// ADD
+// AddBorrowRequest model
 message AddBorrowRequest {
     int64 BookId = 1;
     int64 UserId = 2;
 }
 
-// UPDATE 
+// UpdateBorrowRequest model 
 message UpdateBorrowRequest {
     int64 Id = 1;
     string Status = 2;
 }
 
+// UpdateBorrowResponse model
 message UpdateBorrowResponse {
     string Message = 1;
 }
 
-// DELETE
+// DeleteBorrowRequest model
 message DeleteBorrowRequest {
     int64 Id = 1;
 }
 
 
-// GET
+// GetBookBorrowsRequest model
 message GetBookBorrowsRequest {
     int64 BookId = 1;
 }
-
+// GetUserBorrowsRequest model
 message GetUserBorrowsRequest {
     int64 UserId = 1;
 }
-
+// GetUserOnGoingBorrowsRequest model
 message GetUserOnGoingBorrowsRequest {
     int64 UserId = 1;
 }
-
+// GetAllBorrowsRequest model
 message GetAllBorrowsRequest {
 }
-
+// GetBorrowsResponse model
 message GetBorrowsResponse {
     repeated Borrow borrows = 1;
 }

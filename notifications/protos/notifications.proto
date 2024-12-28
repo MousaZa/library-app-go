@@ -2,15 +2,19 @@ syntax = "proto3";
 
 package library;
 
+/**
+ * The Notifications Service
+ */
 service Notifications {
-  // ADD
+  // pushNotification creates a new notification for a specific user
   rpc pushNotification(PushNotificationRequest) returns (NMessageResponse);
-  // GET
+  // GetUserNotifications lists the notifications for a specific user
   rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse);
-  // UPDATE
+  // MarkNotificationAsRead changes the status of a notification to 'seen'
   rpc MarkNotificationAsRead(MarkNotificationAsReadRequest) returns (NMessageResponse);
 }
 
+// Notification Model
 message Notification{
     int64 Id = 1 ;
     int64 UserId = 2 ;
@@ -19,24 +23,29 @@ message Notification{
     string status = 5 ;
 }
 
+// GetUserNotificationsRequest model
 message GetUserNotificationsRequest{
     int64 UserId = 1 ;
 }
 
+// GetUserNotificationsResponse model
 message GetUserNotificationsResponse{
     repeated Notification notifications = 1 ;
 }
 
+// PushNotificationRequest model
 message PushNotificationRequest{
     int64 UserId = 1 ;
     string message = 2 ;
     string type = 3 ;
 }
 
+// MarkNotificationAsReadRequest model
 message MarkNotificationAsReadRequest{
     int64 NotificationId = 2 ;
 }
 
+// NMessageResponse model
 message NMessageResponse{
     string message = 1 ;
 }
