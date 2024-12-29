@@ -72,7 +72,7 @@ type productParameterWrapper struct {
 	// The Book data
 	// in: body
 	// required: true
-	Product models.Book `json:"book"`
+	Book models.Book `json:"book"`
 }
 
 type Repository struct {

@@ -2,31 +2,50 @@ basePath: /
 consumes:
     - application/json
 definitions:
-    UserResponse:
-        description: The user data is returned in the response
+    createUserRequest:
         properties:
             email:
-                description: |-
-                    email
-                    in: body
+                description: email
+                type: string
+                x-go-name: Email
+            password:
+                description: password
+                type: string
+                x-go-name: Password
+            username:
+                description: username
+                type: string
+                x-go-name: Username
+        type: object
+        x-go-package: github.com/MousaZa/library-app-go/auth/server
+    loginRequest:
+        properties:
+            password:
+                description: password
+                type: string
+                x-go-name: Password
+            username:
+                description: username
+                type: string
+                x-go-name: Username
+        type: object
+        x-go-package: github.com/MousaZa/library-app-go/auth/server
+    userResponse:
+        properties:
+            email:
+                description: email
                 type: string
                 x-go-name: Email
             role:
-                description: |-
-                    role
-                    in: body
+                description: role
                 type: string
                 x-go-name: Role
             user_id:
-                description: |-
-                    user id
-                    in: body
+                description: user id
                 type: string
                 x-go-name: ID
             username:
-                description: |-
-                    username
-                    in: body
+                description: username
                 type: string
                 x-go-name: Username
         type: object
@@ -39,6 +58,13 @@ paths:
     /auth/create:
         post:
             operationId: createUser
+            parameters:
+                - description: The User data
+                  in: body
+                  name: Body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/createUserRequest'
             responses:
                 "201":
                     $ref: '#/responses/noContent'
@@ -47,6 +73,14 @@ paths:
     /auth/delete/{id}:
         post:
             operationId: deleteUser
+            parameters:
+                - description: the id of the target user
+                  format: int64
+                  in: path
+                  name: id
+                  required: true
+                  type: integer
+                  x-go-name: ID
             responses:
                 "201":
                     $ref: '#/responses/noContent'
@@ -64,20 +98,10 @@ paths:
         post:
             operationId: login
             parameters:
-                - description: username
-                  in: body
-                  name: username
-                  required: true
+                - in: body
+                  name: Body
                   schema:
-                    type: string
-                  x-go-name: Username
-                - description: password
-                  in: body
-                  name: password
-                  required: true
-                  schema:
-                    type: string
-                  x-go-name: Password
+                    $ref: '#/definitions/loginRequest'
             responses:
                 "200":
                     $ref: '#/responses/loginResponse'
@@ -88,7 +112,9 @@ paths:
             operationId: getUserData
             responses:
                 "200":
-                    $ref: '#/responses/userResponse'
+                    description: userResponse
+                    schema:
+                        $ref: '#/definitions/userResponse'
             tags:
                 - auth
 produces:
@@ -100,11 +126,10 @@ responses:
         description: ""
     usersResponse:
         description: A list of user data is returned in the response
-        headers:
-            body:
-                items:
-                    $ref: '#/definitions/UserResponse'
-                type: array
+        schema:
+            type: array
+            items:
+                $ref: '#/definitions/userResponse'
 schemes:
     - http
 swagger: "2.0"

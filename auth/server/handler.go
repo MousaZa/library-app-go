@@ -32,17 +32,36 @@ import (
 
 var users []models.User
 
-// The Login Requset
-// swagger:parameters login
-type loginRequest struct {
-	// username
+// The createUser Requset
+// swagger:parameters createUser
+type createUserRequestWrap struct {
+	// The User data
 	// in: body
 	// required: true
+	Body createUserRequest
+}
+
+type createUserRequest struct {
+	// username
 	Username string `json:"username" binding:"required"`
 	// password
-	// in: body
-	// required: true
 	Password string `json:"password" binding:"required"`
+	// email
+	Email string `json:"email" binding:"required"`
+}
+
+type loginRequest struct {
+	// username
+	Username string `json:"username" binding:"required"`
+	// password
+	Password string `json:"password" binding:"required"`
+}
+
+// The Login Requset
+// swagger:parameters login
+type loginRequsestWrapper struct {
+	// in: body
+	Body loginRequest
 }
 
 // A token is returned in the response
@@ -53,27 +72,28 @@ type loginResponse struct {
 	AccessToken string `json:"access_token"`
 }
 
-// The user data is returned in the response
-// swagger:response usersResponse
-type UserResponse struct {
+type userResponse struct {
 	// user id
-	// in: body
 	ID string `json:"user_id"`
 	// username
-	// in: body
 	Username string `json:"username"`
 	// email
-	// in: body
 	Email string `json:"email"`
 	// role
-	// in: body
 	Role string `json:"role"`
+}
+
+// The user data is returned in the response
+// swagger:response usersResponse
+type userResponseWrap struct {
+	// in: body
+	Body userResponse
 }
 
 // A list of user data is returned in the response
 // swagger:response usersResponse
-type UsersResponse struct {
-	body []UserResponse
+type UsersResponseWrap struct {
+	body []userResponse
 }
 
 // swagger:route GET /auth/list/users auth ListUsers
@@ -108,7 +128,7 @@ func (server *Server) getUserData(ctx *gin.Context) {
 		return
 	}
 
-	resp := &UserResponse{}
+	resp := &userResponse{}
 	json.Unmarshal(payload, resp)
 	ctx.JSON(http.StatusOK, resp)
 }
