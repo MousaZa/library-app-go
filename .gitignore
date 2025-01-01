@@ -2,3 +2,5 @@
 .env
 db/
 proxy/ssl/
+images/storage/covers/*
+images/storage/avatars/*
