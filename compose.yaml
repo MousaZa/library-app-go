@@ -9,6 +9,11 @@ services:
       db:
         condition: service_healthy
 
+  images:
+    build:
+      context: images
+      target: builder
+
   auth:
     build:
       context: auth

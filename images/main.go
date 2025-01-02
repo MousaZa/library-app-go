@@ -25,7 +25,7 @@ func main() {
 	}
 
 	go func() {
-		l.Info("Starting server on port 9090")
+		l.Info("Starting server on port 9292")
 		err := s.ListenAndServe()
 		if err != nil {
 			l.Error("Unable to start server", "error", err)

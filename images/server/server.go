@@ -5,10 +5,12 @@ import (
 	"io"
 	"os"
 
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes(router *gin.Engine) {
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.POST("/images/covers/:id", UploadBookCover)
 	router.POST("/images/avatars/:id", UploadUserAvatar)
 	router.GET("/images/covers/:id", GetBookCover)
