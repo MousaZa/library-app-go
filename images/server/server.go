@@ -1,9 +1,26 @@
+// Package classification of Images API
+//
+// Documentation for Images API
+//
+//	Schemes: http
+//	BasePath: /
+//	Version: 1.0.0
+//
+//	Consumes:
+//	- image/jpeg
+//
+//	Produces:
+//	- image/jpeg
+//
+// swagger:meta
 package server
 
 import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
@@ -25,7 +42,12 @@ func UploadBookCover(c *gin.Context) {
 		c.JSON(500, gin.H{})
 	}
 	fmt.Println(header.Filename)
-	out, err := os.Create("./storage/covers/" + id + ".jpg")
+	if !isImageFile(header.Filename) {
+		c.JSON(400, "invalid file type")
+		return
+	}
+	ext := strings.ToLower(filepath.Ext(header.Filename))
+	out, err := os.Create("./storage/covers/" + id + ext)
 	if err != nil {
 		fmt.Printf("err:%v", err)
 		c.JSON(500, gin.H{})
@@ -40,7 +62,13 @@ func UploadBookCover(c *gin.Context) {
 
 func GetBookCover(c *gin.Context) {
 	id := c.Param("id")
-	c.File("./storage/covers/" + id + ".jpg")
+	pattern := "./storage/covers/" + id + ".*"
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
+		c.String(404, "File not found")
+		return
+	}
+	c.File(matches[0])
 }
 
 func UploadUserAvatar(c *gin.Context) {
@@ -51,7 +79,12 @@ func UploadUserAvatar(c *gin.Context) {
 		c.JSON(500, gin.H{})
 	}
 	fmt.Println(header.Filename)
-	out, err := os.Create("./storage/avatars/" + id + ".jpg")
+	if !isImageFile(header.Filename) {
+		c.JSON(400, "invalid file type")
+		return
+	}
+	ext := strings.ToLower(filepath.Ext(header.Filename))
+	out, err := os.Create("./storage/avatars/" + id + ext)
 	if err != nil {
 		fmt.Printf("err:%v", err)
 		c.JSON(500, gin.H{})
@@ -66,5 +99,16 @@ func UploadUserAvatar(c *gin.Context) {
 
 func GetUserAvatar(c *gin.Context) {
 	id := c.Param("id")
-	c.File("./storage/avatars/" + id + ".jpg")
+	pattern := "./storage/avatars/" + id + ".*"
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
+		c.String(404, "File not found")
+		return
+	}
+	c.File(matches[0])
+}
+
+func isImageFile(fileName string) bool {
+	ext := strings.ToLower(filepath.Ext(fileName))
+	return ext == ".jpg" || ext == ".jpeg" || ext == ".png"
 }
