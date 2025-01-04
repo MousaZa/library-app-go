@@ -11,3 +11,5 @@
     [Documentation](https://github.com/MousaZa/library-app-go/blob/main/likes/doc.md)
 - ### Notifications:
     [Documentation](https://github.com/MousaZa/library-app-go/blob/main/notifications/doc.md)
+- ### Images:
+    [Documentation](https://github.com/MousaZa/library-app-go/blob/main/images/doc.md)
