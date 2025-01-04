@@ -44,19 +44,15 @@ func SetupRoutes(router *gin.Engine) {
 type imagesNoContent struct {
 }
 
-// UploadBookCover uploads a book cover image.
+// swagger:route POST /images/covers/{id} users uploadBookCover
 //
-// @Summary Upload a book cover
-// @Description Uploads a book cover image for a specific book ID
-// @Tags books
-// @Accept multipart/form-data
-// @Produce application/json
-// @Param id path string true "Book ID"
-// @Param upload formData file true "Book cover image file"
-// @Success 200 {object} gin.H
-// @Failure 400 {string} string "invalid file type"
-// @Failure 500 {object} gin.H
-// @Router /images/covers/{id} [post]
+// responses:
+//
+//	201: noContent
+//	500: noContent
+//	400: noContent
+//
+// UploadBookCover uploads a book cover image.
 func UploadBookCover(c *gin.Context) {
 	id := c.Param("id")
 	file, header, err := c.Request.FormFile("upload")
@@ -83,16 +79,14 @@ func UploadBookCover(c *gin.Context) {
 	}
 }
 
-// GetBookCover retrieves a book cover image.
+// swagger:route GET /images/covers/{id} users getBookCover
 //
-// @Summary Get a book cover
-// @Description Retrieves a book cover image for a specific book ID
-// @Tags books
-// @Produce image/png, image/jpeg, image/jpg
-// @Param id path string true "Book ID"
-// @Success 200 {file} file
-// @Failure 404 {string} string "File not found"
-// @Router /images/covers/{id} [get]
+// responses:
+//
+//	200: {string} string "image file"
+//	404: noContent
+//
+// GetBookCover gets a book cover image.
 func GetBookCover(c *gin.Context) {
 	id := c.Param("id")
 	pattern := "./storage/covers/" + id + ".*"
@@ -139,7 +133,7 @@ func UploadUserAvatar(c *gin.Context) {
 	}
 }
 
-// swagger:route GET /images/avatars/{id} users uploadUserAvatar
+// swagger:route GET /images/avatars/{id} users getUserAvatar
 //
 // responses:
 //
