@@ -165,11 +165,12 @@ func (r *Repository) AddBook(ctx *gin.Context) {
 	book.Available = true
 
 	err = r.DB.Create(&book).Error
+	fmt.Print(book.Id)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to add book"})
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{"message": "Book added successfully"})
+	ctx.JSON(http.StatusCreated, gin.H{"id": book.Id})
 }
 
 // swagger:route GET /books books getBooks

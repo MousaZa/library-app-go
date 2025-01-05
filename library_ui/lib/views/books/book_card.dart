@@ -65,7 +65,7 @@ class _BookCardState extends State<BookCard> {
                     child: Stack(
                       children: [
                         Image.network(
-                          widget.bookData.coverURL,
+                          "http://localhost/images/covers/${widget.bookData.id}",
                           height: 16.w,
                           width: 10.w,
                           fit: BoxFit.cover,

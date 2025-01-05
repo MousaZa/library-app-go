@@ -6,6 +6,7 @@ import 'package:library_ui/controllers/borrows.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
+import 'package:library_ui/views/books/add_book_cover_page.dart';
 import 'package:sizer/sizer.dart';
 
 class BookPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class BookPage extends StatefulWidget {
 
 class _BookPageState extends State<BookPage> {
   final borrowsController = Get.put(BorrowsController());
+  bool _coverHover = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +44,58 @@ class _BookPageState extends State<BookPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                  widget.bookData.coverURL,
-                  // height: 50.h,
-                  fit: BoxFit.cover,
-                ),
-                ),
+                StatefulBuilder(builder: (context,setstate){
+                  return Container(
+                    
+                    height: 60.h,
+                          width: 40.h,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          "http://localhost/images/covers/${widget.bookData.id}",
+                          height: 60.h,
+                          width: 40.h,
+                          fit: BoxFit.cover,
+                        ),
+                        MouseRegion(
+                          onEnter: (event) {
+                            setstate(() {
+                              _coverHover = true;
+                            });
+                          },
+                          onExit: (event) {
+                            setstate(() {
+                              _coverHover = false;
+                            });
+                          },
+                          child: Container(
+                           height: 60.h,
+                          width: 40.h,
+                            child: MaterialButton(
+                              hoverColor: Colors.black.withOpacity(0.5),
+                              child: Center(
+                                child: _coverHover
+                                    ? Icon(
+                                        Icons.edit_outlined,
+                                        color: Colors.white,
+                                        size: 3.w,
+                                      )
+                                    : null,
+                              ),
+                              onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddBookCoverPage(id: widget.bookData.id)));
+                              },
+                            ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  );
+                }),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(

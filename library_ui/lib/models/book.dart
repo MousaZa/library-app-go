@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Book {
@@ -92,14 +97,35 @@ class Book {
   return jsonDecode(response.body);
   }
 
+  static Future<dynamic> uploadCover(Uint8List? fileBytes, String fileName, int id) async {
+    
+    final uri = Uri.parse('http://localhost/images/covers/$id');
+    final request = http.MultipartRequest('POST', uri);
+    final multipartFile = await http.MultipartFile.fromBytes('upload', fileBytes!,filename: fileName);
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.headers['File-Name'] = fileName;
+
+    request.files.add(multipartFile);
+    final response = await request.send();
+
+    return response;
+  }
+
+  Future<Image> getCover() async {
+    final response = await http.get(Uri.parse('http://localhost/images/covers/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get book cover');
+    }
+    return Image.memory(response.bodyBytes);
+  }
+  
   Future add() async {
   try{
-    
     http.Response response = await http.post(
     Uri.parse(url),
     body: jsonEncode(toJson()),
   );
-  if (response.statusCode != 200) { 
+  if (response.statusCode != 201) { 
     throw Exception('Failed to add book');
   }
   return jsonDecode(response.body);

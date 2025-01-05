@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:choice/inline.dart';
 import 'package:flutter/material.dart';
 import 'package:library_ui/models/book.dart';
+import 'package:library_ui/views/books/add_book_cover_page.dart';
 
 class AddBookPage extends StatefulWidget {
   const AddBookPage({super.key});
@@ -107,7 +110,7 @@ class _AddBookPageState extends State<AddBookPage> {
               ),
               ElevatedButton(        
                 onPressed: () async {
-                  await Book(
+                  final b = await Book(
                     available: true, 
                     borrows: 0,
                     likes: 0,
@@ -119,8 +122,9 @@ class _AddBookPageState extends State<AddBookPage> {
                     language: selectedLanguage,
                     summary: _summaryController.text,
                   ).add();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddBookCoverPage(id: b['id'])));
                   // await Book.add(_titleController.text, _authorController.text, _imageUrlController.text, _categoryController.text, _LanguageController.text, _descriptionController.text);
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 },
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
