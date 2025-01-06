@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/controllers/auth.dart';
+import 'package:library_ui/globals.dart';
 import 'package:sizer/sizer.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -13,59 +14,124 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register Page'),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 40.w,
-          height: 50.h,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('Welcome to Library UI', style: TextStyle(fontSize: 18.sp),),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder()
+      body: Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 20.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      'Welcome to Library UI',
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    ),
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: MyColors.brown),
+                        focusColor: MyColors.brown,
+                        hoverColor: MyColors.brown,
+                        fillColor: MyColors.brown,
+                        iconColor: MyColors.brown,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: MyColors.brown, style: BorderStyle.solid),
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        labelStyle: TextStyle(color: MyColors.brown),
+                        focusColor: MyColors.brown,
+                        hoverColor: MyColors.brown,
+                        fillColor: MyColors.brown,
+                        iconColor: MyColors.brown,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: MyColors.brown, style: BorderStyle.solid),
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: MyColors.brown),
+                        focusColor: MyColors.brown,
+                        hoverColor: MyColors.brown,
+                        fillColor: MyColors.brown,
+                        iconColor: MyColors.brown,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: MyColors.brown, style: BorderStyle.solid),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 20.w,
+                      height: 5.h,
+                      decoration: BoxDecoration(
+                        color: MyColors.brown,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: MaterialButton(
+                        onPressed: () async {
+                          final user = await controller.register(
+                              _emailController.text,
+                              _usernameController.text,
+                              _passwordController.text);
+                          if (user != 'error') {
+                            Get.snackbar('Account created successfully',
+                                'Please login to continue');
+                            Get.offAllNamed('/login');
+                          }
+                        },
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        
+                        Navigator.pop(context);
+                      },
+                      child: Text('Login', style: TextStyle(fontSize: 12.sp, color: Colors.black),), 
+                    ),
+                  ],
                 ),
               ),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder()
-                ),
-              ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder()
-                ),
-              ), 
-              Container(
-                width: 20.w,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: MaterialButton(
-                  onPressed: ()async {
-                    final user = await controller.register(_emailController.text, _usernameController.text, _passwordController.text);
-                    if (user != 'error') {
-                         Get.snackbar('Account created successfully', 'Please login to continue');
-                    Get.offAllNamed('/login');
-                    }
-                    
-                  },
-                  child: Text('Register', style: TextStyle(color: Colors.white, fontSize: 11.sp),),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Expanded(
+            child: Container(
+                height: double.infinity,
+                child: Image.asset(
+                  'assets/images/background.jpeg',
+                  fit: BoxFit.fitHeight,
+                )),
+          )
+        ],
       ),
-    );}}
+    );
+  }
+}

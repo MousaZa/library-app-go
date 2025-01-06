@@ -16,85 +16,116 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 40.w,
-          height: 50.h,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('Welcome to Library UI',style: TextStyle(fontSize: 18.sp),),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder()
-                ),
-              ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder()
-                ),
-              ),
-              Container(
-                width: 20.w,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: MaterialButton(
-                  onPressed: () async{
-                    dynamic paseto = await controller.login(_usernameController.text, _passwordController.text);
-                    if ( paseto != null && paseto != 'error' ){
-                      await storage.write(key: "paseto", value: paseto);
-                      var user = await getUser();
-                      print(user);
-                      await storage.write(key: "role", value: user['role']);
-                    
-                    final notifications = await getNotifications();
-                    if(notifications.isNotEmpty){
-                  for (var notification in notifications) {
-                    Get.snackbar(
-                      notification['type'],
-                      notification['message'],
-                      icon: notification['type'] == 'warning' ? Icon(Icons.warning,color: Colors.white,) : Icon(Icons.info),
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      colorText: Theme.of(context).colorScheme.onSecondary,
-                    );}
-
-                  }
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyHomePage.withAuth(paseto),
-                      )
-                    );
-                  }
-                },
-                  child: Text('Login',style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 11.sp),),
-                ),
-              ), 
-              TextButton(
-                onPressed: () {
-                  
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterPage(),
+      backgroundColor: MyColors.lightBrown.withOpacity(0.1),
+      // appBar: AppBar(
+      //   title: Text('Login Page'),
+      // ),
+      body: Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 20.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text('Welcome to Library UI',style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),),
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        // border: OutlineInputBorder()
+                        labelStyle: TextStyle(color: MyColors.brown),
+                        focusColor: MyColors.brown,
+                        hoverColor: MyColors.brown,
+                        fillColor: MyColors.brown,
+                        iconColor: MyColors.brown,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown,style: BorderStyle.solid),
+                        ),
+                      ),
                     ),
-                  );
-                },
-                child: Text('Register'), 
+                    TextField(
+                      controller: _passwordController,
+                     decoration: InputDecoration(
+                        labelText: 'Password',
+                        // border: OutlineInputBorder()
+                        labelStyle: TextStyle(color: MyColors.brown),
+                        focusColor: MyColors.brown,
+                        hoverColor: MyColors.brown,
+                        fillColor: MyColors.brown,
+                        iconColor: MyColors.brown,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: MyColors.brown,style: BorderStyle.solid),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 20.w,
+                      height: 5.h,
+                      decoration: BoxDecoration(
+                        color: MyColors.brown,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: MaterialButton(
+                        onPressed: () async{
+                          dynamic paseto = await controller.login(_usernameController.text, _passwordController.text);
+                          if ( paseto != null && paseto != 'error' ){
+                            await storage.write(key: "paseto", value: paseto);
+                            var user = await getUser();
+                            print(user);
+                            await storage.write(key: "role", value: user['role']);
+                          
+                          final notifications = await getNotifications();
+                          if(notifications.isNotEmpty){
+                        for (var notification in notifications) {
+                          Get.snackbar(
+                            notification['type'],
+                            notification['message'],
+                            icon: notification['type'] == 'warning' ? Icon(Icons.warning,color: Colors.white,) : Icon(Icons.info),
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Theme.of(context).colorScheme.secondary,
+                            colorText: Theme.of(context).colorScheme.onSecondary,
+                          );}
+                          
+                        }
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyHomePage.withAuth(paseto),
+                            )
+                          );
+                        }
+                      },
+                        child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 12.sp,),),
+                      ),
+                    ), 
+                    TextButton(
+                      onPressed: () {
+                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegisterPage(),
+                          ),
+                        );
+                      },
+                      child: Text('Register', style: TextStyle(fontSize: 12.sp, color: Colors.black),), 
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+          Expanded(
+            child: Container(height:double.infinity,child: Image.asset('assets/images/background.jpeg',fit: BoxFit.fitHeight,)),
+          )
+        ],
       ),
     );}}
