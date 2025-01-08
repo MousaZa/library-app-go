@@ -273,6 +273,17 @@ func (r *Repository) DeleteBook(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to delete book"})
 		return
 	}
+	link := fmt.Sprintf("http://proxy/images/covers/%v", id)
+	req, err := http.NewRequest(http.MethodDelete, link, nil)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to delete book cover"})
+		return
+	}
+	_, err = http.DefaultClient.Do(req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to delete book cover"})
+		return
+	}
 	ctx.JSON(http.StatusNoContent, gin.H{"message": "Book deleted successfully"})
 }
 

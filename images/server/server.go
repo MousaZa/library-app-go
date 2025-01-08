@@ -38,6 +38,8 @@ func SetupRoutes(router *gin.Engine) {
 	router.POST("/images/avatars/:id", UploadUserAvatar)
 	router.GET("/images/covers/:id", GetBookCover)
 	router.GET("/images/avatars/:id", GetUserAvatar)
+	router.DELETE("/images/covers/:id", DeleteBookCover)
+	router.DELETE("/images/avatars/:id", DeleteUserAvatar)
 }
 
 // swagger:response noContent
@@ -96,6 +98,38 @@ func GetBookCover(c *gin.Context) {
 		return
 	}
 	c.File(matches[0])
+}
+
+func DeleteBookCover(c *gin.Context) {
+	id := c.Param("id")
+	pattern := "./storage/covers/" + id + ".*"
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
+		c.String(404, "File not found")
+		return
+	}
+	err = os.Remove(matches[0])
+	if err != nil {
+		c.String(500, "Unable to delete file")
+		return
+	}
+	c.String(200, "File deleted")
+}
+
+func DeleteUserAvatar(c *gin.Context) {
+	id := c.Param("id")
+	pattern := "./storage/avatars/" + id + ".*"
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
+		c.String(404, "File not found")
+		return
+	}
+	err = os.Remove(matches[0])
+	if err != nil {
+		c.String(500, "Unable to delete file")
+		return
+	}
+	c.String(200, "File deleted")
 }
 
 // swagger:route POST /images/avatars/{id} users uploadUserAvatar

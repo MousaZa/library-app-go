@@ -11,7 +11,7 @@ Future listUsers() async {
     final token = await storage.read(key: "paseto");
 
     http.Response response = await http.get(
-      Uri.parse('http://localhost/auth/list/users'),
+      Uri.parse('$baseUrl/auth/list/users'),
       // headers: '"Content-Type": "application/json"'
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
