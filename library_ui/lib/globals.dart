@@ -9,15 +9,18 @@ import 'package:sizer/sizer.dart';
 
 const storage = FlutterSecureStorage();
 
-class MyColors{
+class MyColors {
   // static const lightGreen = Color(0xFFE9EED9);
   static const lightBrown = Color(0xFF9A7E6F);
   // static const green = Color(0xFFCBD2A4);
   static const brown = Color(0xFF54473F);
 }
 
-Widget loadingWidget =  Center(
-        child: LoadingAnimationWidget.inkDrop(
-         color: MyColors.brown,
-          size: 2.w,
-        ));
+Widget loadingWidget = Center(
+    child: LoadingAnimationWidget.inkDrop(
+  color: MyColors.brown,
+  size: 2.w,
+));
+
+const String baseUrl = "http://localhost";
+const String ws = "ws://localhost";

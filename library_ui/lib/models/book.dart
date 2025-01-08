@@ -5,12 +5,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:library_ui/globals.dart';
 import 'package:mime/mime.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Book {
 
-  static const String url = 'http://localhost/books';
 
   int id;
   String title;
@@ -58,7 +58,7 @@ class Book {
   static Future<Book> getBook(int id) async {
   try{
     http.Response response = await http.get(
-    Uri.parse('http://localhost/books/$id'),
+    Uri.parse('$baseUrl/books/$id'),
   );
   if (response.statusCode != 200) {
     throw Exception('Failed to get book');
@@ -89,7 +89,7 @@ class Book {
 
   Future delete() async {
     http.Response response = await http.delete(
-      Uri.parse('$url/$id'),
+      Uri.parse('$baseUrl/books/$id'),
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to delete book');
@@ -99,7 +99,7 @@ class Book {
 
   static Future<dynamic> uploadCover(Uint8List? fileBytes, String fileName, int id) async {
     
-    final uri = Uri.parse('http://localhost/images/covers/$id');
+    final uri = Uri.parse('$baseUrl/images/covers/$id');
     final request = http.MultipartRequest('POST', uri);
     final multipartFile = await http.MultipartFile.fromBytes('upload', fileBytes!,filename: fileName);
     request.headers['Content-Type'] = 'multipart/form-data';
@@ -112,7 +112,7 @@ class Book {
   }
 
   Future<Image> getCover() async {
-    final response = await http.get(Uri.parse('http://localhost/images/covers/$id'));
+    final response = await http.get(Uri.parse('$baseUrl/images/covers/$id'));
     if (response.statusCode != 200) {
       throw Exception('Failed to get book cover');
     }
@@ -122,7 +122,7 @@ class Book {
   Future add() async {
   try{
     http.Response response = await http.post(
-    Uri.parse(url),
+    Uri.parse("$baseUrl/books"),
     body: jsonEncode(toJson()),
   );
   if (response.statusCode != 201) { 
@@ -138,7 +138,7 @@ class Book {
   try{
     
     http.Response response = await http.put(
-    Uri.parse("$url/$id"),
+    Uri.parse("$baseUrl/books/$id"),
     body: jsonEncode(toJson()),
   );
   if (response.statusCode != 200) {

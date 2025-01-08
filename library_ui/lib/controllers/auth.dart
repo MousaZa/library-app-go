@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_ui/globals.dart';
 
 class Auth extends GetxController {
 
   Future<String> login(String username, String password) async {
     try {
       http.Response response = await http.post(
-        Uri.parse('http://localhost/auth/login'),
+        Uri.parse('$baseUrl/auth/login'),
         body: '{ "username": "$username", "password": "$password" }',
       );
       print(response.statusCode);
@@ -41,7 +42,7 @@ class Auth extends GetxController {
       String email, String username, String password) async {
     try {
       http.Response response = await http.post(
-        Uri.http('localhost', '/auth/create'),
+        Uri.parse('$baseUrl/auth/create'),
         body:
             '{ "id" : 1 , "username" : "$username" , "email" :"$email" , "password" : "$password" }',
       );

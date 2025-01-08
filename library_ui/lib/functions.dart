@@ -8,7 +8,7 @@ Future markAsRead(int id) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.put(
-      Uri.parse('http://localhost/auth/notifications/$id'),
+      Uri.parse('$baseUrl/auth/notifications/$id'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (response.statusCode != 200) {
@@ -24,7 +24,7 @@ Future<List> getNotifications() async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
-      Uri.parse('http://localhost/auth/notifications'),
+      Uri.parse('$baseUrl/auth/notifications'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (response.statusCode != 200) {
@@ -41,7 +41,7 @@ Future likeBook(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
-      Uri.parse('http://localhost/auth/like/$bookId'),
+      Uri.parse('$baseUrl/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       
     );
@@ -58,7 +58,7 @@ Future deleteLike(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.delete(
-      Uri.parse('http://localhost/auth/like/$bookId'),
+      Uri.parse('$baseUrl/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (response.statusCode != 200) {
@@ -74,7 +74,7 @@ Future<bool> getLike(int bookId) async {
   try {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.get(
-      Uri.parse('http://localhost/auth/like/$bookId'),
+      Uri.parse('$baseUrl/auth/like/$bookId'),
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
     if (response.statusCode != 200) {
@@ -92,7 +92,7 @@ Future  getUser() async {
     final token = await storage.read(key: "paseto");
     
     http.Response response = await http.get(
-    Uri.parse('http://localhost/auth/user'),
+    Uri.parse('$baseUrl/auth/user'),
     // headers: '"Content-Type": "application/json"' 
     headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
   );
@@ -113,7 +113,7 @@ Future createBorrow(int bookId,userId) async {
   try{
     final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
-    Uri.parse('http://localhost/auth/borrow'),
+    Uri.parse('$baseUrl/auth/borrow'),
     // headers: '"Content-Type": "application/json"'
     headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     body: '{ "bookId": $bookId, "userId": $userId }',

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 
 class BorrowsController extends GetxController{
@@ -32,7 +33,7 @@ class BorrowsController extends GetxController{
   Future<String> add(String token, Book bookData, int userId) async {
     try {
       var response = await http.post(
-        Uri.parse('http://localhost/auth/borrows'),
+        Uri.parse('$baseUrl/auth/borrows'),
         body: jsonEncode({'BookId': bookData.id, 'UserId': userId}),
        headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );

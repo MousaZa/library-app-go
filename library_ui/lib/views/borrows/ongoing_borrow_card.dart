@@ -53,7 +53,7 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
             for (int i = 0; i < diff; i++) {
               days.add(widget.borrowData.startDate.add(Duration(days: i)));
             }
-            if (!snapshot.hasData) return CircularProgressIndicator();
+            if (!snapshot.hasData) return loadingWidget;
             return Column(
               children: [
                 Expanded(

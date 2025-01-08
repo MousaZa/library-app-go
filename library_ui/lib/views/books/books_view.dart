@@ -43,7 +43,7 @@ class _BookFetcherState extends State<BookFetcher> {
   void connectToWebSocket() {
     channel = WebSocketChannel.connect(
       Uri.parse(
-          'ws://localhost/books?search=${widget.search}&language=${widget.language}&category=${widget.category}'),
+          '$ws/books?search=${widget.search}&language=${widget.language}&category=${widget.category}'),
     );
     channel.stream.listen(
       (message) {

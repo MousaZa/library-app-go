@@ -56,7 +56,7 @@ class _BookPageState extends State<BookPage> {
                     child: Stack(
                       children: [
                         Image.network(
-                          "http://localhost/images/covers/${widget.bookData.id}",
+                          "$baseUrl/images/covers/${widget.bookData.id}",
                           height: 60.h,
                           width: 40.h,
                           fit: BoxFit.cover,
