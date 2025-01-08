@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:library_ui/functions.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:sizer/sizer.dart';
@@ -34,7 +35,7 @@ class BorrowCard extends StatelessWidget {
       child: FutureBuilder(
           future: Book.getBook(borrowData.bookId),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
+            if (!snapshot.hasData) return loadingWidget;
             return Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(

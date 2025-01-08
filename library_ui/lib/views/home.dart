@@ -40,9 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         future: storage.read(key: "role"),
         builder: (context, snapshot1) {
           if (snapshot1.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return loadingWidget;
           } else {
             return Scaffold(
                floatingActionButton: snapshot1.data == "user"

@@ -4,6 +4,7 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/views/borrows/borrow_card.dart';
 import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class Profile extends StatelessWidget {
@@ -13,7 +14,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(future: getUser(), builder: (context, snapshot){
-      if(snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+      if(snapshot.connectionState == ConnectionState.waiting) return loadingWidget;
       return Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(

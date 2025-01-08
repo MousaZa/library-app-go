@@ -38,7 +38,7 @@ class UsersList extends StatelessWidget {
         future: listUsers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator());
+            return loadingWidget;
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {

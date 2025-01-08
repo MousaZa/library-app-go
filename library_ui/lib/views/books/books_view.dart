@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/books/book_card.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -75,7 +76,7 @@ class _BookFetcherState extends State<BookFetcher> {
     return DynamicHeightGridView(
       builder: (context, index) {
         if(books.isEmpty)
-          return Center(child: CircularProgressIndicator(),);
+          return loadingWidget;
 
          final book = Book.fromJson(books[index]);
          return BookCard(bookData: book);
