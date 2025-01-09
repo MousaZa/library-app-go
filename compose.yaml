@@ -13,6 +13,8 @@ services:
     build:
       context: images
       target: builder
+    volumes:
+      - image-storage:/app/images
 
   auth:
     build:
@@ -101,6 +103,7 @@ services:
 
 volumes:
   db-data:
+  image-storage:
 
 secrets:
   db-password:

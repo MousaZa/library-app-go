@@ -14,6 +14,7 @@ class MyColors {
   static const lightBrown = Color(0xFF9A7E6F);
   // static const green = Color(0xFFCBD2A4);
   static const brown = Color(0xFF54473F);
+  static const background = Color(0xFFf5f2f0);
 }
 
 Widget loadingWidget = Center(

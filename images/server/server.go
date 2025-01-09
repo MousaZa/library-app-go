@@ -67,8 +67,15 @@ func UploadBookCover(c *gin.Context) {
 		c.JSON(400, "invalid file type")
 		return
 	}
+	if _, err := os.Stat("/app/images/covers/"); os.IsNotExist(err) {
+		err = os.MkdirAll("/app/images/covers/", os.ModePerm)
+		if err != nil {
+			fmt.Printf("err:%v", err)
+			c.JSON(500, gin.H{})
+		}
+	}
 	ext := strings.ToLower(filepath.Ext(header.Filename))
-	out, err := os.Create("./storage/covers/" + id + ext)
+	out, err := os.Create("/app/images/covers/" + id + ext)
 	if err != nil {
 		fmt.Printf("err:%v", err)
 		c.JSON(500, gin.H{})
@@ -91,7 +98,7 @@ func UploadBookCover(c *gin.Context) {
 // GetBookCover gets a book cover image.
 func GetBookCover(c *gin.Context) {
 	id := c.Param("id")
-	pattern := "./storage/covers/" + id + ".*"
+	pattern := "/app/images/covers/" + id + ".*"
 	matches, err := filepath.Glob(pattern)
 	if err != nil || len(matches) == 0 {
 		c.String(404, "File not found")
@@ -102,7 +109,7 @@ func GetBookCover(c *gin.Context) {
 
 func DeleteBookCover(c *gin.Context) {
 	id := c.Param("id")
-	pattern := "./storage/covers/" + id + ".*"
+	pattern := "/app/images/covers/" + id + ".*"
 	matches, err := filepath.Glob(pattern)
 	if err != nil || len(matches) == 0 {
 		c.String(404, "File not found")
@@ -118,7 +125,7 @@ func DeleteBookCover(c *gin.Context) {
 
 func DeleteUserAvatar(c *gin.Context) {
 	id := c.Param("id")
-	pattern := "./storage/avatars/" + id + ".*"
+	pattern := "/app/images/avatars/" + id + ".*"
 	matches, err := filepath.Glob(pattern)
 	if err != nil || len(matches) == 0 {
 		c.String(404, "File not found")
@@ -153,8 +160,15 @@ func UploadUserAvatar(c *gin.Context) {
 		c.JSON(400, "invalid file type")
 		return
 	}
+	if _, err := os.Stat("/app/images/avatars/"); os.IsNotExist(err) {
+		err = os.MkdirAll("/app/images/avatars/", os.ModePerm)
+		if err != nil {
+			fmt.Printf("err:%v", err)
+			c.JSON(500, gin.H{})
+		}
+	}
 	ext := strings.ToLower(filepath.Ext(header.Filename))
-	out, err := os.Create("./storage/avatars/" + id + ext)
+	out, err := os.Create("/app/images/avatars/" + id + ext)
 	if err != nil {
 		fmt.Printf("err:%v", err)
 		c.JSON(500, gin.H{})
@@ -177,7 +191,7 @@ func UploadUserAvatar(c *gin.Context) {
 // GetUserAvatar gets a user avatar image.
 func GetUserAvatar(c *gin.Context) {
 	id := c.Param("id")
-	pattern := "./storage/avatars/" + id + ".*"
+	pattern := "/app/images/avatars/" + id + ".*"
 	matches, err := filepath.Glob(pattern)
 	if err != nil || len(matches) == 0 {
 		c.String(404, "File not found")

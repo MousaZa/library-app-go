@@ -195,8 +195,10 @@ class Sidebar extends StatelessWidget {
                                 return IconButton(
                                   onPressed: () {
                                     Get.defaultDialog(
+                                      backgroundColor: MyColors.background,
                                       title: "Notifications",
                                       content: Container(
+                                        // color: MyColors.lightBrown.withOpacity(0.2),
                                         height: 50.h,
                                         width: 50.w,
                                         child: snapshot.data!.length == 0
