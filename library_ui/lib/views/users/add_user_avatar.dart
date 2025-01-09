@@ -1,24 +1,27 @@
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:library_ui/functions.dart';
 import 'package:library_ui/models/book.dart';
+import 'package:library_ui/views/users/login.dart';
 
-class AddBookCoverPage extends StatefulWidget {
-  const AddBookCoverPage({super.key, required this.id});
+class AddUserAvatar extends StatefulWidget {
+  const AddUserAvatar({super.key, required this.id});
   final int id ;
 
   @override
-  State<AddBookCoverPage> createState() => _AddBookCoverPageState();
+  State<AddUserAvatar> createState() => _AddUserAvatarState();
 }
 
-class _AddBookCoverPageState extends State<AddBookCoverPage> {
+class _AddUserAvatarState extends State<AddUserAvatar> {
   Uint8List? fileBytes;
   String fileName = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Book Cover'),
+        title: Text('Add User Avatar'),
       ),
       body: Center(
         child: SizedBox(
@@ -56,9 +59,9 @@ class _AddBookCoverPageState extends State<AddBookCoverPage> {
               ElevatedButton(
                 onPressed: () async {
                   if (fileBytes != null) {
-                    var response = await Book.uploadCover(fileBytes!, fileName,widget.id);
+                    http.StreamedResponse response = await uploadAvatar(fileBytes, fileName, widget.id);
                     if (response.statusCode == 200) {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
                     }
                   }
                   // Navigator.pop(context);

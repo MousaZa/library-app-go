@@ -4,6 +4,7 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/views/borrows/borrow_card.dart';
 import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
+import 'package:library_ui/views/users/user_avatar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,14 +24,9 @@ class Profile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  backgroundColor: MyColors.lightBrown.withOpacity(0.1),
-                  foregroundColor: MyColors.brown,
-                  radius: 5.w,
-                  child: Icon(
-                    Icons.person,
-                    size: 5.w,
-                  ),
+                UserAvatar(
+                  userId: snapshot.data["user_id"].toString(),
+                  size: 5,
                 ),
                 SizedBox(
                   width: 20,

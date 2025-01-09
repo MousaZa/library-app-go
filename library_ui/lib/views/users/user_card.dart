@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:library_ui/globals.dart';
+import 'package:library_ui/views/users/user_avatar.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({super.key, required this.userName, required this.email, required this.role});
-  final String userName ;
+  const UserCard({super.key, required this.userName, required this.email, required this.role, required this.id});
+  final String id, userName ;
   final String email;
   final String role;
   @override
@@ -26,11 +27,7 @@ class UserCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children:  [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: MyColors.lightBrown.withOpacity(0.2),
-            child: Icon(Icons.person,color: MyColors.brown,),
-          ),
+          UserAvatar(userId: id, size: 2),
           // SizedBox(width: 20),
           Text(userName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Text(email),

@@ -38,7 +38,7 @@ class Auth extends GetxController {
     }
   }
 
-  Future<String> register(
+  Future<int> register(
       String email, String username, String password) async {
     try {
       http.Response response = await http.post(
@@ -48,21 +48,22 @@ class Auth extends GetxController {
       );
       switch (response.statusCode) {
         case 200:
-          return 'ok';
+          print(jsonDecode(response.body));
+          return jsonDecode(response.body);
         case 409:
           Get.defaultDialog(
               title: "An Error Occurred",
               content: Text("Username already exists"));
-          return 'error';
+          return 0;
         default:
-          return 'error';
+          return 0;
       }
     } catch (e) {
       Get.defaultDialog(
           title: "An Error Occurred",
           content: Text("An error occurred, please try again"));
       print(e);
-      return 'error';
+      return 0;
     }
   }
 

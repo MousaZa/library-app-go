@@ -7,6 +7,7 @@ import 'package:library_ui/views/notifications/notification_card.dart';
 import 'package:library_ui/views/sidebar/sidebar_item.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:library_ui/views/sidebar/sidebar_toggle.dart';
+import 'package:library_ui/views/users/user_avatar.dart';
 import 'package:sizer/sizer.dart';
 import 'package:star_menu/star_menu.dart';
 
@@ -45,15 +46,17 @@ class Sidebar extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    CircleAvatar(
-                        backgroundColor: MyColors.lightBrown.withOpacity(0.2),
-                        foregroundColor: MyColors.brown,
-                        radius: 1.w,
-                        child: Icon(
-                          Icons.person,
-                          size: 1.w,
-                        ),
-                      ),
+                    FutureBuilder(
+                        future: getUser(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return loadingWidget;
+                          }
+                          if (snapshot.hasData) {
+                            return UserAvatar(userId: snapshot.data["user_id"], size: 1);
+                          }
+                          return Container();
+                        }),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 8.0),
@@ -112,7 +115,6 @@ class Sidebar extends StatelessWidget {
                         }),
                   ],
                 ),
-                
                 Column(
                   children: [
                     StarMenu(
@@ -121,8 +123,7 @@ class Sidebar extends StatelessWidget {
                         backgroundParams: BackgroundParams(
                           backgroundColor: Colors.black.withOpacity(0.3),
                         ),
-                      )
-                          ,
+                      ),
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Icon(

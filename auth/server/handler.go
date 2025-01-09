@@ -229,7 +229,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to create user\n"})
 		return
 	}
-	ctx.JSON(http.StatusOK, users)
+	ctx.JSON(http.StatusOK, user.ID)
 }
 
 // swagger:route POST /auth/delete/{id} auth deleteUser

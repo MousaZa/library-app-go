@@ -42,7 +42,8 @@ class UsersList extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return UserCard(
+              return UserCard( 
+                id: snapshot.data[index]["id"].toString(),
                 userName: snapshot.data[index]["username"],
                 email: snapshot.data[index]["email"],
                 role: snapshot.data[index]["role"],

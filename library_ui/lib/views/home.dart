@@ -60,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Sidebar(),
                     GetX<SidebarController>(
-                      init: SidebarController(),
                       builder: (controller) => Expanded(
                       child: widget.pages[controller.activeItem.value],
                     ),

@@ -111,14 +111,7 @@ class Book {
     return response;
   }
 
-  Future<Image> getCover() async {
-    final response = await http.get(Uri.parse('$baseUrl/images/covers/$id'));
-    if (response.statusCode != 200) {
-      throw Exception('Failed to get book cover');
-    }
-    return Image.memory(response.bodyBytes);
-  }
-  
+
   Future add() async {
   try{
     http.Response response = await http.post(

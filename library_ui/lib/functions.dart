@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ui/globals.dart';
 import 'dart:async';
@@ -109,6 +111,19 @@ Future  getUser() async {
   }
 }
 
+Future<ImageProvider> fetchImage(String url) async {
+  try {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return NetworkImage(url);
+    } else {
+      throw Exception('Failed to load image');
+    }
+  } catch (e) {
+    throw Exception('Failed to load image');
+  }
+}
+
 Future createBorrow(int bookId,userId) async {
   try{
     final token = await storage.read(key: "paseto");
@@ -126,5 +141,20 @@ Future createBorrow(int bookId,userId) async {
     print(e);
   }
 }
+
+Future<http.StreamedResponse> uploadAvatar(Uint8List? fileBytes, String fileName, int id) async {
+    
+    final uri = Uri.parse('$baseUrl/images/avatars/$id');
+    final request = http.MultipartRequest('POST', uri);
+    final multipartFile = http.MultipartFile.fromBytes('upload', fileBytes!,filename: fileName);
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.headers['File-Name'] = fileName;
+
+    request.files.add(multipartFile);
+    final response = await request.send();
+
+    return response;
+  }
+  
 
 
