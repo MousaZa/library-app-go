@@ -49,7 +49,7 @@ Project Title is released under the MIT License. See the **[LICENSE](https://www
 
 ## Contact
 
-If you have any questions or comments about the project, please contact **[Mousa Zaidan](mous.zeydan@gmail.com)**.
+If you have any questions or comments about the project, please contact me mous.zeydan@gmail.com.
 
 ## Conclusion
 And at the end, thank you for your interest. Hope this can help the newly-starter guys.   
