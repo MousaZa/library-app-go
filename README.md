@@ -45,7 +45,7 @@ Check the Flutter app's [README file](https://github.com/MousaZa/library-app-go/
 
 ## License
 
-Project Title is released under the MIT License. See the **[LICENSE](https://www.github.com/MousaZa/library-app-go/blob/main/LICENSE)** file for details.
+This project is released under the MIT License. See the **[LICENSE](https://www.github.com/MousaZa/library-app-go/blob/main/LICENSE)** file for details.
 
 ## Contact
 
