@@ -49,9 +49,6 @@ class Sidebar extends StatelessWidget {
                     FutureBuilder(
                         future: getUser(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return loadingWidget;
-                          }
                           if (snapshot.hasData) {
                             return UserAvatar(userId: snapshot.data["user_id"], size: 1);
                           }

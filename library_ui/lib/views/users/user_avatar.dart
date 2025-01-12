@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
@@ -10,28 +11,37 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchImage("$baseUrl/images/avatars/$userId"),
-      builder: (context, AsyncSnapshot<ImageProvider> imageSnapshot) {
-        if (imageSnapshot.connectionState == ConnectionState.waiting) {
-          return loadingWidget;
-        } else if (!imageSnapshot.hasError && imageSnapshot.hasData) {
-          return CircleAvatar(
-              backgroundColor: MyColors.lightBrown.withOpacity(0.2),
-              foregroundColor: MyColors.brown,
-              radius: size.w,
-              backgroundImage: imageSnapshot.data);
-        }
-        return CircleAvatar(
-          backgroundColor: MyColors.lightBrown.withOpacity(0.2),
-          foregroundColor: MyColors.brown,
-          radius: size.w,
-          child: Icon(
-            Icons.person,
-            size: size.w,
-          ),
-        );
-      },
-    );
+    return CircleAvatar(
+      backgroundColor: MyColors.lightBrown.withOpacity(0.2),
+            radius: size.w,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: CachedNetworkImage(
+                imageUrl: "$baseUrl/images/avatars/$userId",
+                placeholder: (context, url) => CircleAvatar(
+                  backgroundColor: MyColors.lightBrown.withOpacity(0.2),
+                  foregroundColor: MyColors.brown,
+                  radius: size.w,
+                  child: Icon(
+                    Icons.person,
+                    size: size.w,
+                  ),
+                ),
+                errorWidget: (context, url, error) => CircleAvatar(
+                  backgroundColor: MyColors.lightBrown.withOpacity(0.2),
+                  foregroundColor: MyColors.brown,
+                  radius: size.w,
+                  child: Icon(
+                    Icons.person,
+                    size: size.w,
+                  ),
+                ),
+              ),
+            ),
+          );
+          
   }
 }
