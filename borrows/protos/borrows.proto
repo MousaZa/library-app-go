@@ -20,6 +20,8 @@ service Borrows {
   rpc GetUserBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
   // GetAllBorrows lists all the 'done' borrows
   rpc GetAllBorrows(GetAllBorrowsRequest) returns (GetBorrowsResponse);
+  // GetOnGoingBorrows lists all the active borrows
+  rpc GetOnGoingBorrows(GetAllBorrowsRequest) returns (GetBorrowsResponse);
   // GetUserOnGoingBorrows lists all the borrows that are still active
   rpc GetUserOnGoingBorrows(GetUserBorrowsRequest) returns (GetBorrowsResponse);
 }

@@ -51,30 +51,6 @@ func (s *BorrowsServer) AddBorrow(ctx context.Context, req *protos.AddBorrowRequ
 	return &protos.MessageResponse{Message: "Borrow Was Added Successfully"}, nil
 }
 
-func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBorrowsRequest) (*protos.GetBorrowsResponse, error) {
-	var borrows []models.Borrow
-	err := s.db.Find(&borrows).Error
-	if err != nil {
-		s.l.Error("Failed to get borrows", "error", err)
-		return nil, err
-	}
-
-	resp := &protos.GetBorrowsResponse{}
-
-	for _, borrow := range borrows {
-		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
-			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
-		}
-		resp.Borrows = append(resp.Borrows, &protos.Borrow{
-			Id:     borrow.ID,
-			BookId: borrow.BookID,
-			UserId: borrow.UserID,
-		})
-	}
-
-	return resp, nil
-}
-
 func (s *BorrowsServer) GetUserBorrows(ctx context.Context, req *protos.GetUserBorrowsRequest) (*protos.GetBorrowsResponse, error) {
 	var borrows []models.Borrow
 	userId := req.UserId
@@ -165,5 +141,77 @@ func (s *BorrowsServer) GetUserOnGoingBorrows(ctx context.Context, req *protos.G
 	}
 	fmt.Printf("Ongoing Borrows: %v\n", resp.Borrows)
 
+	return resp, nil
+}
+
+func (s *BorrowsServer) GetOnGoingBorrows(ctx context.Context, req *protos.GetAllBorrowsRequest) (*protos.GetBorrowsResponse, error) {
+	var borrows []models.Borrow
+	err := s.db.Where("status != ?", "returned").Find(&borrows).Error
+	if err != nil {
+		s.l.Error("Failed to get borrows", "error", err)
+		return nil, err
+	}
+
+	resp := &protos.GetBorrowsResponse{}
+
+	for _, borrow := range borrows {
+		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
+			s.l.Info("Sending notification")
+			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
+		}
+
+		resp.Borrows = append(resp.Borrows, &protos.Borrow{
+			Id:         borrow.ID,
+			BookId:     borrow.BookID,
+			UserId:     borrow.UserID,
+			BorrowDate: timestamppb.New(time.Unix(int64(borrow.StartDateSeconds), int64(borrow.StartDateNanoSec))),
+			ReturnDate: timestamppb.New(time.Unix(int64(borrow.EndDateSeconds), int64(borrow.EndDateNanoSec))),
+			Status:     borrow.Status,
+		})
+	}
+	fmt.Printf("Ongoing Borrows: %v\n", resp.Borrows)
+
+	return resp, nil
+}
+
+func (s *BorrowsServer) GetAllBorrows(ctx context.Context, req *protos.GetAllBorrowsRequest) (*protos.GetBorrowsResponse, error) {
+	var borrows []models.Borrow
+	err := s.db.Where("status = ?", "returned").Find(&borrows).Error
+	if err != nil {
+		s.l.Error("Failed to get borrows", "error", err)
+		return nil, err
+	}
+
+	resp := &protos.GetBorrowsResponse{}
+
+	for _, borrow := range borrows {
+		if int64(borrow.EndDateSeconds) < time.Now().AddDate(0, 0, -1).Unix() {
+			s.l.Info("Sending notification")
+			s.nc.PushNotification(borrow.UserID, "You have a book that is due soon", "warning")
+		}
+		// sd := &timestamppb.Timestamp{}
+		// // err = proto.Unmarshal(borrow.StartDate, sd)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal start date", "error", err)
+		// 	return nil, err
+		// }
+
+		// ed := &timestamppb.Timestamp{}
+		// // err = proto.Unmarshal(borrow.StartDate, ed)
+		// if err != nil {
+		// 	s.l.Error("Failed to unmarshal ednd date", "error", err)
+		// 	return nil, err
+		// }
+
+		resp.Borrows = append(resp.Borrows, &protos.Borrow{
+			Id:         borrow.ID,
+			BookId:     borrow.BookID,
+			UserId:     borrow.UserID,
+			BorrowDate: timestamppb.New(time.Unix(int64(borrow.StartDateSeconds), int64(borrow.StartDateNanoSec))),
+			ReturnDate: timestamppb.New(time.Unix(int64(borrow.EndDateSeconds), int64(borrow.EndDateNanoSec))),
+			Status:     borrow.Status,
+		})
+	}
+	fmt.Printf("Borrows: %v\n", resp.Borrows)
 	return resp, nil
 }
