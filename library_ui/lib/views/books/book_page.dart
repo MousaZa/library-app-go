@@ -7,6 +7,7 @@ import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/books/add_book_cover_page.dart';
+import 'package:library_ui/views/books/book_more.dart';
 import 'package:sizer/sizer.dart';
 
 class BookPage extends StatefulWidget {
@@ -208,107 +209,124 @@ class _BookPageState extends State<BookPage> {
                   SizedBox(
                     height: 50.h,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        IconButton(
+                            onPressed: (){
+                              Get.dialog(
+                                BookMorePage(bookId: widget.bookData.id),
+
+                              );
+                            },
+                            icon: Icon(
+                              Icons.star_border,
+                              color: Colors.black,
+                              size: 3.w,
+                            )),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            FutureBuilder(
-                                future: getLike(widget.bookData.id),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.black,
-                                      size: 3.w,
-                                    );
-                                  }
-                                  return IconButton(
-                                      onPressed: () async {
-                                        if (snapshot.data == true) {
-                                          final delete = await deleteLike(
-                                              widget.bookData.id);
-                                          if (delete) {
-                                            widget.bookData.likes -= 1;
-                                          }
-                                        } else {
-                                          final add = await likeBook(
-                                              widget.bookData.id);
-                                          if (add) {
-                                            widget.bookData.likes += 1;
-                                          }
-                                        }
-                                        setState(() {});
-                                      },
-                                      icon: Icon(
-                                        snapshot.data!
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: snapshot.data!
-                                            ? Colors.red
-                                            : Colors.black,
-                                        size: 3.w,
-                                      ));
-                                }),
-                            SizedBox(
-                              width: 1.w,
-                            ),
-                            Text(
-                              widget.bookData.likes.toString(),
-                              style: TextStyle(fontSize: 18.sp),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 4.h,
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                disabledColor: Colors.grey,
-                                color: Colors.black,
-                                onPressed: widget.bookData.available
-                                    ? () {
-                                        Get.defaultDialog(
-                                          title: "Borrowing Book",
-                                          content: Column(
-                                            children: [
-                                              Text(
-                                                  "Are you sure you want to borrow ${widget.bookData.title}?"),
-                                              Text(
-                                                  "you will have to return it in 7 days"),
-                                            ],
-                                          ),
-                                          textCancel: 'Cancel',
-                                          textConfirm: 'Borrow',
-                                          onConfirm: () async {
-                                            final token = await storage.read(
-                                                key: 'paseto');
-                                            borrowsController
-                                                .add(token!, widget.bookData,
-                                                    widget.userId)
-                                                .then((_) {
-                                              sleep(Duration(seconds: 2));
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                            });
-                                          },
-                                          onCancel: () {
-                                            Navigator.pop(context);
-                                          },
+                            Row(
+                              children: [
+                                FutureBuilder(
+                                    future: getLike(widget.bookData.id),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.black,
+                                          size: 3.w,
                                         );
                                       }
-                                    : null,
-                                icon: Icon(
-                                  Icons.front_hand_outlined,
-                                  size: 3.w,
-                                )),
-                            SizedBox(
-                              width: 1.w,
+                                      return IconButton(
+                                          onPressed: () async {
+                                            if (snapshot.data == true) {
+                                              final delete = await deleteLike(
+                                                  widget.bookData.id);
+                                              if (delete) {
+                                                widget.bookData.likes -= 1;
+                                              }
+                                            } else {
+                                              final add = await likeBook(
+                                                  widget.bookData.id);
+                                              if (add) {
+                                                widget.bookData.likes += 1;
+                                              }
+                                            }
+                                            setState(() {});
+                                          },
+                                          icon: Icon(
+                                            snapshot.data!
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: snapshot.data!
+                                                ? Colors.red
+                                                : Colors.black,
+                                            size: 3.w,
+                                          ));
+                                    }),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                Text(
+                                  widget.bookData.likes.toString(),
+                                  style: TextStyle(fontSize: 18.sp),
+                                ),
+                              ],
                             ),
-                            Text(
-                              widget.bookData.borrows.toString(),
-                              style: TextStyle(fontSize: 18.sp),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    disabledColor: Colors.grey,
+                                    color: Colors.black,
+                                    onPressed: widget.bookData.available
+                                        ? () {
+                                            Get.defaultDialog(
+                                              title: "Borrowing Book",
+                                              content: Column(
+                                                children: [
+                                                  Text(
+                                                      "Are you sure you want to borrow ${widget.bookData.title}?"),
+                                                  Text(
+                                                      "you will have to return it in 7 days"),
+                                                ],
+                                              ),
+                                              textCancel: 'Cancel',
+                                              textConfirm: 'Borrow',
+                                              onConfirm: () async {
+                                                final token = await storage.read(
+                                                    key: 'paseto');
+                                                borrowsController
+                                                    .add(token!, widget.bookData,
+                                                        widget.userId)
+                                                    .then((_) {
+                                                  sleep(Duration(seconds: 2));
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                });
+                                              },
+                                              onCancel: () {
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          }
+                                        : null,
+                                    icon: Icon(
+                                      Icons.front_hand_outlined,
+                                      size: 3.w,
+                                    )),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                Text(
+                                  widget.bookData.borrows.toString(),
+                                  style: TextStyle(fontSize: 18.sp),
+                                ),
+                              ],
                             ),
                           ],
                         ),

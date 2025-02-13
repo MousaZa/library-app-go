@@ -7,7 +7,7 @@ import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/views/borrows/calendar_borrow_item.dart';
 import 'package:sizer/sizer.dart';
-import 'package:timelines/timelines.dart';
+// import 'package:timelines/timelines.dart';
 
 class OngoingBorrowCard extends StatefulWidget {
   OngoingBorrowCard({super.key, required this.borrowData});
@@ -69,41 +69,41 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
                           color: Colors.black,
                         ),
                       ),
-                      Center(
-                        child: SizedBox(
-                          // width: 10.w,
-                          height: 10.w,
-                          child: Timeline.tileBuilder(
-                            shrinkWrap: true,
-                            theme: TimelineThemeData(
-                              nodeItemOverlap: false,
-                              direction: Axis.horizontal,
-                              color: MyColors.brown,
-                              indicatorTheme: IndicatorThemeData(
-                                  // position: IndicatorPosition.top,
-                                  size: 40.0,
-                                  position: 0),
-                              // nodePosition: 0,
-                              connectorTheme: ConnectorThemeData(
-                                // indent: 3.w,
-                                color: MyColors.brown,
-                                space: 100,
-                                thickness: 5.0,
-                              ),
-                            ),
-                            builder: TimelineTileBuilder.fromStyle(
-                              connectorStyle: ConnectorStyle.solidLine,
-                              contentsAlign: ContentsAlign.basic,
-                              // indicatorStyle: IndicatorStyle.outlined,
-                              contentsBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Text('$index'),
-                              ),
-                              itemCount: 3,
-                            ),
-                          ),
-                        ),
-                      )
+                      // Center(
+                      //   child: SizedBox(
+                      //     // width: 10.w,
+                      //     height: 10.w,
+                      //     child: Timeline.tileBuilder(
+                      //       shrinkWrap: true,
+                      //       theme: TimelineThemeData(
+                      //         nodeItemOverlap: false,
+                      //         direction: Axis.horizontal,
+                      //         color: MyColors.brown,
+                      //         indicatorTheme: IndicatorThemeData(
+                      //             // position: IndicatorPosition.top,
+                      //             size: 40.0,
+                      //             position: 0),
+                      //         // nodePosition: 0,
+                      //         connectorTheme: ConnectorThemeData(
+                      //           // indent: 3.w,
+                      //           color: MyColors.brown,
+                      //           space: 100,
+                      //           thickness: 5.0,
+                      //         ),
+                      //       ),
+                      //       builder: TimelineTileBuilder.fromStyle(
+                      //         connectorStyle: ConnectorStyle.solidLine,
+                      //         contentsAlign: ContentsAlign.basic,
+                      //         // indicatorStyle: IndicatorStyle.outlined,
+                      //         contentsBuilder: (context, index) => Padding(
+                      //           padding: const EdgeInsets.all(24.0),
+                      //           child: Text('$index'),
+                      //         ),
+                      //         itemCount: 3,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
@@ -5,11 +8,27 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/edit_book_page.dart';
 import 'package:library_ui/views/home.dart';
+import 'package:library_ui/views/ofline_page.dart';
 import 'package:library_ui/views/users/login.dart';
 import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+void main()async{
+  HttpOverrides.global = MyHttpOverrides();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -29,18 +48,29 @@ class MyApp extends StatelessWidget {
          scaffoldBackgroundColor: MyColors.lightBrown.withOpacity(0.1)
         ),
       // home:  LoginPage(),
-    home: FutureBuilder( 
-        future: pasetoOrEmpty,            
-        builder: (context, snapshot) {
-          if(!snapshot.hasData) return loadingWidget;
-          if(snapshot.data != "") {
-            var str = snapshot.data;
-                return MyHomePage.withAuth(str!);
-          } else {
-            return LoginPage();
-          }
+    home: FutureBuilder(future: testServer(), builder: (context, snapshot) {
+      if(snapshot.connectionState == ConnectionState.done) {
+        if(snapshot.data!) {
+          return FutureBuilder(
+              future: pasetoOrEmpty,
+              builder: (context, snapshot) {
+                if(!snapshot.hasData) return loadingWidget;
+                if(snapshot.data != "") {
+                  var str = snapshot.data;
+                  return MyHomePage.withAuth(str!);
+                } else {
+                  return LoginPage();
+                }
+              }
+          );
+        }else{
+          return OfflinePage();
+        }} else {
+          return loadingWidget;
         }
-      ),
+
+
+    }),
     getPages: [
       GetPage(name: '/login', page: () => LoginPage()), 
       GetPage(name: '/register', page: () => RegisterPage()),
