@@ -22,6 +22,36 @@ Future markAsRead(int id) async {
   }
 }
 
+Future<List> getMoreAboutBook(int bookId) async {
+  try {
+    http.Response response = await http.get(
+      Uri.parse('$baseUrl/books/more/$bookId'),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get books data');
+    }
+    return jsonDecode(response.body)['response'];
+  } catch (e) {
+    print(e);
+    return [];
+  }
+}
+
+Future<bool> testServer() async {
+  try {
+    http.Response response = await http.get(
+      Uri.parse('$baseUrl/books/test'),
+    );
+    if (response.statusCode != 204) {
+      return false;
+    }
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
 Future<List> getNotifications() async {
   try {
     final token = await storage.read(key: "paseto");
@@ -44,7 +74,7 @@ Future likeBook(int bookId) async {
     final token = await storage.read(key: "paseto");
     http.Response response = await http.post(
       Uri.parse('$baseUrl/auth/like/$bookId'),
-      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+      headers: {"Authorization": "Bearer $token"},
       
     );
     if (response.statusCode != 200) {
@@ -95,19 +125,22 @@ Future  getUser() async {
     
     http.Response response = await http.get(
     Uri.parse('$baseUrl/auth/user'),
-    // headers: '"Content-Type": "application/json"' 
-    headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+    // headers: '"Content-Type": "application/json"'
+    headers: {HttpHeaders.authorizationHeader: "Bearer $token","Content-Type": "application/json"},
   );
-  if (response.statusCode  == 401) {
     print(jsonDecode(response.body));
+  if (response.statusCode  == 401) {
+
     return false;
   }if (response.statusCode != 200) {
-    throw Exception('Failed to get user');
+
+    // ('Failed to get user');
   }
+
   print(jsonDecode(response.body));
   return jsonDecode(response.body);
   }catch(e){
-    print(e);
+    print("error getting user $e");
   }
 }
 

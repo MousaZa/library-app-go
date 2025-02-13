@@ -4,3 +4,7 @@ db/
 proxy/ssl/
 images/storage/covers/*
 images/storage/avatars/*
+library_ui/.firebase/*
+library_ui/lib/firebase_options.dart
+library_ui/firebase.json
+library_ui/.firebaserc

@@ -14,6 +14,7 @@ class Auth extends GetxController {
         body: '{ "username": "$username", "password": "$password" }',
       );
       print(response.statusCode);
+      print(response.body);
       switch (response.statusCode) {
         case 200:
           return jsonDecode(response.body)['access_token'];

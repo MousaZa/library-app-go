@@ -24,4 +24,4 @@ Widget loadingWidget = Center(
 ));
 
 const String baseUrl = "https://mous-z.online";
-const String ws = "ws://mous-z.online";
+const String ws = "wss://mous-z.online";
