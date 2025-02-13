@@ -28,6 +28,7 @@ func AuthMiddleware(maker token.PasetoMaker) gin.HandlerFunc {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "No header was passed\n"})
 			return
 		}
+		fmt.Printf("Auth Header: %v\n", authHeader)
 
 		fields := strings.Fields(authHeader)
 		if len(fields) != 2 {

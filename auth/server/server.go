@@ -3,11 +3,9 @@ package server
 import (
 	// "fmt"
 	"fmt"
-	"time"
 
 	"github.com/MousaZa/library-app-go/auth/clients"
 	"github.com/MousaZa/library-app-go/auth/token"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/gorm"
@@ -49,22 +47,22 @@ func NewServer(address string, db *gorm.DB, bc *clients.BorrowsClient, lc *clien
 	return server, nil
 }
 func (server *Server) setRoutes() {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 
-	// Group routes with authentication middleware
-	auth := router.Group("/").Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	})).Use(AuthMiddleware(*server.tokenMaker))
+	// config := cors.Config{
+	// 	AllowOrigins:     []string{"*"},                                                           // Allow all origins
+	// 	AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},                     // Allowed HTTP methods
+	// 	AllowHeaders:     []string{"Origin", "Content-Type", "Bearer", "Accept", "Authorization"}, // Allowed headers
+	// 	ExposeHeaders:    []string{"Content-Length"},
+	// 	AllowCredentials: true,
+	// 	MaxAge:           12 * time.Hour,
+	// }
 
-	admin := router.Group("/").Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	})).Use(AdminMiddleware(*server.tokenMaker))
+	// Group routes with authentication middleware
+	auth := router.Group("/").Use(AuthMiddleware(*server.tokenMaker))
+
+	admin := router.Group("/").Use(AdminMiddleware(*server.tokenMaker))
 
 	admin.GET("/auth/list/users", server.ListUsers)
 	auth.GET("/auth/notifications", server.notificationsClient.GetUserNotifications)
@@ -77,6 +75,8 @@ func (server *Server) setRoutes() {
 	auth.GET("/auth/user", server.getUserData)
 	auth.GET("/auth/borrows/user", server.borrowsClient.GetUserBorrows)
 	auth.GET("/auth/borrows/o/user", server.borrowsClient.GetUserOnGoingBorrows)
+	auth.GET("/auth/all-borrows", server.borrowsClient.GetAllBorrows)
+	auth.GET("/auth/ongoing-borrows", server.borrowsClient.GetOnGoingBorrows)
 	router.POST("/auth/create", server.createUser)
 	router.POST("/auth/notifications/:id", server.notificationsClient.PushNotification)
 	router.POST("/auth/login", server.login)

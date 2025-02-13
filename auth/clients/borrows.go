@@ -55,3 +55,23 @@ func (c *BorrowsClient) GetUserOnGoingBorrows(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, resp.Borrows)
 }
+
+func (c *BorrowsClient) GetAllBorrows(ctx *gin.Context) {
+	resp, err := c.client.GetAllBorrows(context.Background(), &borrows.GetAllBorrowsRequest{})
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, resp.Borrows)
+}
+
+func (c *BorrowsClient) GetOnGoingBorrows(ctx *gin.Context) {
+	resp, err := c.client.GetOnGoingBorrows(context.Background(), &borrows.GetAllBorrowsRequest{})
+	if err != nil {
+		fmt.Printf("Failed to bind JSON: %v\n", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, resp.Borrows)
+}

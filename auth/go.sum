@@ -12,6 +12,10 @@ github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f h1:
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241003105852-9299fd32721f/go.mod h1:iUiyMkKXgx0MDTFo9A3Pnv8cxHk1n2J00EhzRCkKQP8=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241019163729-8c1fa4b70035 h1:5GWG1l8juNUL31xIE4JxgIDv0r2eWfoOF3WiSKKEkf0=
 github.com/MousaZa/library-app-go/borrows v0.0.0-20241019163729-8c1fa4b70035/go.mod h1:THW+KfO2AioOoRy2J7oBkfmOMqWJbZdMgRAmc0GddJ8=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20250112204324-c27b05e1a00c h1:rBpWILulI5OTfE2nTlQ/1UxDCoGsGHOu70Xus139+sg=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20250112204324-c27b05e1a00c/go.mod h1:JTo0dtDFzX3T1SybtuUUvoboICci/KKMT3QW2RKEoME=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20250209105912-7cb9f609138b h1:YqOEmcE9E/5FTV/hNhKY4iNBmcu2OzBILl/h/Bz/HXY=
+github.com/MousaZa/library-app-go/borrows v0.0.0-20250209105912-7cb9f609138b/go.mod h1:JTo0dtDFzX3T1SybtuUUvoboICci/KKMT3QW2RKEoME=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176 h1:Y+qAadMJFZPNLARMd6xngVBTNsvg4PGkbf98NENOvrI=
 github.com/MousaZa/library-app-go/likes v0.0.0-20240922085647-a271c93a8176/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
 github.com/MousaZa/library-app-go/likes v0.0.0-20241003134001-6c8deb9b09d4/go.mod h1:tuOVSGVbFJpRVfWU9aSG001N/FNV8ls0cRaUnRpce9c=
@@ -94,8 +98,11 @@ github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa02
 github.com/klauspost/cpuid/v2 v2.2.7 h1:ZWSB3igEs+d0qvnxR/ZBzXVmxkgt8DdzP6m9pfuVLDM=
 github.com/klauspost/cpuid/v2 v2.2.7/go.mod h1:Lcz8mBdAVJIBVzewtcLocK12l3Y+JytZYpaMropDUws=
 github.com/knz/go-libedit v1.10.1/go.mod h1:MZTVkCWyz0oBc7JOWP3wNAzd002ZbM/5hgShxwh4x8M=
+github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=
 github.com/kr/pretty v0.3.0/go.mod h1:640gp4NfQd8pI5XOwp5fnNeVWj67G7CFk/SaSQn7NBk=
+github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
+github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/kr/text v0.2.0/go.mod h1:eLer722TekiGuMkidMxC/pM04lWEeraHUUmBw8l2grE=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=
@@ -114,6 +121,7 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
 github.com/pelletier/go-toml/v2 v2.2.2/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
+github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.8.0 h1:FCbCCtXNOY3UtUuHUYaghJg4y7Fd14rXifAYUAtL9R8=
@@ -164,8 +172,10 @@ google.golang.org/grpc v1.67.1/go.mod h1:1gLDyUQU7CTLJI90u3nXZ9ekeghjeM7pTDZlqFN
 google.golang.org/protobuf v1.34.2 h1:6xV6lTsCfpGD21XK49h7MhtcApnLqkfYgPcdHftf6hg=
 google.golang.org/protobuf v1.34.2/go.mod h1:qYOHts0dSfpeUzUFpOMr/WGzszTmLH+DiWniOlNbLDw=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c/go.mod h1:JHkPIbrfpd72SG/EVd6muEfDQjcINNoR0C8j2r3qZ4Q=
+gopkg.in/errgo.v2 v2.1.0/go.mod h1:hNsd1EY+bozCKY1Ytp96fpM3vjJbqLJn88ws8XvfDNI=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

@@ -3,7 +3,7 @@ module github.com/MousaZa/library-app-go/auth
 go 1.22.2
 
 require (
-	github.com/MousaZa/library-app-go/borrows v0.0.0-20241019163729-8c1fa4b70035
+	github.com/MousaZa/library-app-go/borrows v0.0.0-20250209105912-7cb9f609138b
 	github.com/gin-contrib/cors v1.7.2
 	github.com/hashicorp/go-hclog v1.6.3
 	google.golang.org/grpc v1.67.1
@@ -19,6 +19,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
 )

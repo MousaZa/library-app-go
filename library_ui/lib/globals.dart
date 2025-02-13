@@ -23,5 +23,5 @@ Widget loadingWidget = Center(
   size: 2.w,
 ));
 
-const String baseUrl = "http://localhost";
-const String ws = "ws://localhost";
+const String baseUrl = "https://mous-z.online";
+const String ws = "ws://mous-z.online";

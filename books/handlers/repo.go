@@ -22,7 +22,6 @@ import (
 	"time"
 
 	"github.com/MousaZa/library-app-go/books/models"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/hashicorp/go-hclog"
@@ -77,6 +76,10 @@ type productParameterWrapper struct {
 
 type Repository struct {
 	DB *gorm.DB
+}
+
+func (r *Repository) Test(ctx *gin.Context) {
+	ctx.JSON(http.StatusNoContent, gin.H{"message": "Server is up and running"})
 }
 
 // swagger:route POST /books/borrow/{id} books addBorrow
@@ -324,16 +327,13 @@ func (r *Repository) UpdateBook(ctx *gin.Context) {
 
 func (r *Repository) SetupRoutes(app *gin.Engine) {
 
-	cors := app.Group("/").Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"PUT", "get", "POST", "DELETE"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	cors := app.Group("/")
 
 	cors.GET("/books", r.GetBooks)
+	cors.GET("/books/test", r.Test)
 	cors.GET("/books/:id", r.GetBook)
 	cors.POST("/books", r.AddBook)
+	cors.GET("/books/more/:id", r.GetAboutBook)
 	cors.POST("/books/borrow/:id", r.BorrowBook)
 	cors.DELETE("/books/:id", r.DeleteBook)
 	cors.PUT("/books/:id", r.UpdateBook)

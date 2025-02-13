@@ -52,4 +52,4 @@ This project is released under the MIT License. See the **[LICENSE](https://www.
 If you have any questions or comments about the project, please contact me mous.zeydan@gmail.com.
 
 ## Conclusion
-And at the end, thank you for your interest. Hope this can help the newly-starter guys.   
+And at the end, thank you for your interest. Hope this can help the newly-starting guys.   
