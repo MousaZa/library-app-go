@@ -4,6 +4,10 @@ Full stack web application. With a frontend built with Flutter & Microservices b
 ## Introduction
 I built this application while I was learning Backend & the Go programming language, used a lot of tools and technologies for the first time here such as Docker, Swagger documentation, GRPC with Protocol buffers, JWT or PASETO, Web Socket, ORM's (GORM), NGINX and more..!
 
+## Hosting
+- ### The Flutter Application
+    The Flutter Application is hosted with Firebase Hosting. You can check it [here](https://library-app-aefc9.web.app).
+
 ## Frontend
 I built the frontend as a single-page application using **Flutter** with **GetX** state management.
 Check the Flutter app's [README file](https://github.com/MousaZa/library-app-go/blob/main/library_ui/README.md) for additional information.

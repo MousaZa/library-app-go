@@ -211,17 +211,16 @@ class _BookPageState extends State<BookPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                            onPressed: (){
+                        GestureDetector(
+                            onTap: (){
                               Get.dialog(
                                 BookMorePage(bookId: widget.bookData.id),
 
                               );
                             },
-                            icon: Icon(
-                              Icons.star_border,
-                              color: Colors.black,
-                              size: 3.w,
+                            child: Image.asset(
+                              "assets/images/ai.png",
+                              height: 5.h,
                             )),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.end,
