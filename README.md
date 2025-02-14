@@ -7,6 +7,8 @@ I built this application while I was learning Backend & the Go programming langu
 ## Hosting
 - ### The Flutter Application
     The Flutter Application is hosted with Firebase Hosting. You can check it [here](https://library-app-aefc9.web.app).
+- ### The Backend
+    The Backend is working on my Raspberry Pi, and I am using CloudFlare Tunnels to redirect the requsets coming to the domain to the Raspberry Pi.
 
 ## Frontend
 I built the frontend as a single-page application using **Flutter** with **GetX** state management.
