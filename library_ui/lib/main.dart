@@ -48,10 +48,7 @@ class MyApp extends StatelessWidget {
          scaffoldBackgroundColor: MyColors.lightBrown.withOpacity(0.1)
         ),
       // home:  LoginPage(),
-    home: FutureBuilder(future: testServer(), builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.done) {
-        if(snapshot.data!) {
-          return FutureBuilder(
+    home: FutureBuilder(
               future: pasetoOrEmpty,
               builder: (context, snapshot) {
                 if(!snapshot.hasData) return loadingWidget;
@@ -62,15 +59,9 @@ class MyApp extends StatelessWidget {
                   return LoginPage();
                 }
               }
-          );
-        }else{
-          return OfflinePage();
-        }} else {
-          return loadingWidget;
-        }
-
-
-    }),
+          ), 
+        
+  
     getPages: [
       GetPage(name: '/login', page: () => LoginPage()), 
       GetPage(name: '/register', page: () => RegisterPage()),

@@ -4,6 +4,7 @@ import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/globals.dart';
+import 'package:library_ui/views/ofline_page.dart';
 
 import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
@@ -99,6 +100,13 @@ class LoginPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => MyHomePage.withAuth(paseto),
+                            )
+                          );
+                        }else{
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OfflinePage(),
                             )
                           );
                         }
