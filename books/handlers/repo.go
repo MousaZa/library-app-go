@@ -334,6 +334,8 @@ func (r *Repository) SetupRoutes(app *gin.Engine) {
 	cors.GET("/books/:id", r.GetBook)
 	cors.POST("/books", r.AddBook)
 	cors.GET("/books/more/:id", r.GetAboutBook)
+	cors.GET("/books/more_author/:id", r.GetAboutAuthor)
+	cors.GET("/books/suggest_similar/:id", r.GetSimilarSuggestions)
 	cors.POST("/books/borrow/:id", r.BorrowBook)
 	cors.DELETE("/books/:id", r.DeleteBook)
 	cors.PUT("/books/:id", r.UpdateBook)

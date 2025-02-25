@@ -22,10 +22,24 @@ Future markAsRead(int id) async {
   }
 }
 
-Future<List> getMoreAboutBook(int bookId) async {
+Future<List> getMoreAboutBook(int bookId, String type) async {
+  String url;
+  switch (type) {
+    case "book":
+      url = '$baseUrl/books/more/$bookId';
+      break;
+    case "author":
+      url = '$baseUrl/books/more_author/$bookId';
+      break;
+    case "suggest":
+      url = '$baseUrl/books/suggest_similar/$bookId';
+      break;
+    default:
+      url = '';
+  }
   try {
     http.Response response = await http.get(
-      Uri.parse('$baseUrl/books/more/$bookId'),
+      Uri.parse(url), 
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to get books data');

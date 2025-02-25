@@ -10,15 +10,16 @@ import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/books/add_book_cover_page.dart';
 import 'package:sizer/sizer.dart';
 
-class BookMorePage extends StatefulWidget {
-  BookMorePage({super.key, required this.bookId});
+class AskAIPage extends StatefulWidget {
+  AskAIPage({super.key, required this.bookId, required this.type});
   final int bookId;
+  final String type;
 
   @override
-  State<BookMorePage> createState() => _BookMorePageState();
+  State<AskAIPage> createState() => _AskAIPageState();
 }
 
-class _BookMorePageState extends State<BookMorePage> {
+class _AskAIPageState extends State<AskAIPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,18 +39,12 @@ class _BookMorePageState extends State<BookMorePage> {
                     color: Colors.white,
                   ),
                   padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          'Book More',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                         FutureBuilder(
-                            future: getMoreAboutBook(widget.bookId),
+                            future: getMoreAboutBook(widget.bookId, widget.type),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
@@ -60,9 +55,10 @@ class _BookMorePageState extends State<BookMorePage> {
                                       child: GptMarkdown('''
                                        ${data[0]}
                                           ''',
-                                          style: const TextStyle(
+                                          style:  TextStyle(
                                             color: Colors.black,
-                                          )),
+                                            fontSize: 13.sp
+                                          )), 
                                     ),
                                   );
                                 } else {

@@ -8,7 +8,9 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/views/books/add_book_cover_page.dart';
 import 'package:library_ui/views/books/book_more.dart';
+import 'package:library_ui/views/books/widgets/starmenu_items.dart';
 import 'package:sizer/sizer.dart';
+import 'package:star_menu/star_menu.dart';
 
 class BookPage extends StatefulWidget {
   BookPage({super.key, required this.bookData, required this.userId});
@@ -22,7 +24,7 @@ class BookPage extends StatefulWidget {
 class _BookPageState extends State<BookPage> {
   final borrowsController = Get.put(BorrowsController());
   bool _coverHover = false;
-
+  final StarMenuController _starMenuController = StarMenuController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -211,17 +213,65 @@ class _BookPageState extends State<BookPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                            onTap: (){
-                              Get.dialog(
-                                BookMorePage(bookId: widget.bookData.id),
-
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/images/ai.png",
-                              height: 5.h,
-                            )),
+                        StarMenu(
+                          controller: _starMenuController,
+                          params: StarMenuParameters.dropdown(context),
+                          items: [
+                            TextButtonItem(text: "Learn more about the Book",onTap: () {
+                                setState(() {
+                                  _starMenuController.closeMenu!();
+                                });
+                                 Get.dialog(
+                                      AskAIPage(bookId: widget.bookData.id,type: "book"),
+                                    );
+                              },),
+                              TextButtonItem(text: "Learn more about the Author",onTap: () {
+                                setState(() {
+                                  _starMenuController.closeMenu!();
+                                });
+                                 Get.dialog(
+                                      AskAIPage(bookId: widget.bookData.id,type: "author"),
+                                    );
+                              },),
+                              TextButtonItem(text: "Suggest similar books",onTap: () {
+                                setState(() {
+                                  _starMenuController.closeMenu!();
+                                });
+                                 Get.dialog(
+                                      AskAIPage(bookId: widget.bookData.id, type: "suggest"),
+                                    );
+                              },),
+                            
+                          ],
+                          child: Container(
+                            height: 7.h,
+                            width: 7.h,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              // borderRadius: BorderRadius.circular(10),
+                              shape: BoxShape.circle,
+                            ),
+                            child: MaterialButton(
+                                onPressed: () {
+                                  _starMenuController.openMenu;
+                                },
+                                child: Image.asset(
+                                  "assets/images/ai.png",
+                                  height: 5.h,
+                                )),
+                          ),
+                        ),
+                        // GestureDetector(
+                        //     onTap: (){
+                        //       Get.dialog(
+                        //         BookMorePage(bookId: widget.bookData.id),
+                        //       );
+                        //     },
+                        //     child: Image.asset(
+                        //       "assets/images/ai.png",
+                        //       height: 5.h,
+                        //     )),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -297,10 +347,12 @@ class _BookPageState extends State<BookPage> {
                                               textCancel: 'Cancel',
                                               textConfirm: 'Borrow',
                                               onConfirm: () async {
-                                                final token = await storage.read(
-                                                    key: 'paseto');
+                                                final token = await storage
+                                                    .read(key: 'paseto');
                                                 borrowsController
-                                                    .add(token!, widget.bookData,
+                                                    .add(
+                                                        token!,
+                                                        widget.bookData,
                                                         widget.userId)
                                                     .then((_) {
                                                   sleep(Duration(seconds: 2));

@@ -8,7 +8,6 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/views/books/add_book_page.dart';
 import 'package:library_ui/views/books/edit_book_page.dart';
 import 'package:library_ui/views/home.dart';
-import 'package:library_ui/views/ofline_page.dart';
 import 'package:library_ui/views/users/login.dart';
 import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
@@ -33,7 +32,7 @@ void main()async{
 }
 
 class MyApp extends StatelessWidget {
-    Future<String> get pasetoOrEmpty async {
+    Future<String> get pasetoOrEmpty async { 
     var paseto = await storage.read(key: "paseto");
     if(paseto == null) return "";
     await getUser() == false ? paseto = "" : paseto = paseto;
@@ -45,7 +44,18 @@ class MyApp extends StatelessWidget {
   builder: (context, orientation, screenType) {
     return GetMaterialApp(
         theme: ThemeData(
-         scaffoldBackgroundColor: MyColors.lightBrown.withOpacity(0.1)
+         scaffoldBackgroundColor: MyColors.lightBrown.withOpacity(0.1),
+         dialogBackgroundColor: Colors.white,
+         dropdownMenuTheme: DropdownMenuThemeData(
+           menuStyle: MenuStyle(
+             backgroundColor:MaterialStateProperty.all(Colors.white),
+          
+           ),
+           textStyle: TextStyle(
+             color: Colors.black,
+             fontSize: 12.sp,
+           ),
+         ),
         ),
       // home:  LoginPage(),
     home: FutureBuilder(
