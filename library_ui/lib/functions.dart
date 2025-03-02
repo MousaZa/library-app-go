@@ -51,25 +51,6 @@ Future<List> getMoreAboutBook(int bookId, String type) async {
   }
 }
 
-Future<bool> testServer() async {
-  try {
-    http.Response response = await http.get(
-      Uri.parse('$baseUrl/books/test'),
-       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      },
-    );
-    if (response.statusCode != 204) {
-      return false; 
-    }
-    return true;
-  } catch (e) {
-    print(e);
-    return false;
-  }
-}
 
 Future<List> getNotifications() async {
   try {

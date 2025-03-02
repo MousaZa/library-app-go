@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/controllers/auth.dart';
 import 'package:library_ui/globals.dart';
+import 'package:library_ui/views/ofline_page.dart';
 import 'package:library_ui/views/users/add_user_avatar.dart';
 import 'package:library_ui/views/users/login.dart';
 import 'package:sizer/sizer.dart';
@@ -97,11 +98,18 @@ class RegisterPage extends StatelessWidget {
                               _emailController.text,
                               _usernameController.text,
                               _passwordController.text);
-                          if (user != 0) {
+                          if (user != 0) { 
                             Get.snackbar('Account created successfully',
                                 'Please login to continue');
                             Navigator.push(context, MaterialPageRoute(builder: (context) => AddUserAvatar(id: user)));
-                          }
+                          }else{
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OfflinePage(),
+                            )
+                          );
+                        }
                         },
                         child: Text(
                           'Register',

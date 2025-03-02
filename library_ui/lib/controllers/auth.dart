@@ -60,12 +60,12 @@ class Auth extends GetxController {
           return 0;
       }
     } catch (e) {
-      Get.defaultDialog(
-          title: "An Error Occurred",
-          content: Text("An error occurred, please try again"));
+      // Get.defaultDialog(
+      //     title: "An Error Occurred",
+      //     content: Text("An error occurred, please try again"));
       print(e);
       return 0;
-    }
+    } 
   }
 
 }

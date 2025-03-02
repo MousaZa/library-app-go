@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:library_ui/globals.dart';
 import 'package:sizer/sizer.dart';
 
-class TextButtonItem extends StatelessWidget {
+class TextButtonItem extends StatefulWidget {
   const TextButtonItem({super.key, required this.text,required this.onTap});
   final void Function()? onTap;
   final String text;
+
+  @override
+  State<TextButtonItem> createState() => _TextButtonItemState();
+}
+
+class _TextButtonItemState extends State<TextButtonItem> {
+  bool isHovered = false;
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      child: Text(
-        text,
-        style: TextStyle(color: Colors.black, fontSize: 12.sp),
-      ),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.white),
-        // padding: MaterialStateProperty.all(EdgeInsets.all(10)),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          // borderRadius: BorderRadius.circular(10),
-
-        )),
-        surfaceTintColor:  MaterialStateProperty.all(Colors.white),
-      ),
-      onPressed: onTap,
+    return MouseRegion(
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: isHovered ? MyColors.brown.withOpacity(.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Text(
+            widget.text,
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.black,
+              fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ), 
+      onEnter: (event) {
+        setState(() {
+          isHovered = true;
+        });
+      },
+      onExit: (event) {
+        setState(() {
+          isHovered = false;
+        });
+      },
     );
   }
 }

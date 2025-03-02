@@ -6,6 +6,7 @@ import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
 import 'package:library_ui/views/borrows/calendar_borrow_item.dart';
+import 'package:library_ui/views/borrows/widgets/borrow_stage.dart';
 import 'package:sizer/sizer.dart';
 // import 'package:timelines/timelines.dart';
 
@@ -69,41 +70,13 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
                           color: Colors.black,
                         ),
                       ),
-                      // Center(
-                      //   child: SizedBox(
-                      //     // width: 10.w,
-                      //     height: 10.w,
-                      //     child: Timeline.tileBuilder(
-                      //       shrinkWrap: true,
-                      //       theme: TimelineThemeData(
-                      //         nodeItemOverlap: false,
-                      //         direction: Axis.horizontal,
-                      //         color: MyColors.brown,
-                      //         indicatorTheme: IndicatorThemeData(
-                      //             // position: IndicatorPosition.top,
-                      //             size: 40.0,
-                      //             position: 0),
-                      //         // nodePosition: 0,
-                      //         connectorTheme: ConnectorThemeData(
-                      //           // indent: 3.w,
-                      //           color: MyColors.brown,
-                      //           space: 100,
-                      //           thickness: 5.0,
-                      //         ),
-                      //       ),
-                      //       builder: TimelineTileBuilder.fromStyle(
-                      //         connectorStyle: ConnectorStyle.solidLine,
-                      //         contentsAlign: ContentsAlign.basic,
-                      //         // indicatorStyle: IndicatorStyle.outlined,
-                      //         contentsBuilder: (context, index) => Padding(
-                      //           padding: const EdgeInsets.all(24.0),
-                      //           child: Text('$index'),
-                      //         ),
-                      //         itemCount: 3,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
+                      Center(
+                        child: SizedBox(
+                          // width: 10.w,
+                          height: 5.w,
+                          child: LoanStatusStepper(status: widget.borrowData.status),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -158,6 +131,87 @@ class _OngoingBorrowCardState extends State<OngoingBorrowCard> {
 
             // ],
           }),
+    );
+  }
+}
+
+
+class LoanStatusStepper extends StatelessWidget {
+  final String status; // "pending", "taken", "returned"
+  
+  const LoanStatusStepper({required this.status});
+  
+  @override
+  Widget build(BuildContext context) {
+    final currentStep = _getStepFromStatus(status);
+    
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _buildStep(1, "Pending", currentStep >= 1),
+              _buildConnector(currentStep >= 2),
+              _buildStep(2, "Taken", currentStep >= 2),
+              _buildConnector(currentStep >= 3),
+              _buildStep(3, "Returned", currentStep >= 3),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+  
+  int _getStepFromStatus(String status) {
+    switch (status.toLowerCase()) {
+      case "pending": return 1;
+      case "taken": return 2;
+      case "returned": return 3;
+      default: return 0;
+    }
+  }
+  
+  Widget _buildStep(int stepNumber, String label, bool isActive) {
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            width: 2.w,
+            height: 2.w,
+            decoration: BoxDecoration(
+              color: isActive ? MyColors.brown : MyColors.lightBrown.withOpacity(.5),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: isActive
+                ? Icon(Icons.check, color: Colors.white, size: 16)
+                : Text(
+                    "$stepNumber",
+                    style: TextStyle(color: MyColors.brown,),
+                  ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10.sp,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              color: isActive ? MyColors.brown : MyColors.lightBrown.withOpacity(.7),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildConnector(bool isActive) {
+    return Container(
+      width: 40,
+      height: 2,
+      color: isActive ? Colors.blue : Colors.grey.shade300,
     );
   }
 }

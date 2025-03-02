@@ -110,7 +110,7 @@ static Future<List<Widget>> getOnGoingBorrows() async {
     try {
       final token = await storage.read(key: "paseto");
       http.Response doneResponse = await http.get(
-        Uri.parse('http://localhost/auth/borrows/user'),
+        Uri.parse('$baseUrl/auth/borrows/user'),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
       if (doneResponse.statusCode != 200) {
@@ -118,7 +118,7 @@ static Future<List<Widget>> getOnGoingBorrows() async {
       }
 
       http.Response ongoingResponse = await http.get(
-        Uri.parse('http://localhost/auth/borrows/o/user'),
+        Uri.parse('$baseUrl/auth/borrows/o/user'),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
       if (ongoingResponse.statusCode != 200) {
@@ -126,8 +126,8 @@ static Future<List<Widget>> getOnGoingBorrows() async {
       }
       List<Widget> list = [];
       if (ongoingResponse.body.isNotEmpty) {
-        list.add(OngoingBorrowCard(
-            borrowData: Borrow.fromJson(jsonDecode(ongoingResponse.body)[0])));
+        list.add(OngoingBorrowCard( 
+           borrowData: Borrow.fromJson(jsonDecode(ongoingResponse.body)[0])));
       }
       // print(json)?
       if (jsonDecode(doneResponse.body).toString() != "null" &&

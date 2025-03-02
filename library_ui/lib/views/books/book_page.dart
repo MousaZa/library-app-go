@@ -215,8 +215,21 @@ class _BookPageState extends State<BookPage> {
                       children: [
                         StarMenu(
                           controller: _starMenuController,
-                          params: StarMenuParameters.dropdown(context),
-                          items: [
+                          params: StarMenuParameters.panel(context, columns: 1).copyWith(
+                            backgroundParams: BackgroundParams(
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                              // borderColor: Colors.black,
+                              // borderWidth: 1,
+                              // borderRadius: BorderRadius.circular(10),
+                            ),
+                            onHoverScale: 1.1,
+                            boundaryBackground: BoundaryBackground(
+                              color: Colors.white,
+                              padding: EdgeInsets.all(20),
+                          
+                            )
+                          ),
+                          items: [ 
                             TextButtonItem(text: "Learn more about the Book",onTap: () {
                                 setState(() {
                                   _starMenuController.closeMenu!();
