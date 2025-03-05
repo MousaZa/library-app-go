@@ -336,7 +336,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withOpacity(0.4),
                     blurRadius: 10,
                     spreadRadius: 5,
                     offset: Offset(-5, 0),

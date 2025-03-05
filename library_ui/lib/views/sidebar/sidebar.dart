@@ -7,6 +7,7 @@ import 'package:library_ui/views/notifications/notification_card.dart';
 import 'package:library_ui/views/sidebar/sidebar_item.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:library_ui/views/sidebar/sidebar_toggle.dart';
+import 'package:library_ui/views/users/login.dart';
 import 'package:library_ui/views/users/user_avatar.dart';
 import 'package:sizer/sizer.dart';
 import 'package:star_menu/star_menu.dart';
@@ -247,7 +248,8 @@ class Sidebar extends StatelessWidget {
                             ),
                             onPressed: () async {
                               await storage.delete(key: "paseto");
-                              Get.offAllNamed('/login');
+                              Navigator.pushAndRemoveUntil(
+                                  context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                             },
                           ),
                         ),

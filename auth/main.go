@@ -83,7 +83,7 @@ func main() {
 	likesClient := likes.NewLikesClient(conn)
 	notificationsClient := notifications.NewNotificationsClient(conn)
 
-	bc := clients.NewBorrowsClient(borrowsClient)
+	bc := clients.NewBorrowsClient(borrowsClient, db)
 	lc := clients.NewLikesClient(likesClient)
 	nc := clients.NewNotificationsClient(notificationsClient)
 

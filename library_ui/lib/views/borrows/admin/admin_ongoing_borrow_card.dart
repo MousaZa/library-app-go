@@ -69,7 +69,7 @@ class _AdminOngoingBorrowCardState extends State<AdminOngoingBorrowCard> {
                         ),
                       ),
                       Text(
-                        "Borrowed by: ${widget.borrowData.userId}",
+                        "Borrowed by: ${widget.borrowData.username}",
                         style: TextStyle(fontSize: 12.sp),
                       ),
                       ],

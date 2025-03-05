@@ -96,22 +96,6 @@ type UsersResponseWrap struct {
 	body []userResponse
 }
 
-// swagger:route GET /auth/list/users auth ListUsers
-// responses:
-//
-//	200: usersResponse
-
-// ListUsers lists all the users in the database
-func (server *Server) ListUsers(ctx *gin.Context) {
-	users := &[]models.User{}
-	err := server.db.Find(&users).Error
-	if err != nil {
-		// server.l.Error("Failed to list books", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to list users\n"})
-	}
-	ctx.JSON(http.StatusOK, users)
-}
-
 // swagger:route GET /auth/user auth getUserData
 // responses:
 //

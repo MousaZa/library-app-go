@@ -48,7 +48,7 @@ class AdminBorrowCard extends StatelessWidget {
                         TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Borrowed by: ${borrowData.userId}",
+                    "Borrowed by: ${borrowData.username}",
                     style: TextStyle(fontSize: 12.sp),
                   ),
                   

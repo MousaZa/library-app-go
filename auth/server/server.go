@@ -65,6 +65,10 @@ func (server *Server) setRoutes() {
 	admin := router.Group("/").Use(AdminMiddleware(*server.tokenMaker))
 
 	admin.GET("/auth/list/users", server.ListUsers)
+	admin.GET("/auth/user/:id", server.getUserDataById)
+	admin.GET("/auth/all-borrows", server.borrowsClient.GetAllBorrows)
+	admin.GET("/auth/ongoing-borrows", server.borrowsClient.GetOnGoingBorrows)
+
 	auth.GET("/auth/notifications", server.notificationsClient.GetUserNotifications)
 	auth.PUT("/auth/notifications/:id", server.notificationsClient.MarkNotificationAsRead)
 	auth.POST("/auth/borrows", server.borrowsClient.AddBorrow)
@@ -75,8 +79,6 @@ func (server *Server) setRoutes() {
 	auth.GET("/auth/user", server.getUserData)
 	auth.GET("/auth/borrows/user", server.borrowsClient.GetUserBorrows)
 	auth.GET("/auth/borrows/o/user", server.borrowsClient.GetUserOnGoingBorrows)
-	auth.GET("/auth/all-borrows", server.borrowsClient.GetAllBorrows)
-	auth.GET("/auth/ongoing-borrows", server.borrowsClient.GetOnGoingBorrows)
 	router.POST("/auth/create", server.createUser)
 	router.POST("/auth/notifications/:id", server.notificationsClient.PushNotification)
 	router.POST("/auth/login", server.login)

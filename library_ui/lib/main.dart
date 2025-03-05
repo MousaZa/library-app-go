@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
-import 'package:library_ui/views/books/add_book_page.dart';
-import 'package:library_ui/views/books/edit_book_page.dart';
 import 'package:library_ui/views/home.dart';
 import 'package:library_ui/views/users/login.dart';
-import 'package:library_ui/views/users/register.dart';
 import 'package:sizer/sizer.dart';
 
 import 'firebase_options.dart';
@@ -67,18 +64,9 @@ class MyApp extends StatelessWidget {
                   return MyHomePage.withAuth(str!);
                 } else {
                   return LoginPage();
-                }
+                } 
               }
           ), 
-        
-  
-    getPages: [
-      GetPage(name: '/login', page: () => LoginPage()), 
-      GetPage(name: '/register', page: () => RegisterPage()),
-      GetPage(name: '/addbook', page: () => const AddBookPage()),
-      GetPage(name: '/edit_book', page: () => EditBookPage()),
-      GetPage(name: '/', page: () => MyHomePage(paseto: pasetoOrEmpty.toString())),
-    ],
       debugShowCheckedModeBanner: false ,
       title: 'Library UI',
       // theme: ThemeData(

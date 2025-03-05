@@ -129,7 +129,7 @@ class LoginPage extends StatelessWidget {
                           },
                         )),
                         
-                        SizedBox(height: 1.h),
+                        // SizedBox(height: 1.h),
                         
                         // Forgot Password Link
                         // Align(
@@ -276,7 +276,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withOpacity(0.4),
                     blurRadius: 10,
                     spreadRadius: 5,
                     offset:const  Offset(-5, 0),

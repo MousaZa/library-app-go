@@ -4,15 +4,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ui/globals.dart';
+import 'package:library_ui/models/user.dart';
 import 'package:library_ui/views/borrows/admin/admin_borrow_card.dart';
 import 'package:library_ui/views/borrows/admin/admin_ongoing_borrow_card.dart';
 import 'package:library_ui/views/borrows/borrow_card.dart';
 import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
 
+
+
 class Borrow {
   final int id;
   final int bookId;
-  final int userId;
+  final String username;
+final String userId;
+final String userEmail;
+final String userRole;
   final DateTime startDate;
   final DateTime endDate;
   final String status;
@@ -20,7 +26,10 @@ class Borrow {
   Borrow({
     required this.id,
     required this.bookId,
+    required this.username,
+    required this.userEmail,
     required this.userId,
+    required this.userRole,
     required this.startDate,
     required this.endDate,
     required this.status,
@@ -28,9 +37,12 @@ class Borrow {
 
   factory Borrow.fromJson(Map<String, dynamic> json) {
     return Borrow(
-      id: json['Id'],
-      bookId: json['BookId'],
-      userId: json['UserId'],
+      id: json['id'],
+      bookId: json['book_id'],
+      username: json['user_data']['username'],
+      userEmail: json['user_data']['email'],
+      userId: json['user_data']['id'],
+      userRole: json['user_data']['role'],
       startDate: DateTime.fromMillisecondsSinceEpoch(
           json['BorrowDate']['seconds'] * 1000),
       endDate: DateTime.fromMillisecondsSinceEpoch(
@@ -42,11 +54,12 @@ class Borrow {
   Map<String, dynamic> toJson() => {
         'Id': id,
         'BookId': bookId,
-        'UserId': userId,
+        // 'user_data': userData,
         'BorrowDate': startDate,
         'ReturnDate': endDate,
         'status': status,
       };
+
 static Future<List<Widget>> getAllBorrows() async {
     try {
       final token = await storage.read(key: "paseto");
@@ -86,7 +99,7 @@ static Future<List<Widget>> getOnGoingBorrows() async {
       if (doneResponse.statusCode != 200) {
         throw Exception('Failed to get previus borrows');
       }
-
+      print(jsonDecode(doneResponse.body).toString());
       
       List<Widget> list = [];
       

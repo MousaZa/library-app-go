@@ -15,11 +15,14 @@ class UserAvatar extends StatelessWidget {
       backgroundColor: MyColors.lightBrown.withOpacity(0.2),
             radius: size.w,
             child: Container(
+            
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                
               ),
               clipBehavior: Clip.antiAlias,
               child: CachedNetworkImage(
+
                 imageUrl: "$baseUrl/images/avatars/$userId",
                 placeholder: (context, url) => CircleAvatar(
                   backgroundColor: MyColors.lightBrown.withOpacity(0.2),
@@ -30,13 +33,23 @@ class UserAvatar extends StatelessWidget {
                     size: size.w,
                   ),
                 ),
-                errorWidget: (context, url, error) => CircleAvatar(
-                  backgroundColor: MyColors.lightBrown.withOpacity(0.2),
-                  foregroundColor: MyColors.brown,
-                  radius: size.w,
-                  child: Icon(
-                    Icons.person,
-                    size: size.w,
+                errorWidget: (context, url, error) => Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                color: MyColors.brown,
+                width: 1,
+                                ),
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: MyColors.lightBrown.withOpacity(0.2),
+                    foregroundColor: MyColors.brown,
+                    radius: size.w,
+                    child: Icon(
+                      Icons.person,
+                      size: size.w,
+                    ),
                   ),
                 ),
               ),
