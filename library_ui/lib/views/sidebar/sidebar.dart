@@ -30,8 +30,8 @@ class Sidebar extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
-                spreadRadius: 5,
-                blurRadius: 7,
+                spreadRadius: 2,
+                blurRadius: 3,
                 offset: const Offset(0, 3),
               ),
             ],
