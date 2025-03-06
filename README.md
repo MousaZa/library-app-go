@@ -31,6 +31,7 @@ Check the Flutter app's [README file](https://github.com/MousaZa/library-app-go/
 - ### Books:
     REST Api built with Go. 
     Used WebSocket to stream the books data.
+    Used **Gemini API** to provide additional info about the books, authors or provide book suggesions.
     Stores the books data in a **PostgreSQL** database.
     Check [the Documentation](https://github.com/MousaZa/library-app-go/blob/main/books/doc.md) for additional information.
 - ### Borrows:
