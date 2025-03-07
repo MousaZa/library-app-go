@@ -12,37 +12,28 @@ import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
 
 
 
-class Borrow {
+class UserSideBorrow {
   final int id;
   final int bookId;
-  final String username;
-final String userId;
-final String userEmail;
-final String userRole;
+  final int userId;
   final DateTime startDate;
   final DateTime endDate;
   final String status;
 
-  Borrow({
+  UserSideBorrow({
     required this.id,
     required this.bookId,
-    required this.username,
-    required this.userEmail,
     required this.userId,
-    required this.userRole,
     required this.startDate,
     required this.endDate,
     required this.status,
   });
 
-  factory Borrow.fromJson(Map<String, dynamic> json) {
-    return Borrow(
-      id: json['id'],
-      bookId: json['book_id'],
-      username: json['user_data']['username'],
-      userEmail: json['user_data']['email'],
-      userId: json['user_data']['id'],
-      userRole: json['user_data']['role'],
+  factory UserSideBorrow.fromJson(Map<String, dynamic> json) {
+    return UserSideBorrow(
+      id: json['Id'],
+      bookId: json['BookId'],
+      userId: json['UserId'],
       startDate: DateTime.fromMillisecondsSinceEpoch(
           json['BorrowDate']['seconds'] * 1000),
       endDate: DateTime.fromMillisecondsSinceEpoch(
@@ -60,26 +51,36 @@ final String userRole;
         'status': status,
       };
 
-static Future<List<Widget>> getAllBorrows() async {
+
+  static Future<List<Widget>> getBorrows() async {
     try {
       final token = await storage.read(key: "paseto");
       http.Response doneResponse = await http.get(
-        Uri.parse('$baseUrl/auth/all-borrows'),
+        Uri.parse('$baseUrl/auth/borrows/user'),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
-      print(doneResponse.body);
       if (doneResponse.statusCode != 200) {
         throw Exception('Failed to get previus borrows');
       }
 
-      
+      http.Response ongoingResponse = await http.get(
+        Uri.parse('$baseUrl/auth/borrows/o/user'),
+        headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+      );
+      print(ongoingResponse.body);
+      if (ongoingResponse.statusCode != 200) {
+        throw Exception('Failed to get ongoing borrows');
+      }
       List<Widget> list = [];
-      
+      if (ongoingResponse.body.isNotEmpty) {
+        list.add(OngoingBorrowCard( 
+           borrowData: UserSideBorrow.fromJson(jsonDecode(ongoingResponse.body)[0])));
+      }
       // print(json)?
       if (jsonDecode(doneResponse.body).toString() != "null" &&
           doneResponse.body.isNotEmpty) {
         for (var borrow in jsonDecode(doneResponse.body)) {
-          list.add(AdminBorrowCard(borrowData: Borrow.fromJson(borrow)));
+          list.add(BorrowCard(borrowData: UserSideBorrow.fromJson(borrow)));
         }
       }
       print(list);
@@ -89,35 +90,4 @@ static Future<List<Widget>> getAllBorrows() async {
       return [];
     }
   }
-
-static Future<List<Widget>> getOnGoingBorrows() async {
-    try {
-      final token = await storage.read(key: "paseto");
-      http.Response doneResponse = await http.get(
-        Uri.parse('$baseUrl/auth/ongoing-borrows'),
-        headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
-      );
-      if (doneResponse.statusCode != 200) {
-        throw Exception('Failed to get previus borrows');
-      }
-      print(jsonDecode(doneResponse.body).toString());
-      
-      List<Widget> list = [];
-      
-      // print(json)?
-      if (jsonDecode(doneResponse.body).toString() != "null" &&
-          doneResponse.body.isNotEmpty) {
-        for (var borrow in jsonDecode(doneResponse.body)) {
-          list.add(AdminOngoingBorrowCard(borrowData: Borrow.fromJson(borrow)));
-        }
-      }
-      print(list);
-      return list;
-    } catch (e) {
-      print(e);
-      return [];
-    }
-  }
-
-
- }
+}

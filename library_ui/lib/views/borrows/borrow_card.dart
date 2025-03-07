@@ -4,12 +4,13 @@ import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
+import 'package:library_ui/models/user_side_borrow.dart';
 import 'package:sizer/sizer.dart';
 
 class BorrowCard extends StatelessWidget {
   const BorrowCard({super.key, required this.borrowData});
 
-  final Borrow borrowData;
+  final UserSideBorrow borrowData;
 
   @override
   Widget build(BuildContext context) {

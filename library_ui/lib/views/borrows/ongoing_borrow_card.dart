@@ -5,6 +5,7 @@ import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/book.dart';
 import 'package:library_ui/models/borrow.dart';
+import 'package:library_ui/models/user_side_borrow.dart';
 import 'package:library_ui/views/borrows/calendar_borrow_item.dart';
 import 'package:library_ui/views/borrows/widgets/borrow_stage.dart';
 import 'package:sizer/sizer.dart';
@@ -13,7 +14,7 @@ import 'package:sizer/sizer.dart';
 class OngoingBorrowCard extends StatefulWidget {
   OngoingBorrowCard({super.key, required this.borrowData});
 
-  final Borrow borrowData;
+  final UserSideBorrow borrowData;
 
   @override
   State<OngoingBorrowCard> createState() => _OngoingBorrowCardState();

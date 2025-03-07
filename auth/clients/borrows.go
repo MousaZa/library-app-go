@@ -62,13 +62,47 @@ func (c *BorrowsClient) GetUserOnGoingBorrows(ctx *gin.Context) {
 }
 
 func (c *BorrowsClient) GetAllBorrows(ctx *gin.Context) {
-	resp, err := c.client.GetAllBorrows(context.Background(), &borrows.GetAllBorrowsRequest{})
+	br, err := c.client.GetAllBorrows(context.Background(), &borrows.GetAllBorrowsRequest{})
 	if err != nil {
 		fmt.Printf("Failed to bind JSON: %v\n", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, resp.Borrows)
+
+	resp := []borrowResponse{}
+
+	for _, b := range br.Borrows {
+		u := models.User{}
+
+		err := c.db.Where("id = ?", strconv.FormatInt(b.UserId, 10)).First(&u).Error
+		ur := userResponse{}
+
+		if err != nil {
+			ur = userResponse{
+				ID:       "0",
+				Username: "Deleted User",
+				Email:    "Deleted User",
+				Role:     "user",
+			}
+		} else {
+			ur = userResponse{
+				ID:       strconv.Itoa(int(u.ID)),
+				Username: u.Username,
+				Email:    u.Email,
+				Role:     u.Role,
+			}
+		}
+
+		resp = append(resp, borrowResponse{
+			ID:         b.Id,
+			BookId:     b.BookId,
+			UserData:   ur,
+			BorrowDate: b.BorrowDate,
+			ReturnDate: b.ReturnDate,
+			Status:     b.Status,
+		})
+	}
+	ctx.JSON(http.StatusOK, resp)
 }
 
 type userResponse struct {

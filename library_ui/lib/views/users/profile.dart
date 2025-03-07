@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:library_ui/functions.dart';
 import 'package:library_ui/globals.dart';
 import 'package:library_ui/models/borrow.dart';
+import 'package:library_ui/models/user_side_borrow.dart';
 import 'package:library_ui/views/borrows/borrow_card.dart';
 import 'package:library_ui/views/borrows/ongoing_borrow_card.dart';
 import 'package:library_ui/views/users/user_avatar.dart';
@@ -105,7 +106,7 @@ class Profile extends StatelessWidget {
                   // ),
                   Expanded(
                     child: FutureBuilder(
-                        future: Borrow.getBorrows(),
+                        future: UserSideBorrow.getBorrows(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting)
